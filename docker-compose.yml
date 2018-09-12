@@ -1,0 +1,75 @@
+version: "3"
+services:
+
+  ###### 3rd-party services
+  postgres:
+    image: postgres:11
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: 'jepostule'
+      POSTGRES_PASSWORD: 'mdp'
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:4-alpine
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+
+  zookeeper:
+    # TODO backup data to volume?
+    image: zookeeper:3.4
+    restart: unless-stopped
+    environment:
+      ZOO_MY_ID: 1
+    ports:
+      - 2181:2181
+
+  kafka:
+    image: kafka:latest
+    restart: unless-stopped
+    environment:
+      LISTENERS: "${KAFKA_LISTENERS:-kafka}"
+    ports:
+      - 9092:9092
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka:/tmp/kafka-logs
+
+  ###### Je Postule-specific services
+  jepostule:
+    image: jepostule:latest
+    restart: unless-stopped
+    ports:
+      - 8000:8000
+    depends_on:
+      - kafka
+      - postgres
+
+  jepostule_consume_send_application:
+    image: jepostule:latest
+    restart: unless-stopped
+    depends_on:
+      - kafka
+      - postgres
+    command: ./manage.py consumetopics send-application
+
+  jepostule_consume_send_confirmation:
+    image: jepostule:latest
+    restart: unless-stopped
+    depends_on:
+      - kafka
+      - postgres
+    command: ./manage.py consumetopics send-confirmation
+
+volumes:
+  postgres:
+  redis:
+  kafka:

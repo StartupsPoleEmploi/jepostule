@@ -1,0 +1,4 @@
+coverage
+ipdb
+pip-tools
+pylint

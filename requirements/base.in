@@ -1,0 +1,4 @@
+django
+kafka-python
+psycopg2-binary
+redis

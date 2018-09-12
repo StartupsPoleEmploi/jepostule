@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta name=viewport content="width=device-width, initial-scale=1">
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                max-width: 800px;
+                font-family: Verdana, sans-serif;
+                margin: auto;
+            }
+            form input, form textarea {
+                width: 100%;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="{% url 'embed:candidater' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Envoyer votre candidature</button>
+        </form>
+
+        {{ form.media }}
+    </body>
+</html>
