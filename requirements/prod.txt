@@ -4,9 +4,12 @@
 #
 #    pip-compile --output-file requirements/prod.txt requirements/base.in requirements/prod.in
 #
+certifi==2018.10.15       # via sentry-sdk
 django==2.1.2
 kafka-python==1.4.3
 psycopg2-binary==2.7.5
 pytz==2018.5              # via django
 redis==2.10.6
+sentry-sdk==0.4.3
+urllib3==1.24             # via sentry-sdk
 uwsgi==2.0.17.1

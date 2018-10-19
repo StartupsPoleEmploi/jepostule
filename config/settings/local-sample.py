@@ -23,3 +23,9 @@ KAFKA_BOOTSTRAP_SERVERS = ['kafka:9092']
 # List here authorized pairs of client ID/secret
 # JEPOSTULE_CLIENTS = {
 # }
+
+# import sentry_sdk
+# sentry_sdk.init(
+    # "https://set@sentry.io/me",
+    # environment="production"
+# )
