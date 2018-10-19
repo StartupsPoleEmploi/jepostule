@@ -27,6 +27,7 @@ On partner websites, the user can click on "Je Postule" buttons for each display
     ./manage.py createsuperuser
     ./manage.py runserver
     ./manage.py consumetopics all
+    ./manage.py dequeuedelayed
 
 ### Install
 
