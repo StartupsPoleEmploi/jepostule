@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: Helvetica, "Open Sans", sans-serif;
+    margin: auto;
+    background-color: white;
+    color: #4A4A4A;
+    font-size: 14px;
+}
+.title {
+    height: 52px;
+    background-color: #E2189B;
+    color: white;
+}
+.title h1 {
+    font-size: 18px;
+    font-weight: normal;
+    padding: 15px; 
+    margin: 0;
+}
+.title h1 .step-index{
+    position: absolute;
+    right: 21px;
+    top: 15px;
+}
+.title h1 .disc {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    opacity: 0.35;
+    border-radius: 50%;
+}
+.step-content {
+    padding: 15px 15px 15px 15px;
+}
+a {
+    color: #4A4A4A;
+    text-decoration: none;
+}
+a:visited {
+    color: #4A4A4A;
+}
+a.back, a.back:visited {
+    font-family: Signika, "Open Sans", sans-serif;
+    display: inline-block;
+}
+.modify-link {
+    text-align: center;
+}
+.modify-link a {
+    color: #7D3D8D;
+}
+h2 {
+    font-size: 17px;
+    font-weight: bold;
+}
+a.button, button {
+    cursor: pointer;
+    display: inline-block;
+    height: 45px;
+    width: 100%;
+    margin: 27px auto 0 auto;
+    padding: 14px 0 14px 0;
+    text-align: center;
+    border-radius: 3px;
+    background-color: #7D3D8D;
+
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+a.button:disabled, button:disabled {
+    cursor: not-allowed;
+    opacity: .5;
+}
+a.button.button-light, button.button-light, .one-light-display:not([data-count="0"]) {
+    background-color: white;
+    color: #7D3D8D;
+}
+button {
+    border: 1px solid transparent
+}
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+    width: 100%;
+    border: 1px solid #979797;
+    border-radius: 3px;
+    padding: 0 5px 0 5px;
+}
+input[type="text"], input[type="email"], input[type="tel"] {
+    height: 40px;
+}
+textarea {
+    height: 277px;
+}
+.one-display[data-count="0"] {
+    display: none;
+}
+.zero-display:not([data-count="0"]) {
+    display: none;
+}
+.center {
+    text-align: center;
+}
+.attachments-list ul {
+    padding-left: 0;
+    list-style: none;
+}
+.attachments-list ul li img {
+    height: 12px;
+    vertical-align: middle;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.attachments-list.attachments-no-delete img {
+    display: none;
+}

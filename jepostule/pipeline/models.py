@@ -6,10 +6,14 @@ class JobApplication(models.Model):
     Store all application-related data, except for the attachments.
     """
     candidate_email = models.CharField(max_length=64, db_index=True)
+    candidate_first_name = models.CharField(max_length=64)
+    candidate_last_name = models.CharField(max_length=64)
+    candidate_phone = models.CharField(max_length=32)
+    candidate_address = models.CharField(max_length=256)
     employer_email = models.CharField(max_length=64, db_index=True)
-    job = models.CharField(max_length=256)
+    employer_description = models.CharField(max_length=256)
     message = models.TextField(max_length=4000)
-    coordinates = models.TextField()
+    job = models.CharField(max_length=128)
 
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 

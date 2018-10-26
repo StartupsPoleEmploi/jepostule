@@ -1,31 +1,115 @@
+{% extends "jepostule/embed/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset='utf-8'>
-        <meta name=viewport content="width=device-width, initial-scale=1">
-        <style>
-            * {
-                box-sizing: border-box;
-            }
-            body {
-                max-width: 800px;
-                font-family: Verdana, sans-serif;
-                margin: auto;
-            }
-            form input, form textarea {
-                width: 100%;
-                display: block;
-            }
-        </style>
-    </head>
-    <body>
+
+{% block "content" %}
+<div data-step="bienvenue">
+    <div class="title"><h1>J'envoie ma candidature</h1></div>
+    <div class="step-content center">
+        <br />
+        <br />
+        <img src="{% static 'img/icons/envelope.svg' %}" alt="">
+        <h2>Bonjour {{ form.cleaned_data.candidate_first_name }} {{ form.cleaned_data.candidate_last_name }}</h2>
+        <p>{{ form.cleaned_data.candidate_email }}</p>
+        <p>Vous allez postuler en 2 clics à</p>
+        <p><b>{{ form.cleaned_data.employer_description }}</b></p>
+        <a href="#infos" class="button">C'est parti !</a>
+    </div>
+</div>
+
+<div data-step="infos">
+    <div class="title">
+        <h1>Mes coordonnées 
+            <div class="step-index">1/2</div><div class="disc">&nbsp;</div>
+        </h1>
+    </div>
+    <div class="step-content">
+        <a href="#bienvenue" class="back">retour</a>
+
+        <h2>Vous recherchez un poste de</h2>
+        <p>
+            <input type="text" name="job" value="{{ form.cleaned_data.job }}">
+        </p>
+
+        <h2>Remplissez vos coordonnées complémentaires</h2>
+        <p>
+            <label for="candidate_phone">Votre téléphone</label>
+            <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" />
+        </p>
+
+        <p>
+            <label for="candidate_address">Votre adresse</label>
+            <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont">
+        </p>
+
+        <h2>Vous pouvez personnaliser votre message envoyé au recruteur</h2>
+        <textarea name="message">{{ form.cleaned_data.message }}</textarea>
+
+        <a href="#documents" class="button">Je continue</a>
+    </div>
+</div>
+
+<div data-step="documents">
+    <div class="title">
+        <h1>Mes pièces jointes
+            <div class="step-index">2/2</div><div class="disc">&nbsp;</div>
+        </h1>
+    </div>
+    <div class="step-content">
+        <a href="#infos" class="back">retour</a>
+        <h2>Vous pouvez joindre des documents à votre candidature (CV, lettre de motivation)</h2>
+        <input type="file" name="attachments" style="opacity: 0; position: absolute;" 
+            multiple accept="video/*,image/*,application/pdf,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        >
+        <div class="attachments-list"></div>
+        <button id="attachments-add" class="one-light-display" data-count="0">Ajouter un document</button>
+        <a href="#envoyer" class="button one-display" data-count="0">Je continue</a>
+        <a href="#envoyer" class="button button-light zero-display" data-count="0">Je n'ai pas de documents à ajouter</a>
+    </div>
+</div>
+
+<div data-step="envoyer">
+    <div class="title"><h1>Ma candidature</h1></div>
+    <div class="step-content">
+        <a href="#documents" class="back">retour</a>
         <form action="{% url 'embed:candidater' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form }}
-            <button type="submit">Envoyer votre candidature</button>
-        </form>
+            {{ form.client_id }}
+            {{ form.token }}
+            {{ form.employer_email }}
 
-        {{ form.media }}
-    </body>
-</html>
+            <h2>L'entreprise qui va recevoir votre candidature</h2>
+            {{ form.employer_description.errors }}
+            {{ form.employer_description }}
+
+            <h2>Le poste recherché</h2>
+            {{ form.job.errors }}
+            {{ form.job }}
+            <p class="modify-link"><a href="#infos">Modifier le poste recherché</a></p>
+
+            <h2>Vos coordonnées</h2>
+            {{ form.candidate_first_name }} {{ form.candidate_last_name }}
+            {{ form.candidate_address }}
+            {{ form.candidate_email }}
+            {{ form.candidate_phone }}
+            <p class="modify-link"><a href="#infos">Modifier vos coordonnées</a></p>
+
+            <h2>Votre message</h2>
+            {{ form.message.errors }}
+            {{ form.message }}
+            <p class="modify-link"><a href="#infos">Modifier votre message</a></p>
+
+            <h2>Vos pièces jointes</h2>
+            <div class="attachments-list attachments-no-delete"></div>
+            <p class="modify-link"><a href="#documents">Modifier vos pièces jointes</a></p>
+
+            {{ form.receive_copy }} {{ form.receive_copy.label }}
+
+            <button type="submit">Je postule</button>
+        </form>
+    </div>
+</div>
+
+<div data-step="fin"></div>
+
+<script src="{% static 'js/jepostule.js' %}"></script>
+{% endblock %}

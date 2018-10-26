@@ -1,26 +1,14 @@
 from unittest import mock
 
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, override_settings
+from django.test import override_settings
+from django.utils.datastructures import MultiValueDict
 
 from jepostule.embed import forms
+from .base import JobApplicationFormTestCase
 
 
-class FormsTest(TestCase):
-
-    def form_data(self, **kwargs):
-        data = {
-            'client_id': 'id',
-            'token': 'apptoken',
-            'candidate_email': 'candidate@pe.fr',
-            'employer_email': 'boss@bigco.fr',
-            'job': 'Menuisier',
-            'message': "Bonjour !" * 20,
-            'coordinates': "Dernier café avant la fin du monde",
-        }
-        for key, value in kwargs.items():
-            data[key] = value
-        return data
+class FormsTest(JobApplicationFormTestCase):
 
     def test_valid_client_id_token(self):
         form = forms.JobApplicationForm(data=self.form_data())
@@ -44,10 +32,15 @@ class FormsTest(TestCase):
 
         with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken'):
             with override_settings(ATTACHMENTS_MAX_SIZE_BYTES=1000):
-                form = forms.JobApplicationForm(data=self.form_data(), files={'attachments': [attachment]})
+                form = forms.AttachmentsForm(files=MultiValueDict({'attachments': [attachment]}))
                 self.assertEqual({}, form.errors)
                 self.assertTrue(form.is_valid())
 
             with override_settings(ATTACHMENTS_MAX_SIZE_BYTES=999):
-                form = forms.JobApplicationForm(data=self.form_data(), files={'attachments': [attachment]})
+                form = forms.AttachmentsForm(files=MultiValueDict({'attachments': [attachment]}))
                 self.assertFalse(form.is_valid())
+
+    def test_validate_field_message(self):
+        form = forms.JobApplicationForm()
+        self.assertIsNone(form.validate_field('message', "Message longer than 100 chars"*10))
+        self.assertEqual("Ce champ est obligatoire.", form.validate_field('message', ""))

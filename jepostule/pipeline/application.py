@@ -1,3 +1,6 @@
+import os
+from collections import namedtuple
+
 from django.conf import settings
 from django.core import mail
 
@@ -5,6 +8,8 @@ from jepostule.queue import topics
 from .models import JobApplication, JobApplicationEvent
 from . import ratelimits
 
+
+Attachment = namedtuple('Attachment', ['name', 'content'])
 
 def send(job_application_id, attachments=None):
     """
@@ -14,16 +19,27 @@ def send(job_application_id, attachments=None):
         job_application_id (int): id of a JobApplication entry
         attachments (list of file-like objects)
     """
-    send_application_to_employer.run_async(job_application_id, attachments=attachments)
+    send_application_to_employer.run_async(job_application_id, attachments=[
+        Attachment(name=f.name, content=f.read()) for f in attachments
+    ])
 
 
 @topics.subscribe('send-application')
 def send_application_to_employer(job_application_id, attachments=None):
+    """
+    Args:
+        job_application_id (int): id of a JobApplication entry
+        attachments (list of Attachment objects)
+    """
     job_application = JobApplication.objects.get(id=job_application_id)
     topics.delay(ratelimits.Sender.delay(job_application.candidate_email))
 
     # TODO Fix subject and use message template
-    subject = "Candidature spontanée au poste de {}".format(job_application.job)
+    subject = "Candidature spontanée de {} {} au poste de {}".format(
+        job_application.candidate_first_name,
+        job_application.candidate_last_name,
+        job_application.job,
+    )
     send_mail(subject, job_application.message,
               settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
               reply_to=[job_application.candidate_email],
@@ -35,6 +51,11 @@ def send_application_to_employer(job_application_id, attachments=None):
 
 @topics.subscribe('send-confirmation')
 def send_confirmation_to_candidate(job_application_id):
+    """
+    Args:
+        job_application_id (int): id of a JobApplication entry
+        attachments (list of Attachment objects)
+    """
     job_application = JobApplication.objects.get(id=job_application_id)
     # TODO Fix subject and use message template
     # TODO remove useless arguments
@@ -53,6 +74,10 @@ def send_mail(subject, message, from_email, recipient_list,
 
     Note that `reply_to` must be a list or tuple.
     """
+    if attachments:
+        attachments = [
+            (os.path.basename(f.name), f.content, None) for f in attachments
+        ]
     connection = mail.get_connection()
     message = mail.EmailMultiAlternatives(
         subject, message, from_email, recipient_list,

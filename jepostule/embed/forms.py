@@ -6,14 +6,108 @@ from jepostule.pipeline.models import JobApplication
 
 
 
-class AttachmentsInput(forms.FileInput):
-    template_name = 'jepostule/embed/forms/widgets/attachments.html'
-    class Media:
-        js = ('js/attachments.js',)
+class JobApplicationPartialForm(forms.ModelForm):
+    """
+    This form is a bit special: because form-filling happens in multiple
+    steps, we need to manually edit the fields with client-side code.
+    """
+
+    defaults = {
+        "message": """Bonjour,
+Votre entreprise suscite tout mon intérêt ; c'est pourquoi je me permets aujourd'hui de vous transmettre ma candidature spontanée.
+
+C'est avec plaisir que je vous rencontrerai lors d'un entretien afin de vous présenter de vive voix mes motivations à rejoindre votre équipe.
+
+Dans l'attente de votre retour, je reste à votre écoute pour tout complément d'information.
+"""
+    }
+
+    class Meta:
+        model = JobApplication
+        fields = (
+            'candidate_email',
+            'candidate_first_name',
+            'candidate_last_name',
+            'employer_email',
+            'employer_description',
+            'job',
+            'message',
+        )
+        # All widgets are either read-only or hidden
+        widgets = {
+            'candidate_email': forms.EmailInput(attrs={'readonly': True}),
+            'candidate_first_name': forms.HiddenInput(),
+            'candidate_last_name': forms.HiddenInput(),
+            'employer_email': forms.EmailInput(attrs={'readonly': True}),
+            'employer_description': forms.HiddenInput(),
+            'job': forms.TextInput(attrs={'readonly': True}),
+            # TODO add min_length=100 validation on message?
+            'message': forms.Textarea(attrs={'readonly': True}),
+        }
+
+    client_id = forms.CharField(
+        widget=forms.HiddenInput()
+    )
+    token = forms.CharField(
+        widget=forms.HiddenInput()
+    )
+    # TODO
+    receive_copy = forms.BooleanField(
+        label="Je souhaite recevoir une copie de ma candidature sur ma boite email",
+        initial=True,
+        required=False,
+    )
+
+    def clean(self):
+        """
+        Perform client ID/token validation.
+        """
+        cleaned_data = super().clean()
+        try:
+            auth_utils.verify_application_token(
+                cleaned_data.get('client_id'),
+                cleaned_data.get('token'),
+                cleaned_data.get('candidate_email'),
+                cleaned_data.get('employer_email'),
+            )
+        except auth_utils.exceptions.ApplicationAuthError:
+            raise forms.ValidationError("Jeton d'authentification invalide")
+        return cleaned_data
+
+    def validate_field(self, name, value):
+        """
+        Convenient method to validate a specific field value without running
+        the entire validation chain.
+
+        In case of error, return the corresponding message.
+        """
+        try:
+            self.fields[name].validate(value)
+        except forms.ValidationError as e:
+            return e.message
+        return None
+
+
+class JobApplicationForm(JobApplicationPartialForm):
+    class Meta:
+        model = JobApplication
+        fields = tuple(list(JobApplicationPartialForm.Meta.fields) + [
+            'candidate_phone', 'candidate_address',
+        ])
+        widgets = JobApplicationPartialForm.Meta.widgets.copy()
+        widgets.update({
+            'candidate_phone': forms.TextInput(attrs={'readonly': True}),
+            'candidate_address': forms.TextInput(attrs={'readonly': True}),
+        })
+
+
+class MultipleFileInput(forms.FileInput):
+    def value_from_datadict(self, data, files, name):
+        return files.getlist(name)
 
 
 class AttachmentsField(forms.FileField):
-    widget = AttachmentsInput
+    widget = MultipleFileInput
 
     def to_python(self, data):
         attachments = []
@@ -39,58 +133,8 @@ class AttachmentsField(forms.FileField):
 
 
 
-class JobApplicationForm(forms.ModelForm):
-    class Meta:
-        # TODO min length for message? We can add one with a simple validator
-        model = JobApplication
-        fields = ('candidate_email', 'employer_email', 'job', 'message', 'coordinates')
-        labels = {
-            'candidate_email': "De :",
-            'employer_email': "À :",
-            'job': "Poste :",
-            'message': "Votre message :",
-            'coordinates': "Vos coordonnées :",
-        }
-        widgets = {
-            'candidate_email': forms.EmailInput(attrs={'readonly': True}),
-            'employer_email': forms.EmailInput(attrs={'readonly': True}),
-            'message': forms.Textarea(),
-            'coordinates': forms.Textarea(attrs={'rows': 4}),
-        }
-
+class AttachmentsForm(forms.Form):
     attachments = AttachmentsField(
         label="Joignez des documents à votre candidature : CV, lettre de motivation...",
         required=False,
-        widget=AttachmentsInput(attrs={
-            'multiple': True,
-            'accept': (
-                "video/*,image/*,application/pdf,"
-                "application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,"
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-            ),
-        })
     )
-
-    client_id = forms.CharField(
-        widget=forms.HiddenInput()
-    )
-    token = forms.CharField(
-        widget=forms.HiddenInput()
-    )
-
-
-    def clean(self):
-        """
-        Perform client ID/token validation.
-        """
-        cleaned_data = super().clean()
-        try:
-            auth_utils.verify_application_token(
-                cleaned_data.get('client_id'),
-                cleaned_data.get('token'),
-                cleaned_data.get('candidate_email'),
-                cleaned_data.get('employer_email'),
-            )
-        except auth_utils.exceptions.ApplicationAuthError:
-            raise forms.ValidationError("Jeton d'authentification invalide")
-        return cleaned_data

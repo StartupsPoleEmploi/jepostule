@@ -20,8 +20,6 @@ class ApplicationTests(TestCase):
             message="message",
             candidate_email="candidat@pe.fr",
             employer_email="boss@big.co",
-            job="ouvrier charpentier",
-            coordinates="1 rue du chat qui pêche",
         )
         attachment = io.BytesIO(b'')
         attachment.name = 'moncv.doc'
@@ -37,7 +35,7 @@ class ApplicationTests(TestCase):
             self.assertEqual(['boss@big.co'], args[3])
             self.assertEqual(1, len(kwargs['attachments']))
             self.assertEqual('moncv.doc', kwargs['attachments'][0].name)
-            self.assertEqual(b'', kwargs['attachments'][0].read())
+            self.assertEqual(b'', kwargs['attachments'][0].content)
             self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.NAME_SENT_TO_EMPLOYER).count())
 
         with mock.patch.object(application, 'send_mail') as send_mail:
@@ -55,8 +53,6 @@ class ApplicationTests(TestCase):
             message="message",
             candidate_email="candidat@pe.fr",
             employer_email="boss@big.co",
-            job="ouvrier charpentier",
-            coordinates="1 rue du chat qui pêche",
         )
         application.send_application_to_employer(job_application.id)
         self.assertRaises(

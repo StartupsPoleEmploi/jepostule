@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="152px" height="61px" viewBox="0 0 152 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>valider</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="30.3858108%" y1="27.8565858%" x2="190.747281%" y2="184.253419%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#D8D8D8" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="flow-postuler" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-203.000000, -414.000000)">
+            <g id="valider" transform="translate(203.000000, 416.000000)">
+                <g id="Group-2" transform="translate(47.000000, 0.000000)">
+                    <path d="M57,28.5 C57,44.2402027 44.2403534,57 28.5003366,57 C12.7603198,57 0,44.2402027 0,28.5 C0,12.7597973 12.7603198,0 28.5003366,0 C44.2403534,0 57,12.7597973 57,28.5" id="Fill-1" fill="#FEFEFE"></path>
+                    <path d="M57,28.5 C57,44.2402027 44.2403534,57 28.5003366,57 C12.7603198,57 0,44.2402027 0,28.5 C0,12.7597973 12.7603198,0 28.5003366,0 C44.2403534,0 57,12.7597973 57,28.5 Z" id="Stroke-3" stroke="#E2189B" stroke-width="4" fill="url(#linearGradient-1)"></path>
+                    <polyline id="Stroke-5" stroke="#E2189B" stroke-width="7" stroke-linecap="round" points="16 24.9691826 26.7513826 37 41 21"></polyline>
+                </g>
+                <g id="Group-3" transform="translate(0.000000, 24.000000)" fill="#E2189B">
+                    <path d="M2.10526316,5.21051678 C0.904084042,4.96669029 0,3.90471469 0,2.63157895 C0,1.35844321 0.904084042,0.296467605 2.10526316,0.0526411135 L2.10526316,0 L40,0 L40,5.26315789 L2.10526316,5.26315789 L2.10526316,5.21051678 Z" id="Combined-Shape" fill-rule="nonzero"></path>
+                    <path d="M21.1388889,11.9952527 C21.0930008,11.9984003 21.0466872,12 21,12 C19.8954305,12 19,11.1045695 19,10 C19,8.8954305 19.8954305,8 21,8 C21.0466872,8 21.0930008,8.00159971 21.1388889,8.00474731 L21.1388889,8 L39.8055556,8 L39.8055556,12 L21.1388889,12 L21.1388889,11.9952527 Z" id="Combined-Shape" fill-rule="nonzero"></path>
+                </g>
+                <g id="Group" transform="translate(112.000000, 22.000000)" fill="#E2189B">
+                    <path d="M2.13541667,6.27133601 C0.934426992,6.11630953 0,4.91825606 0,3.46330754 C0,2.00835903 0.934426992,0.810305555 2.13541667,0.655279075 L2.13541667,0.638307544 L40,0.638307544 L40,6.28830754 L2.13541667,6.28830754 L2.13541667,6.27133601 Z" id="Combined-Shape" fill-rule="nonzero" transform="translate(20.000000, 3.463308) scale(-1, 1) translate(-20.000000, -3.463308) "></path>
+                    <path d="M18.8363636,9.64753469 C19.9008998,9.74479663 20.733333,10.5989687 20.733333,11.6383075 C20.733333,12.6776464 19.9008998,13.5318185 18.8363636,13.6290804 L18.8363636,13.6383075 L-1.42108547e-14,13.6383075 L-1.42108547e-14,9.63830754 L18.8363636,9.63830754 L18.8363636,9.64753469 Z" id="Combined-Shape" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

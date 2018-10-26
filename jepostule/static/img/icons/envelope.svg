@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="148px" height="40px" viewBox="0 0 148 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>enveloppe</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="0%" y1="7.69230769%" x2="97.6190476%" y2="93.5897436%" id="linearGradient-1">
+            <stop stop-color="#EAEAEA" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="flow-postuler" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop" transform="translate(-205.000000, -485.000000)">
+            <g id="enveloppe" transform="translate(205.000000, 485.000000)">
+                <g id="Group-Copy">
+                    <rect id="Rectangle-3" fill="url(#linearGradient-1)" fill-rule="nonzero" x="45.7777778" y="2.66666667" width="55.1111111" height="34.6666667" rx="1"></rect>
+                    <rect id="Rectangle" stroke="#E2189B" stroke-width="4" fill-rule="nonzero" x="46" y="2" width="55.5555556" height="36" rx="3"></rect>
+                    <polyline id="Path-3" stroke="#E2189B" stroke-width="4" fill-rule="nonzero" points="100.166667 4.24902344 73.7743056 19.9982639 46.9156901 4.24902344"></polyline>
+                    <path d="M2.10526316,17.2105168 C0.904084042,16.9666903 0,15.9047147 0,14.6315789 C0,13.3584432 0.904084042,12.2964676 2.10526316,12.0526411 L2.10526316,12 L40,12 L40,17.2631579 L2.10526316,17.2631579 L2.10526316,17.2105168 Z" id="Combined-Shape" fill="#E2189B" fill-rule="nonzero"></path>
+                    <path d="M20.8888889,24.328586 C20.8430008,24.3317336 20.7966872,24.3333333 20.75,24.3333333 C19.6454305,24.3333333 18.75,23.4379028 18.75,22.3333333 C18.75,21.2287638 19.6454305,20.3333333 20.75,20.3333333 C20.7966872,20.3333333 20.8430008,20.334933 20.8888889,20.3380806 L20.8888889,20.3333333 L39.5555556,20.3333333 L39.5555556,24.3333333 L20.8888889,24.3333333 L20.8888889,24.328586 Z" id="Combined-Shape" fill="#E2189B" fill-rule="nonzero"></path>
+                    <path d="M110.135417,17.0774729 C108.934427,16.9224464 108,15.724393 108,14.2694444 C108,12.8144959 108.934427,11.6164425 110.135417,11.461416 L110.135417,11.4444444 L148,11.4444444 L148,17.0944444 L110.135417,17.0944444 L110.135417,17.0774729 Z" id="Combined-Shape" fill="#E2189B" fill-rule="nonzero" transform="translate(128.000000, 14.269444) scale(-1, 1) translate(-128.000000, -14.269444) "></path>
+                    <path d="M126.836364,20.3425605 C127.9009,20.4398224 128.733333,21.2939944 128.733333,22.3333333 C128.733333,23.3726722 127.9009,24.2268442 126.836364,24.3241062 L126.836364,24.3333333 L108,24.3333333 L108,20.3333333 L126.836364,20.3333333 L126.836364,20.3425605 Z" id="Combined-Shape" fill="#E2189B" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
