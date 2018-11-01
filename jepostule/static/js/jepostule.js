@@ -1,156 +1,222 @@
 (function() {
     "use strict";
+    var form = document.querySelector("form");
+    var attachmentsInput = document.querySelector("input[name='attachments']");
+    var attachments = [];
+    var max_attachments_size = 10*1024*1024;// 10 Mb
+
+
     /* Navigation */
     function displayStep() {
         document.querySelectorAll("[data-step]").forEach(function(step) {
             step.setAttribute('hidden', '');
         });
-        var visibleStep = document.querySelector("[data-step='" + window.location.hash.substring(1) + "']") || document.querySelector("[data-step='bienvenue']");
+        var visibleStep = document.querySelector("[data-step='" + window.location.hash.substring(1) + "']") || document.querySelector("[data-step]");
         visibleStep.removeAttribute('hidden');
     }
     displayStep();
     window.onpopstate = displayStep;
 
-    /* Form validation */
+    /* Form and attachments validation */
+    function clickValidateApplication(e) {
+        // TODO display spinner
+        e.preventDefault();
+        validateApplication(function() {
+            window.location.hash = e.target.attributes.href.value;
+        });
+    }
+    function validateApplication(callback) {
+        /* Perform form validation. If successful, run callback. Else, display errors. */
+
+        // Clear errors
+        document.querySelectorAll("[data-errors]:not([data-errors='attachments'])").forEach(function(fieldErrors) {
+            fieldErrors.innerHTML = '';
+        });
+
+        // Validate asynchronously
+        var formData = new FormData(form);
+        var request = new XMLHttpRequest();
+        request.open("POST", '/embed/validate/');
+        request.onload = function(e) {
+            var result = true;
+            var data = JSON.parse(e.target.responseText);
+            for(var name in data.errors) {
+                result = false;
+                displayErrors(name, data.errors[name]);
+            }
+            if(result && callback) {
+                callback();
+            }
+        };
+        request.send(formData);
+    }
+    function clickValidateAttachments(e) {
+        e.preventDefault();
+        validateAttachments(function() {
+            window.location.hash = e.target.attributes.href.value;
+        });
+    }
+    function validateAttachments(callback) {
+        // Clear errors
+        document.querySelectorAll("[data-errors='attachments']").forEach(function(fieldErrors) {
+            fieldErrors.innerHTML = '';
+        });
+
+        // Validate total size
+        var totalSize = 0;
+        for(var i = 0; i < attachments.length; i++) {
+            totalSize += attachments[i].size;
+        }
+        if(totalSize > max_attachments_size) {
+            var message = "La taille de vos pièces jointes est trop élevée : " + (totalSize / (1024*1024)).toFixed(1);
+            message += " Mo. Max: " + (max_attachments_size / (1024*1024)).toFixed(0) + " Mo.";
+            displayErrors('attachments', [message]);
+        } else {
+            if(callback) {
+                callback();
+            }
+        }
+    }
+    function displayErrors(name, errors) {
+        document.querySelectorAll("[data-errors='" + name + "']").forEach(function(fieldErrors) {
+            for(var i = 0; i < errors.length; i++) {
+                var item = document.createElement('li');
+                fieldErrors.appendChild(item);
+                item.textContent = errors[i];
+            }
+        });
+    }
+    document.querySelectorAll(".validate-application").forEach(function(element) {
+        element.addEventListener("click", clickValidateApplication);
+    });
+    document.querySelectorAll(".validate-attachments").forEach(function(element) {
+        element.addEventListener("click", clickValidateAttachments);
+    });
+
+    // Synchronize form fields that share the same name
     function updateFormField(e) {
         // Film form value
         var formInput = document.querySelector("form input[readonly][name='" + e.target.name + "']");
         if(formInput !== null) {
             formInput.value = e.target.value;
         }
-
-        // Validation
-        var body = new FormData();
-        body.append(e.target.name, e.target.value);
-        // TODO fetch polyfill
-        fetch('/embed/validate/', {
-            method: 'POST',
-            body: body
-        }).then(function(response) {
-            return response.json();
-        }).then(function(data) {
-            for(var name in data.errors) {
-                // TODO
-                console.log(name, data.errors[name]);
-            }
-        });
     }
     document.querySelectorAll("input,textarea").forEach(function(input) {
         input.addEventListener("change", updateFormField);
     });
+
+    // Load some field values from local storage
+    var storageprefix = "";
+    function loadValue(input) {
+        if(input.value.length == 0) {
+            var value = localStorage.getItem(input.name);
+            if (value !== null) {
+                input.value = value;
+                input.dispatchEvent(new Event('change'), {'bubbles': true});
+            }
+        }
+    }
+    function saveValue(e) {
+        if(e.target.value.length > 0) {
+            localStorage.setItem(e.target.name, e.target.value);
+        }
+    }
+    document.querySelectorAll("input[data-localstorage]").forEach(function(input) {
+        loadValue(input);
+        input.addEventListener("change", saveValue);
+    });
     
     /* Attachments */
     // Heavily inspired by https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Examples
-    function initAttachments() {
-        document.getElementById("attachments-add").addEventListener('click', function() {
-            document.querySelector("input[name='attachments']").click();
-        });
 
-        var attachmentsInput = document.querySelector("input[name='attachments']");
-        var attachments = [];
-
-        attachmentsInput.addEventListener('change', function(e) {
-            for(var i = 0; i < attachmentsInput.files.length; i++) {
-                attachments.push(attachmentsInput.files.item(i));
-            }
-            drawAttachments();
-        });
-
-        function drawAttachments() {
-            // Display list of attachments with X to remove
-            document.querySelectorAll('.attachments-list').forEach(function(fileList) {
-                fileList.innerHTML = '';
-                var list = document.createElement('ul');
-                fileList.appendChild(list);
-                for(var i = 0; i < attachments.length; i++) {
-                    var item = document.createElement('li');
-                    list.appendChild(item);
-
-                    var name = document.createElement('span');
-                    item.appendChild(name);
-                    name.textContent = attachments[i].name;
-
-                    var remove = document.createElement('img');
-                    item.appendChild(remove);
-                    remove.src = '/static/img/icons/times.svg';
-                    remove.addEventListener('click', clickRemoveAttachment);
-                }
-            });
-
-            // Show/Hide corresponding buttons
-            document.querySelectorAll('[data-count]').forEach(function(element) {
-                element.dataset.count = attachments.length;
-            });
+    // Click "Ajouter un document" button
+    document.getElementById("attachments-add").addEventListener('click', function() {
+        document.querySelector("input[name='attachments']").click();
+    });
+    attachmentsInput.addEventListener('change', function(e) {
+        for(var i = 0; i < attachmentsInput.files.length; i++) {
+            attachments.push(attachmentsInput.files.item(i));
         }
-        function clickRemoveAttachment(e) {
-            var name = e.target.parentElement.firstElementChild.textContent;
+        updateAttachments();
+    });
+
+    function updateAttachments() {
+        validateAttachments();
+        drawAttachments();
+    }
+    function drawAttachments() {
+        // Display list of attachments with X to remove
+        document.querySelectorAll('.attachments-list').forEach(function(fileList) {
+            fileList.innerHTML = '';
+            var list = document.createElement('ul');
+            fileList.appendChild(list);
             for(var i = 0; i < attachments.length; i++) {
-                if (attachments[i].name == name) {
-                    attachments.splice(i, 1);
-                }
+                var item = document.createElement('li');
+                list.appendChild(item);
+
+                var name = document.createElement('span');
+                item.appendChild(name);
+                name.textContent = attachments[i].name;
+
+                var remove = document.createElement('img');
+                item.appendChild(remove);
+                remove.src = '/static/img/icons/times.svg';
+                remove.addEventListener('click', clickRemoveAttachment);
             }
-            drawAttachments();
-        }
+        });
 
-        var form = document.querySelector("form");
-        form.addEventListener("submit", function(evt) {
-            evt.preventDefault();
-            var formData = new FormData(form);
-            for (var i = 0; i < attachments.length; i++) {
-                formData.append('attachments', attachments[i], attachments[i].name);
-            }
-
-            var formSubmit = document.querySelector("[type='submit']");
-            formSubmit.setAttribute("disabled", '');
-            var request = new XMLHttpRequest();
-            request.open("POST", form.action);
-            request.onload = function(e) {
-                document.querySelector("[data-step='fin']").innerHTML = request.responseText;
-                window.location.hash = '#fin';
-            };
-            request.send(formData);
-                //success: function(html) {
-                    //updateModal(html);
-                    //initUploadedButtons();
-                    //ga('send', 'event', 'Tilkee', 'upload', siret);
-                //},
-                //error: function(jqXHR, textStatus, errorThrown) {
-                    //if (jqXHR.status === 413) {
-                        //updateModal("Vos documents sont de trop grande taille : veuillez sélectionner des documents dont la taille totale est inférieure à 10 Mo.");
-                    //} else if (jqXHR.status >= 500) {
-                        //updateModal("Une erreur inattendue s'est produite : nos équipes ont été prévenues et vont essayer de résoudre le problème très rapidement. Merci de réessayer plus tard.");
-                    //} else {
-                        //updateModal("Erreur " + String(jqXHR.status) + " : est-ce que par hasard vous n'auriez pas essayé de faire quelque chose de fourbe ?");
-                    //}
-                    //ga('send', 'event', 'Tilkee', 'upload-error', siret);
-                //},
-                //complete: function() {
-                    //$form.find("[type='submit']").prop("disabled", false);
-                //},
-                //xhr: function() {
-                    //// Monitor upload progress
-                    //var $messageElt = $tilkeeModal.find(".upload-progress-message");
-
-                    //$tilkeeModal.find(".progressbar").removeClass("hidden");
-                    //$messageElt.removeClass("hidden");
-                    //var xhr = $.ajaxSettings.xhr();
-                    //if (xhr.upload) {
-                        //xhr.upload.addEventListener('progress', function(e) {
-                            //if (e.lengthComputable) {
-                                //var percentage = e.loaded * 100/e.total;
-                                //$tilkeeModal.find(".progressbar span").css("width", String(percentage) + "%");
-                                //if (percentage < 100) {
-                                    //$messageElt.html("1/2 Envoi de vos fichiers...");
-                                //} else {
-                                    //$messageElt.html("2/2 Création de votre dossier...");
-                                //}
-                            //}
-                        //} , false);
-                    //}
-                    //return xhr;
-                //},
-            //});
+        // Show/Hide corresponding buttons
+        document.querySelectorAll('[data-count]').forEach(function(element) {
+            element.dataset.count = attachments.length;
         });
     }
-    initAttachments();
+    function clickRemoveAttachment(e) {
+        var name = e.target.parentElement.firstElementChild.textContent;
+        for(var i = 0; i < attachments.length; i++) {
+            if (attachments[i].name == name) {
+                attachments.splice(i, 1);
+            }
+        }
+        updateAttachments();
+    }
+
+    // Catch form submission to add attachments on the fly
+    form.addEventListener("submit", function(evt) {
+        evt.preventDefault();
+        submitForm();
+    });
+
+    function submitForm() {
+        var formData = new FormData(form);
+        for (var i = 0; i < attachments.length; i++) {
+            formData.append('attachments', attachments[i], attachments[i].name);
+        }
+
+        // TODO:
+        // add ga events
+        var formSubmit = document.querySelector("[type='submit']");
+        formSubmit.setAttribute("disabled", '');
+        var request = new XMLHttpRequest();
+        request.open("POST", form.action);
+        request.addEventListener('load', function(e) {
+            if (e.target.status >= 500) {
+                window.location.hash = '#erreur';
+            } else {
+                document.querySelector("[data-step='fin']").innerHTML = request.responseText;
+                window.location.hash = '#fin';
+            }
+        });
+        request.addEventListener('progress', function(e) {
+            if (e.lengthComputable) {
+                document.querySelector(".progressbar").removeAttribute('hidden');
+                var percentComplete = e.loaded * 100 / e.total;
+                var progressbar = document.querySelector(".progressbar span");
+                progressbar.style.width = String(percentComplete) + "%";
+            }
+        });
+        request.addEventListener('loadend', function(e) {
+            formSubmit.removeAttribute("disabled");
+        });
+        request.send(formData);
+    }
 })();

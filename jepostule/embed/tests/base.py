@@ -15,6 +15,7 @@ class JobApplicationFormTestCase(TestCase):
             'employer_email': 'boss@bigco.fr',
             'employer_description': "ACME BigCo Commerce de gros",
             'message': "Bonjour !" * 20,
+            'siret': "73334567800012",
             'job': "Ouvrier charpentier",
         }
         for key, value in kwargs.items():

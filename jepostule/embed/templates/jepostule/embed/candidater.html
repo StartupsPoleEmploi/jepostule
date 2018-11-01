@@ -2,17 +2,30 @@
 {% load static %}
 
 {% block "content" %}
-<div data-step="bienvenue">
+
+{% if form_errors or attachments_form.errors %}
+<div data-step="invalid">
     <div class="title"><h1>J'envoie ma candidature</h1></div>
+    <div class="step-content center">
+        Formulaire invalide, les paramètres suivants comportent des erreurs:
+
+        {{ form_errors }}
+        {{ attachments_form.errors }}
+    </div>
+</div>
+{% endif %}
+
+<div data-step="bienvenue">
+    <div class="title"><h1>Postuler</h1></div>
     <div class="step-content center">
         <br />
         <br />
         <img src="{% static 'img/icons/envelope.svg' %}" alt="">
         <h2>Bonjour {{ form.cleaned_data.candidate_first_name }} {{ form.cleaned_data.candidate_last_name }}</h2>
         <p>{{ form.cleaned_data.candidate_email }}</p>
-        <p>Vous allez postuler en 2 clics à</p>
+        <p>Vous allez postuler à</p>
         <p><b>{{ form.cleaned_data.employer_description }}</b></p>
-        <a href="#infos" class="button">C'est parti !</a>
+        <div class="center"><a href="#infos" class="button">Je postule en deux étapes</a></div>
     </div>
 </div>
 
@@ -27,24 +40,28 @@
 
         <h2>Vous recherchez un poste de</h2>
         <p>
+            <ul data-errors="job"></ul>
             <input type="text" name="job" value="{{ form.cleaned_data.job }}">
         </p>
 
         <h2>Remplissez vos coordonnées complémentaires</h2>
         <p>
             <label for="candidate_phone">Votre téléphone</label>
-            <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" />
+            <ul data-errors="candidate_phone"></ul>
+            <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" data-localstorage>
         </p>
 
         <p>
             <label for="candidate_address">Votre adresse</label>
-            <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont">
+            <ul data-errors="candidate_address"></ul>
+            <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont" data-localstorage>
         </p>
 
-        <h2>Vous pouvez personnaliser votre message envoyé au recruteur</h2>
+        <h2>Vous pouvez personnaliser cet email</h2>
+        <ul data-errors="message"></ul>
         <textarea name="message">{{ form.cleaned_data.message }}</textarea>
 
-        <a href="#documents" class="button">Je continue</a>
+        <div class="center"><a href="#documents" class="button validate-application">Je continue</a></div>
     </div>
 </div>
 
@@ -57,18 +74,21 @@
     <div class="step-content">
         <a href="#infos" class="back">retour</a>
         <h2>Vous pouvez joindre des documents à votre candidature (CV, lettre de motivation)</h2>
-        <input type="file" name="attachments" style="opacity: 0; position: absolute;" 
+        <input type="file" name="attachments" class="invisible" 
             multiple accept="video/*,image/*,application/pdf,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         >
+        <ul data-errors="attachments"></ul>
         <div class="attachments-list"></div>
-        <button id="attachments-add" class="one-light-display" data-count="0">Ajouter un document</button>
-        <a href="#envoyer" class="button one-display" data-count="0">Je continue</a>
-        <a href="#envoyer" class="button button-light zero-display" data-count="0">Je n'ai pas de documents à ajouter</a>
+        <div class="center">
+            <button id="attachments-add" class="one-light-display" data-count="0">Ajouter un document</button>
+            <a href="#envoyer" class="button one-display validate-attachments" data-count="0">Je continue</a>
+            <a href="#envoyer" class="button button-light zero-display" data-count="0">Je n'ai pas de documents à ajouter</a>
+        </div>
     </div>
 </div>
 
 <div data-step="envoyer">
-    <div class="title"><h1>Ma candidature</h1></div>
+    <div class="title"><h1>Récapitulatif</h1></div>
     <div class="step-content">
         <a href="#documents" class="back">retour</a>
         <form action="{% url 'embed:candidater' %}" method="POST" enctype="multipart/form-data">
@@ -76,40 +96,51 @@
             {{ form.client_id }}
             {{ form.token }}
             {{ form.employer_email }}
+            {{ form.siret }}
 
-            <h2>L'entreprise qui va recevoir votre candidature</h2>
-            {{ form.employer_description.errors }}
+            <h2>L'entreprise à laquelle je candidate</h2>
             {{ form.employer_description }}
 
             <h2>Le poste recherché</h2>
-            {{ form.job.errors }}
+            <ul data-errors="job"></ul>
             {{ form.job }}
             <p class="modify-link"><a href="#infos">Modifier le poste recherché</a></p>
 
-            <h2>Vos coordonnées</h2>
+            <h2>Mes coordonnées</h2>
+            <ul data-errors="candidate_address"></ul>
+            <ul data-errors="candidate_phone"></ul>
             {{ form.candidate_first_name }} {{ form.candidate_last_name }}
             {{ form.candidate_address }}
             {{ form.candidate_email }}
             {{ form.candidate_phone }}
-            <p class="modify-link"><a href="#infos">Modifier vos coordonnées</a></p>
+            <p class="modify-link"><a href="#infos">Modifier mes coordonnées</a></p>
 
-            <h2>Votre message</h2>
-            {{ form.message.errors }}
+            <h2>Mon email</h2>
+            <ul data-errors="message"></ul>
             {{ form.message }}
-            <p class="modify-link"><a href="#infos">Modifier votre message</a></p>
+            <p class="modify-link"><a href="#infos">Modifier mon email</a></p>
 
-            <h2>Vos pièces jointes</h2>
+            <h2>Mes pièces jointes</h2>
+            <ul data-errors="attachments"></ul>
             <div class="attachments-list attachments-no-delete"></div>
-            <p class="modify-link"><a href="#documents">Modifier vos pièces jointes</a></p>
+            <p class="modify-link"><a href="#documents">Modifier mes pièces jointes</a></p>
 
             {{ form.receive_copy }} {{ form.receive_copy.label }}
 
-            <button type="submit">Je postule</button>
+            <div class="progressbar" hidden><span></span></div>
+            <div class="center"><button type="submit">Je postule</button></div>
         </form>
     </div>
 </div>
 
 <div data-step="fin"></div>
+
+<div data-step="erreur">
+    <div class="step-content center">
+        <h2>Une erreur a eu lieu</h2>
+        <p>Ce n'est pas de votre faute, c'est nous :-( Notre équipe technique a été prévenue du problème. Merci de ré-essayer dans quelques heures.</p>
+    </div>
+</div>
 
 <script src="{% static 'js/jepostule.js' %}"></script>
 {% endblock %}

@@ -15,10 +15,6 @@ class KafkaProducer(base.BaseProducer):
         producer = kafka.KafkaProducer(
             bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
         )
-        # TODO I'm pretty sure we are going to have issues with binary content
-        # here... We should probably encode content, but that's the
-        # responsibility of topics.py. On the other hand, json can't encode
-        # binary data...
         producer.send(
             topic, value=value, key=key,
         ).add_errback(self.on_send_error)

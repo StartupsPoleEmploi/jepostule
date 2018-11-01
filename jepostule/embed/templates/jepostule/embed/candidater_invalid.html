@@ -1,13 +1,10 @@
-{% extends "jepostule/embed/base.html" %}
 {% load static %}
+<div class="title"><h1>J'envoie ma candidature</h1></div>
+<div class="step-content center">
+    Formulaire invalide, les paramètres suivants comportent des erreurs :
 
-{% block "content" %}
-<div data-step="invalid">
-    <div class="title"><h1>J'envoie ma candidature</h1></div>
-    <div class="step-content center">
-        Formulaire invalide, les paramètres suivants comportent des erreurs:
+    {{ form.errors }}
+    {{ attachments_form.errors }}
 
-        {{ form.errors }}
-    </div>
+    <div class="center"><a href="#infos" class="button">Modifier vos informations</a></div>
 </div>
-{% endblock %}

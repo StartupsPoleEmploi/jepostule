@@ -1,4 +1,3 @@
-import io
 from unittest import mock
 
 from django.conf import settings
@@ -21,8 +20,10 @@ class ApplicationTests(TestCase):
             candidate_email="candidat@pe.fr",
             employer_email="boss@big.co",
         )
-        attachment = io.BytesIO(b'')
-        attachment.name = 'moncv.doc'
+        attachment = application.Attachment(
+            content=b'',
+            name='moncv.doc'
+        )
 
         application.send(job_application.id, [attachment])
 

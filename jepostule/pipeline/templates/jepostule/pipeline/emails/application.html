@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+    <body>
+        <p>Un·e candidat·e est intéressé·e par votre entreprise et vous propose de découvrir sa candidature.</p>
+
+        <p><b>Candidature spontanée - {{ job_application.job }}</b></p>
+
+        <p>{{ job_application.message }}</p>
+
+        <p>Vous pouvez répondre en 3 clics à {{ job_application.candidate_name }}</p>
+
+        <!--TODO add links to answers-->
+        <a href="#">Refuser la candidature</a>
+        <button>Demander des informations supplémentaires</button>
+        <button>Proposer un entretien</button>
+
+        <p>Coordonnées du candidat</p>
+        <p>
+            {{ job_application.candidate_name }}<br />
+            {{ job_application.candidate_address }}<br />
+            <a href="tel:{{ job_application.candidate_phone }}">{{ job_application.candidate_phone }}</a><br />
+            <a href="mailto:{{ job_application.candidate_email }}">{{ job_application.candidate_email }}</a>
+        </p>
+    </body>
+</html>

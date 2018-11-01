@@ -31,6 +31,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'employer_email',
             'employer_description',
             'job',
+            'siret',
             'message',
         )
         # All widgets are either read-only or hidden
@@ -39,8 +40,9 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'candidate_first_name': forms.HiddenInput(),
             'candidate_last_name': forms.HiddenInput(),
             'employer_email': forms.EmailInput(attrs={'readonly': True}),
-            'employer_description': forms.HiddenInput(),
+            'employer_description': forms.TextInput(attrs={'readonly': True}),
             'job': forms.TextInput(attrs={'readonly': True}),
+            'siret': forms.HiddenInput(),
             # TODO add min_length=100 validation on message?
             'message': forms.Textarea(attrs={'readonly': True}),
         }
@@ -51,7 +53,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
     token = forms.CharField(
         widget=forms.HiddenInput()
     )
-    # TODO
+    # TODO effectively send application copy to candidate
     receive_copy = forms.BooleanField(
         label="Je souhaite recevoir une copie de ma candidature sur ma boite email",
         initial=True,
@@ -73,19 +75,6 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         except auth_utils.exceptions.ApplicationAuthError:
             raise forms.ValidationError("Jeton d'authentification invalide")
         return cleaned_data
-
-    def validate_field(self, name, value):
-        """
-        Convenient method to validate a specific field value without running
-        the entire validation chain.
-
-        In case of error, return the corresponding message.
-        """
-        try:
-            self.fields[name].validate(value)
-        except forms.ValidationError as e:
-            return e.message
-        return None
 
 
 class JobApplicationForm(JobApplicationPartialForm):

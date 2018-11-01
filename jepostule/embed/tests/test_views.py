@@ -52,49 +52,33 @@ class EmbedViewsTests(JobApplicationFormTestCase):
                 data=self.form_data(token='invalid apptoken'),
             )
 
+        # TODO check response contains an error message
         self.assertEqual(200, response.status_code)
         application.send_application_to_employer.consume()
         application.send_confirmation_to_candidate.consume()
         self.assertEqual([], mail.outbox)
 
-    def test_validate_field_message(self):
-        response = self.client.post(
-            reverse('embed:validate'),
-            data={
-                "message": "Longer than 100 characters "*10,
-            },
-        )
+    def test_validate_form(self):
+        with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken'):
+            response = self.client.post(
+                reverse('embed:validate'),
+                data=self.form_data()
+            )
 
         self.assertEqual(200, response.status_code)
         self.assertEqual({"errors": {}}, response.json())
 
 
     def test_validate_field_empty_message(self):
-        response = self.client.post(
-            reverse('embed:validate'),
-            data={
-                "message": "",
-            },
-        )
+        with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken'):
+            response = self.client.post(
+                reverse('embed:validate'),
+                data=self.form_data(message="")
+            )
 
         self.assertEqual(200, response.status_code)
         self.assertEqual({
             "errors": {
-                'message': "Ce champ est obligatoire.",
-            }
-        }, response.json())
-
-    def test_validate_absent_field(self):
-        response = self.client.post(
-            reverse('embed:validate'),
-            data={
-                "kazam": "zorglub",
-            },
-        )
-
-        self.assertEqual(200, response.status_code)
-        self.assertEqual({
-            "errors": {
-                'kazam': "Unknown field",
+                'message': ["Ce champ est obligatoire."],
             }
         }, response.json())

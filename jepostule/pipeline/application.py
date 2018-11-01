@@ -3,6 +3,7 @@ from collections import namedtuple
 
 from django.conf import settings
 from django.core import mail
+from django.template.loader import get_template
 
 from jepostule.queue import topics
 from .models import JobApplication, JobApplicationEvent
@@ -19,9 +20,7 @@ def send(job_application_id, attachments=None):
         job_application_id (int): id of a JobApplication entry
         attachments (list of file-like objects)
     """
-    send_application_to_employer.run_async(job_application_id, attachments=[
-        Attachment(name=f.name, content=f.read()) for f in attachments
-    ])
+    send_application_to_employer.run_async(job_application_id, attachments=attachments)
 
 
 @topics.subscribe('send-application')
@@ -34,13 +33,13 @@ def send_application_to_employer(job_application_id, attachments=None):
     job_application = JobApplication.objects.get(id=job_application_id)
     topics.delay(ratelimits.Sender.delay(job_application.candidate_email))
 
-    # TODO Fix subject and use message template
-    subject = "Candidature spontanée de {} {} au poste de {}".format(
-        job_application.candidate_first_name,
-        job_application.candidate_last_name,
+    subject = "Candidature spontanée - {}".format(
         job_application.job,
     )
-    send_mail(subject, job_application.message,
+    message = get_template('jepostule/pipeline/emails/application.html').render({
+        'job_application': job_application
+    })
+    send_mail(subject, message,
               settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
               reply_to=[job_application.candidate_email],
               attachments=attachments)
@@ -57,10 +56,11 @@ def send_confirmation_to_candidate(job_application_id):
         attachments (list of Attachment objects)
     """
     job_application = JobApplication.objects.get(id=job_application_id)
-    # TODO Fix subject and use message template
-    # TODO remove useless arguments
+    # TODO fix subject
     subject = "Votre candidature a bien été envoyée"
-    message = "Votre message ci-dessous"
+    message = get_template('jepostule/pipeline/emails/confirmation.html').render({
+        'job_application': job_application
+    })
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY, [job_application.candidate_email])
     job_application.events.create(name=JobApplicationEvent.NAME_CONFIRMED_TO_CANDIDATE)
 

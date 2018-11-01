@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 
 
@@ -14,11 +16,17 @@ class JobApplication(models.Model):
     employer_description = models.CharField(max_length=256)
     message = models.TextField(max_length=4000)
     job = models.CharField(max_length=128)
+    siret = models.CharField(max_length=14, db_index=True)
+    answer_uuid = models.UUIDField(default=uuid.uuid4, unique=True)
 
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     class Meta:
         ordering = ['created_at']
+
+    @property
+    def candidate_name(self):
+        return "{} {}".format(self.candidate_first_name, self.candidate_last_name)
 
 
 class JobApplicationEvent(models.Model):

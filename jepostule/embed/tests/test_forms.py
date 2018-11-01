@@ -39,8 +39,3 @@ class FormsTest(JobApplicationFormTestCase):
             with override_settings(ATTACHMENTS_MAX_SIZE_BYTES=999):
                 form = forms.AttachmentsForm(files=MultiValueDict({'attachments': [attachment]}))
                 self.assertFalse(form.is_valid())
-
-    def test_validate_field_message(self):
-        form = forms.JobApplicationForm()
-        self.assertIsNone(form.validate_field('message', "Message longer than 100 chars"*10))
-        self.assertEqual("Ce champ est obligatoire.", form.validate_field('message', ""))
