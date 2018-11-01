@@ -34,11 +34,11 @@ class JobApplicationEvent(models.Model):
     All events associated to a specific application. Events are created every
     time an action related to the application is performed.
     """
-    NAME_SENT_TO_EMPLOYER = 'sent'
-    NAME_CONFIRMED_TO_CANDIDATE = 'confirmed'
+    SENT_TO_EMPLOYER = 'sent'
+    CONFIRMED_TO_CANDIDATE = 'confirmed'
     NAMES = (
-        (NAME_SENT_TO_EMPLOYER, 'Sent to employer'),
-        (NAME_CONFIRMED_TO_CANDIDATE, 'Confirmed to candidate'),
+        (SENT_TO_EMPLOYER, "Envoyé à l'employeur"),
+        (CONFIRMED_TO_CANDIDATE, "Confirmation envoyée au candidat"),
     )
 
     job_application = models.ForeignKey(

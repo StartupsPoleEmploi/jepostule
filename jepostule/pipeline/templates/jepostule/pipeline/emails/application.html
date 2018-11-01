@@ -2,25 +2,27 @@
 
 <html>
     <body>
-        <p>Un·e candidat·e est intéressé·e par votre entreprise et vous propose de découvrir sa candidature.</p>
-
-        <p><b>Candidature spontanée - {{ job_application.job }}</b></p>
+        <p>{{ job_application.candidate_name }} vous propose de découvrir sa candidature au poste de {{ job_application.job }}.</p>
 
         <p>{{ job_application.message }}</p>
 
-        <p>Vous pouvez répondre en 3 clics à {{ job_application.candidate_name }}</p>
+        <p>Contacter {{ job_application.candidate_name }} :</p>
+        <p>
+            {{ job_application.candidate_address }}<br />
+            <a href="tel:{{ job_application.candidate_phone }}">{{ job_application.candidate_phone }}</a><br />
+            <a href="mailto:{{ job_application.candidate_email }}">{{ job_application.candidate_email }}</a>
+        </p>
 
+        <p>Quelle réponse souhaitez-vous lui apporter ?</p>
+        <p>Répondez quand vous le souhaitez et en 3 clics seulement grâce aux boutons ci-dessous.</p>
         <!--TODO add links to answers-->
         <a href="#">Refuser la candidature</a>
         <button>Demander des informations supplémentaires</button>
         <button>Proposer un entretien</button>
 
-        <p>Coordonnées du candidat</p>
-        <p>
-            {{ job_application.candidate_name }}<br />
-            {{ job_application.candidate_address }}<br />
-            <a href="tel:{{ job_application.candidate_phone }}">{{ job_application.candidate_phone }}</a><br />
-            <a href="mailto:{{ job_application.candidate_email }}">{{ job_application.candidate_email }}</a>
-        </p>
+        <p>Nous vous remercions par avance pour votre retour.</p>
+        <p>Cordialement,</p>
+        
+        <p>L'équipe Pôle Emploi</p>
     </body>
 </html>

@@ -37,7 +37,7 @@ class ApplicationTests(TestCase):
             self.assertEqual(1, len(kwargs['attachments']))
             self.assertEqual('moncv.doc', kwargs['attachments'][0].name)
             self.assertEqual(b'', kwargs['attachments'][0].content)
-            self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.NAME_SENT_TO_EMPLOYER).count())
+            self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.SENT_TO_EMPLOYER).count())
 
         with mock.patch.object(application, 'send_mail') as send_mail:
             application.send_confirmation_to_candidate.consume()
@@ -47,7 +47,7 @@ class ApplicationTests(TestCase):
             self.assertEqual(settings.JEPOSTULE_NO_REPLY, args[2])
             self.assertEqual(['candidat@pe.fr'], args[3])
             self.assertIsNone(kwargs.get('attachments'))
-            self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.NAME_CONFIRMED_TO_CANDIDATE).count())
+            self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE).count())
 
     def test_application_rate_limits(self):
         job_application = models.JobApplication.objects.create(

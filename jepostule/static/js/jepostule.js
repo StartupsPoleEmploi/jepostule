@@ -19,7 +19,8 @@
 
     /* Form and attachments validation */
     function clickValidateApplication(e) {
-        // TODO display spinner
+        // Maybe we could display a spinner here? In theory, form validation
+        // should be pretty quick.
         e.preventDefault();
         validateApplication(function() {
             window.location.hash = e.target.attributes.href.value;
@@ -192,8 +193,7 @@
             formData.append('attachments', attachments[i], attachments[i].name);
         }
 
-        // TODO:
-        // add ga events
+        // TODO: add ga events
         var formSubmit = document.querySelector("[type='submit']");
         formSubmit.setAttribute("disabled", '');
         var request = new XMLHttpRequest();

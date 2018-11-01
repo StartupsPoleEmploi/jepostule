@@ -11,7 +11,7 @@ from jepostule.queue.models import DelayedMessage, FailedMessage
 class TopicsTest(TestCase):
 
     def setUp(self):
-        topics.TOPIC_PROCESSORS.clear()
+        topics.Processors.clear()
 
     def test_subscribe_to_topic_twice(self):
         def task1():
@@ -21,9 +21,7 @@ class TopicsTest(TestCase):
             pass
 
         topics.subscribe('dummy-topic')(task1)
-        topics.subscribe('dummy-topic')(task1)
         self.assertRaises(ValueError, topics.subscribe('dummy-topic'), task2)
-
 
     def test_failed_messages_get_stored(self):
         @topics.subscribe('mytopic')
@@ -42,9 +40,8 @@ class TopicsTest(TestCase):
         self.assertEqual(('val1',), args)
         self.assertEqual({'namedparam': 'val2'}, kwargs)
 
-
     def test_retry_and_delete(self):
-        processor = mock.Mock(__name__='processor')
+        processor = mock.Mock()
         topics.subscribe('testtopic')(processor)
 
         failed = FailedMessage.objects.create(
@@ -58,9 +55,8 @@ class TopicsTest(TestCase):
         self.assertEqual(0, FailedMessage.objects.count())
         processor.assert_called_once_with(1, 2, key1='val1')
 
-
     def test_retry_and_archive(self):
-        processor = mock.Mock(__name__='processor')
+        processor = mock.Mock()
         topics.subscribe('testtopic')(processor)
 
         failed = FailedMessage.objects.create(

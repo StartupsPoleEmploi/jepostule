@@ -13,17 +13,31 @@ from . import serialize
 logger = logging.getLogger(__name__)
 
 
-# TODO we need a different mechanism to register processors: this requires the
-# __name__ attribute, which is clunky with mock objects (see test_topics).
-# Also, I'm not sure this object is cleaned between two test runs.
-TOPIC_PROCESSORS = {}
+class Processors:
+    TOPICS = {}
 
+    @classmethod
+    def subscribe(cls, topic, func):
+        if topic in cls.TOPICS:
+            raise ValueError("Cannot replace {} with {} as processor of topic {}".format(
+                cls.TOPICS[topic], func, topic
+            ))
+        cls.TOPICS[topic] = func
 
-def all_topics():
-    """
-    Return a list of all defined topics.
-    """
-    return sorted(TOPIC_PROCESSORS.keys())
+    @classmethod
+    def clear(cls):
+        cls.TOPICS.clear()
+
+    @classmethod
+    def all_topics(cls):
+        """
+        Return a list of all defined topics.
+        """
+        return sorted(cls.TOPICS.keys())
+
+    @classmethod
+    def process(cls, topic, *args, **kwargs):
+        return cls.TOPICS[topic](*args, **kwargs)
 
 
 def subscribe(topic):
@@ -43,26 +57,13 @@ def subscribe(topic):
         my_func.run_async("val1", "val2", kwarg1="k1")
     """
     def decorator(func):
-        if topic in TOPIC_PROCESSORS:
-            # TODO this is fragile. For instance, we cannot differentiate two
-            # lambda functions. Yet, we need this because django make multiple
-            # imports at runtime. Maybe we need a cleaner way to associate
-            # topics to functions...
-            path = '{func.__module__}.{func.__name__}'
-            existing_processor = path.format(func=TOPIC_PROCESSORS[topic])
-            new_processor = path.format(func=func)
-            if new_processor != existing_processor:
-                raise ValueError("Cannot replace {} with {} as processor of topic {}".format(
-                    existing_processor, new_processor, topic
-                ))
-
+        Processors.subscribe(topic, func)
         def run_async(*args, **kwargs):
             produce(topic, *args, **kwargs)
         def consume_topic():
             consume(topic)
         func.run_async = run_async
         func.consume = consume_topic
-        TOPIC_PROCESSORS[topic] = func
         return func
     return decorator
 
@@ -125,8 +126,7 @@ def process(topic, value):
     """
     try:
         args, kwargs = serialize.loads(value)
-        func = TOPIC_PROCESSORS[topic]
-        return func(*args, **kwargs)
+        return Processors.process(topic, *args, **kwargs)
     except exceptions.DelayProcessing as e:
         DelayedMessage.objects.create(
             topic=topic,

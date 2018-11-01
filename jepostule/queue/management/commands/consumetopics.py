@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from jepostule.queue import threads
-from jepostule.queue.topics import all_topics
+from jepostule.queue.topics import Processors
 
 
 class Command(BaseCommand):
@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         topics = options['topics']
         if topics == ['all']:
-            topics = all_topics()
+            topics = Processors.all_topics()
 
         self.stdout.write("Processing topics {}...\n".format(", ".join(topics)))
         threads.consume(*topics)

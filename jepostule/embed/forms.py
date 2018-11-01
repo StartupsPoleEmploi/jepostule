@@ -53,12 +53,6 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
     token = forms.CharField(
         widget=forms.HiddenInput()
     )
-    # TODO effectively send application copy to candidate
-    receive_copy = forms.BooleanField(
-        label="Je souhaite recevoir une copie de ma candidature sur ma boite email",
-        initial=True,
-        required=False,
-    )
 
     def clean(self):
         """

@@ -52,8 +52,8 @@ class EmbedViewsTests(JobApplicationFormTestCase):
                 data=self.form_data(token='invalid apptoken'),
             )
 
-        # TODO check response contains an error message
         self.assertEqual(200, response.status_code)
+        self.assertIn("Jeton d&#39;authentification invalide", response.content.decode())
         application.send_application_to_employer.consume()
         application.send_confirmation_to_candidate.consume()
         self.assertEqual([], mail.outbox)

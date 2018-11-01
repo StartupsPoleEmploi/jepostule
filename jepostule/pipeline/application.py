@@ -43,7 +43,7 @@ def send_application_to_employer(job_application_id, attachments=None):
               settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
               reply_to=[job_application.candidate_email],
               attachments=attachments)
-    job_application.events.create(name=JobApplicationEvent.NAME_SENT_TO_EMPLOYER)
+    job_application.events.create(name=JobApplicationEvent.SENT_TO_EMPLOYER)
     ratelimits.Sender.add(job_application.candidate_email)
     send_confirmation_to_candidate.run_async(job_application_id)
 
@@ -62,7 +62,7 @@ def send_confirmation_to_candidate(job_application_id):
         'job_application': job_application
     })
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY, [job_application.candidate_email])
-    job_application.events.create(name=JobApplicationEvent.NAME_CONFIRMED_TO_CANDIDATE)
+    job_application.events.create(name=JobApplicationEvent.CONFIRMED_TO_CANDIDATE)
 
 
 # pylint: disable=too-many-arguments
@@ -73,6 +73,9 @@ def send_mail(subject, message, from_email, recipient_list,
     let us override the 'reply-to' field.
 
     Note that `reply_to` must be a list or tuple.
+
+    As long as the async tasks trigger only one email each, it is not necessary
+    to run the send_mail function asynchronously.
     """
     if attachments:
         attachments = [
