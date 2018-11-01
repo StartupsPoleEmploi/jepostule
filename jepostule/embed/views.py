@@ -3,6 +3,7 @@ from urllib.parse import urlencode
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from jepostule.auth import utils as auth_utils
@@ -10,9 +11,12 @@ from jepostule.pipeline import application
 from .import forms
 
 
+@csrf_exempt
 @require_http_methods(["GET", "POST"])
 def candidater(request):
-    return get_candidater(request) if request.method == 'GET' else post_candidater(request)
+    response = get_candidater(request) if request.method == 'GET' else post_candidater(request)
+    response['X-Frame-Options'] = "allow-from http://localhost:5000"
+    return response
 
 
 def get_candidater(request):
@@ -53,6 +57,7 @@ def post_candidater(request):
 
 
 
+@csrf_exempt
 @require_http_methods(["POST"])
 def validate(request):
     form = forms.JobApplicationForm(request.POST)

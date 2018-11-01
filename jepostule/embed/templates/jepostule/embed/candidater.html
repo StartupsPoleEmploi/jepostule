@@ -95,11 +95,11 @@
             {% csrf_token %}
             {{ form.client_id }}
             {{ form.token }}
-            {{ form.employer_email }}
             {{ form.siret }}
 
             <h2>L'entreprise à laquelle je candidate</h2>
             {{ form.employer_description }}
+            {{ form.employer_email }}
 
             <h2>Le poste recherché</h2>
             <ul data-errors="job"></ul>

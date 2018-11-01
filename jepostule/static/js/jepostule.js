@@ -39,6 +39,7 @@
         var request = new XMLHttpRequest();
         request.open("POST", '/embed/validate/');
         request.onload = function(e) {
+            // TODO process errors, such as CORS. It could be that this call returns a 403 error. Maybe simply alert()?
             var result = true;
             var data = JSON.parse(e.target.responseText);
             for(var name in data.errors) {
