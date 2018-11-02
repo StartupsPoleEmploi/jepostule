@@ -5,7 +5,7 @@ from django.urls import reverse
 from jepostule.pipeline.models import JobApplication
 
 
-class ViewsTests(TestCase):
+class EmailViewsTests(TestCase):
 
     def setUp(self):
         user = User.objects.create(username='john')
@@ -28,3 +28,10 @@ class ViewsTests(TestCase):
             kwargs={'job_application_id': job_application.id}
         ))
         self.assertEqual(200, response.status_code)
+
+
+class AnswerViewsTests(TestCase):
+
+    def test_answer_interview(self):
+        job_application = JobApplication.objects.create()
+        reverse('pipeline:answer_interview', kwargs={'answer_uuid': job_application.answer_uuid})

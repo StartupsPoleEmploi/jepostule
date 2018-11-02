@@ -18,3 +18,9 @@ def email_confirmation(request, job_application_id):
     return render(request, 'jepostule/pipeline/emails/confirmation.html', {
         'job_application': job_application,
     })
+
+
+def answer_interview(request, answer_uuid):
+    get_object_or_404(models.JobApplication, answer_uuid=answer_uuid)
+    # TODO include form
+    return render(request, 'jepostule/pipeline/answers/interview.html')
