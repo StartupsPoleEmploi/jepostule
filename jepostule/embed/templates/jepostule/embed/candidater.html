@@ -92,9 +92,9 @@
     <div class="step-content">
         <a href="#documents" class="back">retour</a>
         <form action="{% url 'embed:candidater' %}" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
             {{ form.client_id }}
             {{ form.token }}
+            {{ form.timestamp }}
             {{ form.siret }}
 
             <h2>L'entreprise à laquelle je candidate</h2>
@@ -137,6 +137,13 @@
     <div class="step-content center">
         <h2>Une erreur a eu lieu</h2>
         <p>Ce n'est pas de votre faute, c'est nous :-( Notre équipe technique a été prévenue du problème. Merci de ré-essayer dans quelques heures.</p>
+    </div>
+</div>
+
+<div data-step="erreur-authentification">
+    <div class="step-content center">
+        <h2>Une erreur d'authentification a eu lieu</h2>
+        <p>Il se peut que vous ayez été déconnecté trop longtemps. Veuillez ré-essayer de postuler en rechargeant la page. Si vous pensez que cette erreur n'est pas normale, merci de contacter l'équipe technique via le lien "Contact".</p>
     </div>
 </div>
 

@@ -38,8 +38,8 @@
         var formData = new FormData(form);
         var request = new XMLHttpRequest();
         request.open("POST", '/embed/validate/');
-        request.onload = function(e) {
-            // TODO process errors, such as CORS. It could be that this call returns a 403 error. Maybe simply alert()?
+        request.addEventListener('load', function(e) {
+            // In case of errors, just fail silently. Happy debugging!
             var result = true;
             var data = JSON.parse(e.target.responseText);
             for(var name in data.errors) {
@@ -49,7 +49,7 @@
             if(result && callback) {
                 callback();
             }
-        };
+        });
         request.send(formData);
     }
     function clickValidateAttachments(e) {
@@ -181,6 +181,28 @@
         }
         updateAttachments();
     }
+
+    // Refresh authentication token frequently
+    (function refreshTokenLater() {
+        window.setTimeout(function() {
+            var formData = new FormData(form);
+            var request = new XMLHttpRequest();
+            request.open("POST", '/auth/application/token/refresh/');
+            request.addEventListener('load', function(e) {
+                if(e.target.status === 200) {
+                    var data = JSON.parse(e.target.responseText);
+                    document.querySelector("[name='token']").value = data.token;
+                    document.querySelector("[name='timestamp']").value = data.timestamp;
+                } else {
+                    window.location.hash = "#erreur-authentification";
+                }
+            });
+            request.addEventListener('loadend', function(e) {
+                refreshTokenLater();
+            });
+        request.send(formData);
+        }, 60000);
+    })();
 
     // Catch form submission to add attachments on the fly
     form.addEventListener("submit", function(evt) {

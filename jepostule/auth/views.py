@@ -23,26 +23,49 @@ def required_parameters(*parameters):
     return decorator
 
 
-def catch_auth_errors(func):
+def catch_credentials_errors(func):
     """
     View decorator to catch authentication exceptions and return the right response.
     """
     def decorated(request, *args, **kwargs):
         try:
             return func(request, *args, **kwargs)
-        except exceptions.ApplicationAuthError as e:
-            return error_response(e.args[0], 403)
+        except exceptions.AuthError as e:
+            return error_response(e.message, 403)
     return decorated
 
 
 @required_parameters('client_id', 'client_secret', 'candidate_email', 'employer_email')
-@catch_auth_errors
+@catch_credentials_errors
 def application_token(request):
     utils.verify_client_secret(request.GET['client_id'], request.GET['client_secret'])
-
-    token = utils.make_application_token(request.GET['client_id'], request.GET['candidate_email'], request.GET['employer_email'])
+    token, timestamp = utils.make_new_application_token(request.GET['client_id'], request.GET['candidate_email'], request.GET['employer_email'])
     return JsonResponse({
         "token": token,
+        "timestamp": timestamp,
+    })
+
+
+@require_POST
+@csrf_exempt
+@catch_credentials_errors
+@required_parameters('client_id', 'token', 'timestamp', 'candidate_email', 'employer_email')
+def application_token_refresh(request):
+    utils.verify_application_token(
+        request.POST['token'],
+        request.POST['client_id'],
+        request.POST['candidate_email'],
+        request.POST['employer_email'],
+        request.POST['timestamp'],
+    )
+    token, timestamp = utils.make_new_application_token(
+        request.POST['client_id'],
+        request.POST['candidate_email'],
+        request.POST['employer_email']
+    )
+    return JsonResponse({
+        "token": token,
+        "timestamp": timestamp,
     })
 
 

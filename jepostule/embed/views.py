@@ -15,7 +15,10 @@ from .import forms
 @require_http_methods(["GET", "POST"])
 def candidater(request):
     response = get_candidater(request) if request.method == 'GET' else post_candidater(request)
-    response['X-Frame-Options'] = "allow-from http://localhost:5000"
+
+    # TODO test this
+    if request.META.get('HTTP_REFERRER'):
+        response['X-Frame-Options'] = "allow-from " + request.META['HTTP_REFERRER']
     return response
 
 
@@ -83,10 +86,11 @@ def demo(request):
         'job': 'Boucher',
     }
     params.update(request.GET)
-    token = auth_utils.make_application_token(client_id, params['candidate_email'], params['employer_email'])
+    token, timestamp = auth_utils.make_new_application_token(client_id, params['candidate_email'], params['employer_email'])
     params.update({
         'client_id': client_id,
         'token': token,
+        'timestamp': timestamp,
     })
     iframe_url = reverse('embed:candidater') + '?' + urlencode(params)
     return render(request, 'jepostule/embed/demo.html', {

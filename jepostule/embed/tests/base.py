@@ -1,3 +1,5 @@
+from time import time
+
 from django.test import TestCase
 
 
@@ -7,6 +9,7 @@ class JobApplicationFormTestCase(TestCase):
         data = {
             'client_id': 'id',
             'token': 'apptoken',
+            'timestamp': time(),
             'candidate_email': 'candidate@pe.fr',
             'candidate_first_name': 'John',
             'candidate_last_name': 'Doe',

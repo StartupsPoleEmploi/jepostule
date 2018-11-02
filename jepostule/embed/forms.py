@@ -53,6 +53,9 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
     token = forms.CharField(
         widget=forms.HiddenInput()
     )
+    timestamp = forms.FloatField(
+        widget=forms.HiddenInput()
+    )
 
     def clean(self):
         """
@@ -61,13 +64,14 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         cleaned_data = super().clean()
         try:
             auth_utils.verify_application_token(
-                cleaned_data.get('client_id'),
                 cleaned_data.get('token'),
+                cleaned_data.get('client_id'),
                 cleaned_data.get('candidate_email'),
                 cleaned_data.get('employer_email'),
+                cleaned_data.get('timestamp', 0),
             )
-        except auth_utils.exceptions.ApplicationAuthError:
-            raise forms.ValidationError("Jeton d'authentification invalide")
+        except auth_utils.exceptions.AuthError as e:
+            raise forms.ValidationError(e.message)
         return cleaned_data
 
 

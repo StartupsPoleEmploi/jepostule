@@ -27,6 +27,17 @@ class FormsTest(JobApplicationFormTestCase):
             self.assertFalse(is_valid)
             make_application_token.assert_called_once()
 
+    def test_invalid_client_id(self):
+        form = forms.JobApplicationForm(data=self.form_data())
+        self.assertFalse(form.is_valid())
+        self.assertEqual(['Paramètres client ID/secret invalides'], list(form.errors['__all__']))
+
+    def test_expired_token(self):
+        form = forms.JobApplicationForm(data=self.form_data(timestamp=0))
+        with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken'):
+            self.assertFalse(form.is_valid())
+        self.assertEqual(["Jeton d'authentification expiré"], list(form.errors['__all__']))
+
     def test_too_large_attachments(self):
         attachment = SimpleUploadedFile('moncv.doc', b'\0'*1000)
 

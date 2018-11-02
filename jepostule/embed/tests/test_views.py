@@ -13,6 +13,8 @@ from .base import JobApplicationFormTestCase
 class EmbedViewsTests(JobApplicationFormTestCase):
 
     def test_candidater(self):
+        # Note that this should result in a bunch of errors, in particular
+        # regarding invalid token
         response = self.client.get(reverse('embed:candidater'))
         self.assertEqual(200, response.status_code)
 
