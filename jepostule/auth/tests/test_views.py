@@ -5,9 +5,13 @@ from urllib.parse import urlencode
 from django.test import Client, override_settings, TestCase
 from django.urls import reverse
 
+from jepostule.auth import models
 
-@override_settings(JEPOSTULE_CLIENTS={'id': 'secret'})
+
 class ApplicationKeyTests(TestCase):
+
+    def setUp(self):
+        models.ClientPlatform.objects.create(client_id='id', client_secret='secret')
 
     def test_application_token(self):
         with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken') as make_application_token:

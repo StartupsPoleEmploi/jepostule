@@ -5,6 +5,7 @@ from django.core import mail
 from django.urls import reverse
 from django.core.files.uploadedfile import SimpleUploadedFile
 
+from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline.models import JobApplication
 from jepostule.pipeline import application
 from .base import JobApplicationFormTestCase
@@ -19,8 +20,13 @@ class EmbedViewsTests(JobApplicationFormTestCase):
         self.assertEqual(200, response.status_code)
 
     def test_demo(self):
+        ClientPlatform.objects.create(client_id=ClientPlatform.DEMO_CLIENT_ID)
         response = self.client.get(reverse('embed:demo'))
         self.assertEqual(200, response.status_code)
+
+    def test_demo_without_client(self):
+        response = self.client.get(reverse('embed:demo'))
+        self.assertEqual(404, response.status_code)
 
     def test_send(self):
         attachment1 = SimpleUploadedFile('moncv.doc', b'\0')

@@ -4,6 +4,7 @@ import hashlib
 from django.conf import settings
 
 from . import exceptions
+from . import models
 
 
 # Duration during which a token is valid, in seconds. This value should be
@@ -63,6 +64,6 @@ def verify_client_secret(client_id, client_secret):
 
 def get_client_secret(client_id):
     try:
-        return settings.JEPOSTULE_CLIENTS[client_id]
-    except KeyError:
+        return models.ClientPlatform.objects.get(client_id=client_id).client_secret
+    except models.ClientPlatform.DoesNotExist:
         raise exceptions.InvalidCredentials

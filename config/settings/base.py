@@ -136,13 +136,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 JEPOSTULE_NO_REPLY = 'no-reply@jepostule.pole-emploi.fr'
 ATTACHMENTS_MAX_SIZE_BYTES = 10*1024*1024 # 10 Mb
 
-# This dict contains pairs of client ID/secret.
-# Values can be generated with the following shell command:
-# python -c "import random, string; print(''.join([random.choice(string.ascii_lowercase + string.digits) for _ in range(12)]))"
-JEPOSTULE_CLIENTS = {
-    'democlientid': 'democlientsecret',
-}
-
 QUEUE_PRODUCER = 'jepostule.queue.handlers.franz.KafkaProducer'
 QUEUE_CONSUMER = 'jepostule.queue.handlers.franz.KafkaConsumer'
 KAFKA_BOOTSTRAP_SERVERS = ['localhost:9092']

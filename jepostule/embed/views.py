@@ -1,12 +1,13 @@
 from urllib.parse import urlencode
 
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
 from jepostule.auth import utils as auth_utils
+from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline import application
 from .import forms
 
@@ -75,7 +76,7 @@ def demo(request):
     demo client id is stored in the settings. Custom from/to addresses can be
     setup by the 'candidate_email' and 'employer_email' querystring parameters.
     """
-    client_id = 'democlientid'
+    client_id = get_object_or_404(ClientPlatform, client_id=ClientPlatform.DEMO_CLIENT_ID).client_id
     params = {
         'candidate_first_name': 'John',
         'candidate_last_name': 'Doe',

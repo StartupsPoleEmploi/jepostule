@@ -20,10 +20,6 @@ KAFKA_BOOTSTRAP_SERVERS = ['kafka:9092']
 # EMAIL_HOST_USER = 'setme'
 # EMAIL_HOST_PASSWORD = 'setme'
 
-# List here authorized pairs of client ID/secret
-# JEPOSTULE_CLIENTS = {
-# }
-
 # import sentry_sdk
 # sentry_sdk.init(
     # "https://set@sentry.io/me",
