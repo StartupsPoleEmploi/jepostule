@@ -14,6 +14,6 @@ class ClientPlatform(models.Model):
 
     client_id = models.CharField(max_length=32, unique=True)
     client_secret = models.CharField(
-        max_length=16,
+        max_length=32,
         default=generate_secret_key,
     )
