@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-
-<html>
-    <head>
-        <title>Proposition d'entretien</title>
-    </head>
-
-    <body>
-        Ci-dessous un formulaire pour proposer une date d'entretien.
-        TODO
-    </body>
-</html>
+{% extends "jepostule/pipeline/answers/base.html" %}
+{% block title %}{{ form.title }}{% endblock %}
+{% block content-title %}{{ form.title }}{% endblock %}
+{% block content %}
+    <p><b>Proposer un entretien à {{ job_application.candidate_name }} pour le poste de {{ job_application.job }}</b><p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <p></p>
+        <button type="submit">Proposer un entretien</button>
+    </form>
+{% endblock %}

@@ -7,6 +7,10 @@ class JobApplication(models.Model):
     """
     Store all application-related data, except for the attachments.
     """
+    ANSWER_REJECTION = 0
+    ANSWER_DETAILS = 1
+    ANSWER_INTERVIEW = 2
+
     candidate_email = models.CharField(max_length=64, db_index=True)
     candidate_first_name = models.CharField(max_length=64)
     candidate_last_name = models.CharField(max_length=64)

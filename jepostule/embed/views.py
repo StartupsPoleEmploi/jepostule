@@ -18,12 +18,15 @@ def candidater(request):
     response = get_candidater(request) if request.method == 'GET' else post_candidater(request)
 
     # TODO test this
-    if request.META.get('HTTP_REFERRER'):
-        response['X-Frame-Options'] = "allow-from " + request.META['HTTP_REFERRER']
+    if request.META.get('HTTP_REFERER'):
+        response['X-Frame-Options'] = "allow-from " + request.META['HTTP_REFERER']
     return response
 
 
 def get_candidater(request):
+    """
+    Generate application form and display it.
+    """
     form_data = request.GET.copy()
     for k, v in forms.JobApplicationForm.defaults.items():
         form_data.setdefault(k, v)
@@ -43,6 +46,9 @@ def get_candidater(request):
 
 
 def post_candidater(request):
+    """
+    Validate application form and save it.
+    """
     form = forms.JobApplicationForm(data=request.POST)
     attachments_form = forms.AttachmentsForm(files=request.FILES)
     if form.is_valid() and attachments_form.is_valid():
@@ -86,7 +92,7 @@ def demo(request):
         'siret': '73345678900023',
         'job': 'Boucher',
     }
-    params.update(request.GET)
+    params.update(request.GET.items())
     token, timestamp = auth_utils.make_new_application_token(client_id, params['candidate_email'], params['employer_email'])
     params.update({
         'client_id': client_id,

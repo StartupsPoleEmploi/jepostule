@@ -91,7 +91,7 @@ a.button.button-light, button.button-light, .one-light-display:not([data-count="
     border: 1px solid #7D3D8D;
 }
 button {
-    border: 1px solid transparent
+    border: 1px solid transparent;
 }
 input[type="text"], input[type="email"], input[type="tel"], textarea {
     width: 100%;

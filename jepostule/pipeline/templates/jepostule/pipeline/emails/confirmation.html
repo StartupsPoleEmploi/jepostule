@@ -1,11 +1,100 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="min-height: 100%; background-color: #f3f3f3 !important;" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Candidature au poste de {{ job_application.job }}</title>
+    </head>
+    <body style="width: 100% !important; min-width: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" bgcolor="#f3f3f3">
+        <span style="display: none !important; visibility: hidden; mso-hide: all !important; font-size: 1px; color: #f3f3f3; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+        </span>
+        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; height: 100%; width: 100%; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" bgcolor="#f3f3f3">
+            <tr style="vertical-align: top; padding: 0;" align="left">
+                <td align="center" valign="top" style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;">
+                    <center data-parsed="" style="width: 100%; min-width: 580px;">
 
-<html>
-    <body>
-        <p>Votre candidature auprès de l'entreprise {{ job_application.employer_description }} a bien été envoyée à {{ job_application.employer_email }}.</p>
+                        <table align="center" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: center; width: 580px; float: none; margin: 0 auto; padding: 0;" bgcolor="#fefefe">
+                            <tbody>
+                                <tr style="vertical-align: top; padding: 0;" align="left">
+                                    <td style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left" valign="top">
 
-        <p>Voici le message qui a été envoyé :</p>
+                                        <!--Top margin-->
+                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                                            <tbody>
+                                                <tr style="vertical-align: top; padding: 0;" align="left">
+                                                    <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
 
-        <p>{{ job_application.message }}</p>
+                                        <!--intro-->
+                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+                                            <tbody>
+                                                <tr style="vertical-align: top; padding: 0;" align="left">
+                                                    <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
+                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                                                            <tr style="vertical-align: top; padding: 0;" align="left">
+                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Entreprise contactée</p>
+                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">
+                                                                    {{ job_application.employer_description }}<br />
+                                                                    {{ job_application.employer_email }}
+                                                                    </p>
+                                                                </th>
+                                                                <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <!--Message-->
+                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+                                            <tbody>
+                                                <tr style="vertical-align: top; padding: 0;" align="left">
+                                                    <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
+                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                                                            <tr style="vertical-align: top; padding: 0;" align="left">
+                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Candidature spontanée - {{ job_application.job }}</p>
+                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
+                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">N'hésitez pas à relancer cette entreprise si vous n'avez pas de nouvelle dans 15 jours.</p>
+                                                                </th>
+                                                                <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                                                                </th>
+                                                            </tr>
+                                                        </table>
+                                                    </th>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                                            <tbody>
+                                                <tr style="vertical-align: top; padding: 0;" align="left">
+                                                    <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+
+                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                                            <tbody>
+                                                <tr style="vertical-align: top; padding: 0;" align="left">
+                                                    <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </center>
+                </td>
+            </tr>
+        </table>
+        <!-- prevent Gmail on iOS font size manipulation -->
+        <div style="display: none; white-space: nowrap; font: 15px courier;">                                                             </div>
     </body>
 </html>

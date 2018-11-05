@@ -1,4 +1,5 @@
 from unittest import mock
+from urllib.parse import urlencode
 
 from django.conf import settings
 from django.core import mail
@@ -27,6 +28,12 @@ class EmbedViewsTests(JobApplicationFormTestCase):
     def test_demo_without_client(self):
         response = self.client.get(reverse('embed:demo'))
         self.assertEqual(404, response.status_code)
+
+    def test_demo_with_parameters(self):
+        ClientPlatform.objects.create(client_id=ClientPlatform.DEMO_CLIENT_ID)
+        response = self.client.get(reverse('embed:demo') + '?' + urlencode({'employer_email': 'boss@big.co'}))
+        self.assertEqual(200, response.status_code)
+        self.assertIn(b'employer_email=boss%40big.co', response.content)
 
     def test_send(self):
         attachment1 = SimpleUploadedFile('moncv.doc', b'\0')
