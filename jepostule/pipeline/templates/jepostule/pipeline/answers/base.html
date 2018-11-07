@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 {% load static %}
+{% load pipeline %}
 <html>
     <head>
         <meta charset='utf-8'>
+        <meta name=viewport content="width=device-width, initial-scale=1">
         <title>{% block title %}{% endblock %}</title>
-        <link rel="stylesheet" href="{% static 'css/answer.css' %}" type="text/css">
+        {% stylesheet 'answer' %}
     </head>
 
     <body>
-        <div class="title"><h1>{% block content-title %}{% endblock %}</h1></div>
+        <div class="title"><h1>{% block contenttitle %}{% endblock %}</h1></div>
         <div class="content">
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
         </div>
+
+        {% javascript 'answer' %}
+        <script>
+            $.datetimepicker.setLocale('fr');
+            $("[name='datetime']").datetimepicker({
+                format: 'd/m/Y H:i'
+            });
+        </script>
     </body>
 </html>

@@ -22,6 +22,7 @@ On partner websites, the user can click on "Je Postule" buttons for each display
 ### Quickstart
 
     pip install -r requirements/dev.txt
+    npm install
     make services
     make test
     ./manage.py migrate

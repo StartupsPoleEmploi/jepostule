@@ -54,3 +54,36 @@ class JobApplicationEvent(models.Model):
 
     class Meta:
         ordering = ['created_at']
+
+
+class Answer(models.Model):
+    """
+    There exists multiple different answer types to job application. From a job
+    application, the corresponding answer can be accessed with:
+
+        job_application.answer.answerinterview
+    """
+    job_application = models.OneToOneField(JobApplication, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class AnswerInterview(Answer):
+    LOCATION_ONSITE = 'onsite'
+    LOCATION_PHONE = 'phone'
+    LOCATION_VIDEO = 'video'
+
+    datetime = models.DateTimeField(blank=True)
+    location = models.CharField(
+        max_length=16, blank=False,
+        choices=(
+            (LOCATION_ONSITE, "dans l'entreprise"),
+            (LOCATION_PHONE, "par téléphone"),
+            (LOCATION_VIDEO, "en visio conférence"),
+        ),
+        default=LOCATION_ONSITE,
+    )
+    employer_name = models.CharField(max_length=128, blank=True)
+    employer_email = models.EmailField(max_length=128, blank=True)
+    employer_phone = models.CharField(max_length=32, blank=True)
+    employer_address = models.CharField(max_length=256, blank=True)
+    message = models.TextField(blank=True)

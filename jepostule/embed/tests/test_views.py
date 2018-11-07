@@ -4,6 +4,7 @@ from urllib.parse import urlencode
 from django.conf import settings
 from django.core import mail
 from django.urls import reverse
+from django.utils.html import escape as html_escape
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from jepostule.auth.models import ClientPlatform
@@ -68,7 +69,10 @@ class EmbedViewsTests(JobApplicationFormTestCase):
             )
 
         self.assertEqual(200, response.status_code)
-        self.assertIn("Jeton d&#39;authentification invalide", response.content.decode())
+        self.assertIn(
+            html_escape("Jeton d'authentification invalide"),
+            response.content.decode()
+        )
         application.send_application_to_employer.consume()
         application.send_confirmation_to_candidate.consume()
         self.assertEqual([], mail.outbox)

@@ -113,6 +113,7 @@
         if(input.value.length == 0) {
             var value = localStorage.getItem(input.name);
             if (value !== null) {
+                console.log("Loading", value, 'to', input.name);
                 input.value = value;
                 input.dispatchEvent(new Event('change'), {'bubbles': true});
             }
@@ -120,6 +121,7 @@
     }
     function saveValue(e) {
         if(e.target.value.length > 0) {
+            console.log("Saving", e.target.value, 'to', e.target.name);
             localStorage.setItem(e.target.name, e.target.value);
         }
     }

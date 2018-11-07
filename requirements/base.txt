@@ -4,6 +4,7 @@
 #
 #    pip-compile --output-file requirements/base.txt requirements/base.in
 #
+django-pipeline==1.6.14
 django==2.1.2
 kafka-python==1.4.3
 psycopg2-binary==2.7.5

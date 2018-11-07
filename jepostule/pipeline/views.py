@@ -4,6 +4,7 @@ from django.views.decorators.http import require_http_methods
 
 from . import forms
 from . import models
+from .answer import send as send_answer
 
 
 @login_required
@@ -22,6 +23,13 @@ def email_confirmation(request, job_application_id):
     })
 
 
+@login_required
+def email_answer(request, answer_id):
+    return render(request, 'jepostule/pipeline/emails/interview.html', {
+        'answer': get_object_or_404(models.Answer, id=answer_id).answerinterview,
+    })
+
+
 @require_http_methods(['GET', 'POST'])
 def answer(request, answer_uuid, status):
     job_application = get_object_or_404(models.JobApplication, answer_uuid=answer_uuid)
@@ -31,14 +39,18 @@ def answer(request, answer_uuid, status):
     else:
         raise Http404
 
+    # TODO employer needs to previsualize the message sent
+
     if request.method == 'GET':
         # TODO check if answer was already provided
-        form = FormClass(initial={
+        form = FormClass(job_application, initial={
             'employer_email': job_application.employer_email,
         })
     else:
-        form = FormClass(request.POST)
+        form = FormClass(job_application, request.POST)
         if form.is_valid():
+            result = form.save()
+            send_answer(result.job_application.id)
             template = 'jepostule/pipeline/answers/success.html'
 
     return render(request, template, {

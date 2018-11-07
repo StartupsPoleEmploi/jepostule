@@ -4,3 +4,5 @@ config/settings/local.py
 
 .coverage
 htmlcov/
+node_modules/
+static/

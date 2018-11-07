@@ -17,9 +17,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'pipeline',
+
     'jepostule.auth.apps.AuthConfig',
     'jepostule.embed',
-    'jepostule.pipeline',
+    'jepostule.pipeline.apps.PipelineConfig',
     'jepostule.queue',
 ]
 
@@ -93,10 +95,40 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Static assets management
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'jepostule', 'static'),
+    os.path.join(BASE_DIR, 'node_modules'),
 ]
+STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+)
+# https://django-pipeline.readthedocs.io/en/latest/configuration.html
+PIPELINE = {
+    'JAVASCRIPT': {
+        'answer': {
+            'source_filenames': (
+              'jquery/dist/jquery.min.js',
+              'jquery-datetimepicker/build/jquery.datetimepicker.full.js',
+            ),
+            'output_filename': 'js/answer.js',
+        }
+    },
+    'STYLESHEETS': {
+        'answer': {
+            'source_filenames': (
+                'pipeline/css/form.css',
+                'jquery-datetimepicker/build/jquery.datetimepicker.min.css',
+            ),
+            'output_filename': 'css/answer.css',
+        },
+    },
+}
 
 LOGGING = {
     'version': 1,

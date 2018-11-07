@@ -37,7 +37,15 @@ class JobApplicationAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     search_fields = ('created_at', 'candidate_email', 'employer_email', 'job', 'coordinates',)
     sortable_by = ('created_at', 'candidate_email', 'employer_email',)
+    readonly_fields = ('view_answer',)
     inlines = (JobApplicationEventInlineAdmin,)
+
+    def view_answer(self, obj):
+        url = reverse(
+            'pipeline:email_answer',
+            kwargs={'answer_id': obj.answer.id}
+        )
+        return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer</a>", url=url)
 
 
 @admin.register(JobApplicationEvent)

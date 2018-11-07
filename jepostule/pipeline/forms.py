@@ -1,48 +1,55 @@
 from django import forms
 
+from . import models
 
-class InterviewForm(forms.Form):
-    LOCATION_ONSITE = 'onsite'
-    LOCATION_PHONE = 'phone'
-    LOCATION_VIDEO = 'video'
 
+class BaseAnswerForm(forms.ModelForm):
+
+    def __init__(self, job_application, *args, **kwargs):
+        super().__init__(*args, label_suffix='', **kwargs)
+        self.job_application = job_application
+
+    def save(self, commit=True):
+        self.instance.job_application_id = self.job_application.id
+        return super().save(commit=commit)
+
+
+class InterviewForm(BaseAnswerForm):
     title = "Planifier un entretien d'embauche"
     success_message = "Votre proposition d'entretien a été envoyée avec succès"
 
-    location = forms.ChoiceField(
-        label="L'entretien se déroulera",
-        choices=(
-            (LOCATION_ONSITE, "dans l'entreprise"),
-            (LOCATION_PHONE, "par téléphone"),
-            (LOCATION_VIDEO, "en visio conférence"),
-        ),
-        widget=forms.RadioSelect(),
-    )
+    # TODO certains champs ne sont pas requis : il faut spécifier au moins le téléphone ou l'email
     # TODO render date and time correctly with proper widget
-    date = forms.DateField(label="Date de l'entretien")
-    time = forms.TimeField(label="Heure de l'entretien")
-    employer_name = forms.CharField(label="Nom du recruteur", max_length=128)
-    employer_email = forms.EmailField(label="Email du recruteur", max_length=128)
-    employer_phone = forms.CharField(
-        label="Numéro de téléphone",
-        max_length=32,
-        widget=forms.TextInput(attrs={
-            'placeholder': '01 23 45 67 89'
-        }),
-    )
-    employer_address = forms.CharField(
-        label="Adresse de l'entreprise", max_length=256,
-        widget=forms.TextInput(attrs={
-            'placeholder': '1 avenue de la République 75011 Paris',
-        }),
-    )
-    message = forms.CharField(
-        label="Informations complémentaires",
-        widget=forms.Textarea(attrs={
-            'rows': 10,
-            'placeholder': "Questions ? Demande d'information ?",
-        })
-    )
+    # TODO ensure interview datetime is in the future
+    class Meta:
+        model = models.AnswerInterview
+        fields = (
+            'location', 'datetime',
+            'employer_name', 'employer_email', 'employer_phone', 'employer_address',
+            'message',
+        )
+        labels = {
+            'location': "L'entretien se déroulera",
+            'employer_name': "Nom du recruteur",
+            'employer_email': "Email du recruteur",
+            'employer_phone': "Numéro de téléphone",
+            'employer_address': "Adresse de l'entreprise",
+            'message': "Informations complémentaires",
+        }
+        widgets = {
+            'location': forms.RadioSelect(),
+            'employer_phone': forms.TextInput(attrs={
+                'placeholder': '01 23 45 67 89'
+            }),
+            'employer_address': forms.TextInput(attrs={
+                'placeholder': '1 avenue de la République 75011 Paris',
+            }),
+            'message': forms.Textarea(attrs={
+                'rows': 10,
+                'placeholder': "Questions ? Demande d'information ?",
+            }),
+        }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, label_suffix='', **kwargs)
+    datetime = forms.DateTimeField(
+        label="Date et heure de l'entretien",
+    )

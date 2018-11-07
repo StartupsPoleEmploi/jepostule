@@ -39,7 +39,7 @@ body {
 .invisible {
     opacity: 0;
     position: absolute;
-    z-index: -1000px;
+    z-index: -1000;
 }
 .step-content {
     padding: 15px 15px 15px 15px;

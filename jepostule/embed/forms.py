@@ -57,6 +57,9 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         widget=forms.HiddenInput()
     )
 
+    # TODO ajouter une case "recevoir une copie" qui est cochée par défaut
+
+
     def clean(self):
         """
         Perform client ID/token validation.

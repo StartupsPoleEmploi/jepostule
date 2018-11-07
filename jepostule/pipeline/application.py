@@ -1,13 +1,12 @@
-import os
 from collections import namedtuple
 
 from django.conf import settings
-from django.core import mail
 from django.template.loader import get_template
 
 from jepostule.queue import topics
 from .models import JobApplication, JobApplicationEvent
 from . import ratelimits
+from .utils import send_mail
 
 
 Attachment = namedtuple('Attachment', ['name', 'content'])
@@ -63,32 +62,3 @@ def send_confirmation_to_candidate(job_application_id):
     })
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY, [job_application.candidate_email])
     job_application.events.create(name=JobApplicationEvent.CONFIRMED_TO_CANDIDATE)
-
-
-# pylint: disable=too-many-arguments
-def send_mail(subject, message, from_email, recipient_list,
-              reply_to=None, attachments=None, html_message=None):
-    """
-    We don't rely on django.core.mail.send_mail function, because it does not
-    let us override the 'reply-to' field.
-
-    Note that `reply_to` must be a list or tuple.
-
-    As long as the async tasks trigger only one email each, it is not necessary
-    to run the send_mail function asynchronously.
-    """
-    if attachments:
-        attachments = [
-            (os.path.basename(f.name), f.content, None) for f in attachments
-        ]
-    connection = mail.get_connection()
-    message = mail.EmailMultiAlternatives(
-        subject, message, from_email, recipient_list,
-        connection=connection,
-        reply_to=reply_to,
-        attachments=attachments,
-    )
-    if html_message:
-        message.attach_alternative(html_message, 'text/html')
-
-    return message.send()

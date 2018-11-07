@@ -1,283 +1,131 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="min-height: 100%; background-color: #f3f3f3 !important;" xml:lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width" />
-        <title>Candidature au poste de {{ job_application.job }}</title>
-    </head>
-    <body style="width: 100% !important; min-width: 100%; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" bgcolor="#f3f3f3">
-        <span style="display: none !important; visibility: hidden; mso-hide: all !important; font-size: 1px; color: #f3f3f3; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-        </span>
-        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; height: 100%; width: 100%; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" bgcolor="#f3f3f3">
-            <tr style="vertical-align: top; padding: 0;" align="left">
-                <td align="center" valign="top" style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;">
-                    <center data-parsed="" style="width: 100%; min-width: 580px;">
+{% extends "jepostule/pipeline/emails/base.html" %}
+{% block title %}Candidature au poste de {{ job_application.job }}{% endblock %}
 
-                        <table align="center" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: center; width: 580px; float: none; margin: 0 auto; padding: 0;" bgcolor="#fefefe">
-                            <tbody>
-                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                    <td style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left" valign="top">
+{% block content %}
+<!--intro-->
+<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+    <tbody>
+        <tr style="vertical-align: top; padding: 0;" align="left">
+            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">Votre entreprise intéresse {{ job_application.candidate_name }} qui vous propose de découvrir sa candidature.</p>
+                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Candidature spontanée au poste de {{ job_application.job }}</p>
+                        </th>
+                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
 
-                                        <!--Top margin-->
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
-                                                </tr>
-                                            </tbody>
-                                        </table> 
+<!--Message-->
+<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+    <tbody>
+        <tr style="vertical-align: top; padding: 0;" align="left">
+            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
+                        </th>
+                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
 
-                                        <!--intro-->
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">Votre entreprise intéresse {{ job_application.candidate_name }} qui vous propose de découvrir sa candidature.</p>
-                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Candidature spontanée au poste de {{ job_application.job }}</p>
-                                                                </th>
-                                                                <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <!--Message-->
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
-                                                                </th>
-                                                                <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <!--Vous pouvez répondre-->
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Vous pouvez répondre en 3 clics à {{ job_application.candidate_name }}</p>
-                                                                </th>
-                                                                <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+<!--Vous pouvez répondre-->
+<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+    <tbody>
+        <tr style="vertical-align: top; padding: 0;" align="left">
+            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Vous pouvez répondre en 3 clics à {{ job_application.candidate_name }}</p>
+                        </th>
+                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
 
 
-                                        <!--Liens réponse-->
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <th style="width: 177.33333px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 8px 16px 16px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #D0021B; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_REJECTION %}" style="color: #D0021B; text-decoration: none;" target="_blank">Refuser <br />la candidature</a></p>
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                    <th style="width: 177.33333px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 8px 16px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #F5A623; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_DETAILS %}" style="color: #F5A623; text-decoration: none;" target="_blank">Demander plus <br />d'informations</a></p>
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                    <th style="width: 177.33333px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px 8px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #02BE72; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_INTERVIEW %}" style="color: #02BE72;; text-decoration: none;" target="_blank">Proposer <br />un entretien</a></p>
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+<!--Liens réponse-->
+<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+    <tbody>
+        <tr style="vertical-align: top; padding: 0;" align="left">
+            <th style="width: 177.33333px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 8px 16px 16px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #D0021B; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_REJECTION %}" style="color: #D0021B; text-decoration: none;" target="_blank">Refuser <br />la candidature</a></p>
+                        </th>
+                    </tr>
+                </table>
+            </th>
+            <th style="width: 177.33333px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 8px 16px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #F5A623; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_DETAILS %}" style="color: #F5A623; text-decoration: none;" target="_blank">Demander plus <br />d'informations</a></p>
+                        </th>
+                    </tr>
+                </table>
+            </th>
+            <th style="width: 177.33333px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px 8px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #02BE72; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_INTERVIEW %}" style="color: #02BE72;; text-decoration: none;" target="_blank">Proposer <br />un entretien</a></p>
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
 
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
-                                                </tr>
-                                            </tbody>
-                                        </table> 
+<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+    <tbody>
+        <tr style="vertical-align: top; padding: 0;" align="left">
+            <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
+        </tr>
+    </tbody>
+</table> 
 
-                                        <!--Coordinates-->
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                                            <tr style="vertical-align: top; padding: 0;" align="left">
-                                                                <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Coordonnées complètes</p>
-                                                                    <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">
-                                                                    {{ job_application.candidate_name }}<br />
-                                                                    {{ job_application.candidate_address }}<br />
-                                                                    {{ job_application.candidate_phone }}<br />
-                                                                    {{ job_application.candidate_email }}<br />
-                                                                    </p>
-                                                                </th>
-                                                                <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                                                                </th>
-                                                            </tr>
-                                                        </table>
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">-->
-                                            <!--<tbody>-->
-                                                <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                    <!--<th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">-->
-                                                        <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">-->
-                                                            <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                <!--<th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">-->
-                                                                    <!--<h3 style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; word-wrap: normal; font-size: 28px; margin: 0 0 10px; padding: 0;" align="center">What Are You Waiting For? Get Started Today.</h3>-->
-
-                                                                    <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">-->
-                                                                        <!--<tbody>-->
-                                                                            <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                                <!--<td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>-->
-                                                                            <!--</tr>-->
-                                                                        <!--</tbody>-->
-                                                                    <!--</table> -->
-
-                                                                    <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100% !important; margin: 0 0 16px; padding: 0;">-->
-                                                                        <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                            <!--<td style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left" valign="top">-->
-                                                                                <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">-->
-                                                                                    <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                                        <!--<td style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0; border: 2px solid #2199e8;" align="left" bgcolor="#2199e8" valign="top">-->
-                                                                                            <!--<center data-parsed="" style="width: 100%; min-width: 0;">-->
-                                                                                                <!--<a href="#" align="center" style="color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-align: center; line-height: 1.3; text-decoration: none; font-size: 20px; display: inline-block; border-radius: 3px; width: 100%; margin: 0; padding: 10px 0; border: 0 solid #2199e8;">Sign Up</a>-->
-                                                                                            <!--</center>-->
-                                                                                        <!--</td>-->
-                                                                                    <!--</tr>-->
-                                                                                <!--</table>-->
-                                                                            <!--</td>-->
-                                                                            <!--<td style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left" valign="top">-->
-                                                                            <!--</td>-->
-                                                                        <!--</tr>-->
-                                                                    <!--</table>-->
-                                                                <!--</th>-->
-                                                                <!--<th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">-->
-                                                                <!--</th>-->
-                                                            <!--</tr>-->
-                                                        <!--</table>-->
-                                                    <!--</th>-->
-                                                <!--</tr>-->
-                                            <!--</tbody>-->
-                                        <!--</table>-->
-
-                                        <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">-->
-                                            <!--<tbody>-->
-                                                <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                    <!--<th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">-->
-                                                        <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">-->
-                                                            <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                <!--<th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">-->
-                                                                    <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">-->
-                                                                        <!--<tbody>-->
-                                                                            <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                                <!--<td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>-->
-                                                                            <!--</tr>-->
-                                                                        <!--</tbody>-->
-                                                                    <!--</table> -->
-                                                                    <!--<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">© copyright nobody<br />-->
-                                                                    <!--<a href="#" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">hello@nocopyright.com</a> | <a href="#" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">Manage Email Notifications</a> | <a href="#" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">Unsubscribe</a>-->
-                                                                    <!--</p>-->
-                                                                    <!--<center data-parsed="" style="width: 100%; min-width: 532px;">-->
-                                                                        <!--<table align="center" style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: center; width: auto !important; float: none; margin: 0 auto; padding: 0;">-->
-                                                                            <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                                <!--<td style="word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left" valign="top">-->
-                                                                                    <!--<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">-->
-                                                                                        <!--<tr style="vertical-align: top; padding: 0;" align="left">-->
-                                                                                            <!--<th style="float: none; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 10px;" align="center">-->
-                                                                                                <!--<a href="undefined" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">-->
-                                                                                                    <!--<img src="http://placehold.it/25" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; clear: both; display: block; border: none;" />-->
-                                                                                                <!--</a>-->
-                                                                                            <!--</th>-->
-                                                                                            <!--<th style="float: none; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 10px;" align="center">-->
-                                                                                                <!--<a href="undefined" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">-->
-                                                                                                    <!--<img src="http://placehold.it/25" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; clear: both; display: block; border: none;" />-->
-                                                                                                <!--</a>-->
-                                                                                            <!--</th>-->
-                                                                                            <!--<th style="float: none; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 10px;" align="center">-->
-                                                                                                <!--<a href="undefined" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">-->
-                                                                                                    <!--<img src="http://placehold.it/25" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; clear: both; display: block; border: none;" />-->
-                                                                                                <!--</a>-->
-                                                                                            <!--</th>-->
-                                                                                            <!--<th style="float: none; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 10px;" align="center">-->
-                                                                                                <!--<a href="undefined" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">-->
-                                                                                                    <!--<img src="http://placehold.it/25" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; clear: both; display: block; border: none;" />-->
-                                                                                                <!--</a>-->
-                                                                                            <!--</th>-->
-                                                                                            <!--<th style="float: none; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 10px;" align="center">-->
-                                                                                                <!--<a href="undefined" style="color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 1.3; text-decoration: none; margin: 0; padding: 0;">-->
-                                                                                                    <!--<img src="http://placehold.it/25" alt="" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; clear: both; display: block; border: none;" />-->
-                                                                                                <!--</a>-->
-                                                                                            <!--</th>-->
-                                                                                        <!--</tr>-->
-                                                                                    <!--</table>-->
-                                                                                <!--</td>-->
-                                                                            <!--</tr>-->
-                                                                        <!--</table>-->
-                                                                    <!--</center>-->
-                                                                <!--</th>-->
-                                                                <!--<th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">-->
-                                                                <!--</th>-->
-                                                            <!--</tr>-->
-                                                        <!--</table>-->
-                                                    <!--</th>-->
-                                                <!--</tr>-->
-                                            <!--</tbody>-->
-                                        <!--</table>-->
-
-                                        <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                                            <tbody>
-                                                <tr style="vertical-align: top; padding: 0;" align="left">
-                                                    <td height="16px" style="font-size: 16px; line-height: 16px; word-wrap: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse !important; mso-line-height-rule: exactly; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; margin: 0; padding: 0;" align="left" valign="top"> </td>
-                                                </tr>
-                                            </tbody>
-                                        </table> 
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </center>
-                </td>
-            </tr>
-        </table>
-        <!-- prevent Gmail on iOS font size manipulation -->
-        <div style="display: none; white-space: nowrap; font: 15px courier;">                                                             </div>
-    </body>
-</html>
+<!--Coordinates-->
+<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
+    <tbody>
+        <tr style="vertical-align: top; padding: 0;" align="left">
+            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
+                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
+                    <tr style="vertical-align: top; padding: 0;" align="left">
+                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Coordonnées complètes</p>
+                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">
+                            {{ job_application.candidate_name }}<br />
+                            {{ job_application.candidate_address }}<br />
+                            {{ job_application.candidate_phone }}<br />
+                            {{ job_application.candidate_email }}<br />
+                            </p>
+                        </th>
+                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
+                        </th>
+                    </tr>
+                </table>
+            </th>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}

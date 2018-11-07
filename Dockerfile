@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt update -y && \
-    apt install -y python3 python3-pip postgresql-client-common
+    apt install -y python3 python3-pip postgresql-client-common npm
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 RUN ln -s /usr/bin/pip3 /usr/local/bin/pip
 
@@ -9,9 +9,13 @@ COPY . /jepostule
 WORKDIR /jepostule
 
 RUN pip install -r requirements/prod.txt
+RUN npm install -g
 
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 EXPOSE 8000
+
+RUN rm -r static/ && ./manage.py collectstatic --no-input
+
 CMD uwsgi --module=config.wsgi:application \
     --master \
     --http=0.0.0.0:8000 \
