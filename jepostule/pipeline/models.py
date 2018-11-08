@@ -8,7 +8,7 @@ class JobApplication(models.Model):
     Store all application-related data, except for the attachments.
     """
     ANSWER_REJECTION = 0
-    ANSWER_DETAILS = 1
+    ANSWER_REQUEST_INFO = 1
     ANSWER_INTERVIEW = 2
 
     candidate_email = models.CharField(max_length=64, db_index=True)
@@ -67,23 +67,59 @@ class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
-class AnswerInterview(Answer):
-    LOCATION_ONSITE = 'onsite'
-    LOCATION_PHONE = 'phone'
-    LOCATION_VIDEO = 'video'
-
-    datetime = models.DateTimeField(blank=True)
-    location = models.CharField(
+class AnswerRejection(Answer):
+    REASON_UNKNOWN = 'unknown'
+    REASON_PROFILE = 'profile'
+    REASON_NO_VACANCY = 'novacancy'
+    REASONS = dict((
+        (REASON_UNKNOWN, "Je préfère ne pas expliciter"),
+        (REASON_PROFILE, "Le profil ne convient pas aux exigences du poste"),
+        (REASON_NO_VACANCY, "Pas de poste disponible pour le moment"),
+    ))
+    reason = models.CharField(
         max_length=16, blank=False,
-        choices=(
-            (LOCATION_ONSITE, "dans l'entreprise"),
-            (LOCATION_PHONE, "par téléphone"),
-            (LOCATION_VIDEO, "en visio conférence"),
-        ),
-        default=LOCATION_ONSITE,
+        choices=REASONS.items(),
+        default=REASON_UNKNOWN,
     )
+    message = models.TextField(blank=True)
+
+    @property
+    def reason_verbose(self):
+        return self.REASONS[self.reason]
+
+
+class AnswerEmployerInfo(Answer):
     employer_name = models.CharField(max_length=128, blank=True)
     employer_email = models.EmailField(max_length=128, blank=True)
     employer_phone = models.CharField(max_length=32, blank=True)
     employer_address = models.CharField(max_length=256, blank=True)
     message = models.TextField(blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class AnswerRequestInfo(AnswerEmployerInfo):
+    pass
+
+
+class AnswerInterview(AnswerEmployerInfo):
+    LOCATION_ONSITE = 'onsite'
+    LOCATION_PHONE = 'phone'
+    LOCATION_VIDEO = 'video'
+    LOCATIONS = dict((
+        (LOCATION_ONSITE, "dans l'entreprise"),
+        (LOCATION_PHONE, "par téléphone"),
+        (LOCATION_VIDEO, "en visio conférence"),
+    ))
+
+    datetime = models.DateTimeField(blank=True)
+    location = models.CharField(
+        max_length=16, blank=False,
+        choices=LOCATIONS.items(),
+        default=LOCATION_ONSITE,
+    )
+
+    @property
+    def location_verbose(self):
+        return self.LOCATIONS[self.location]

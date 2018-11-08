@@ -2,5 +2,8 @@
   "dependencies": {
     "jquery-datetimepicker": "^2.5.20",
     "yuglify": "^2.0.0"
+  },
+  "scripts": {
+      "postinstall": "cp node_modules/jquery/dist/jquery.min.js node_modules/jquery-datetimepicker/build/jquery.datetimepicker.full.js node_modules/jquery-datetimepicker/build/jquery.datetimepicker.min.css jepostule/static/vendor/"
   }
 }

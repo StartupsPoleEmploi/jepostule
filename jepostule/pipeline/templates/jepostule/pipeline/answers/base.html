@@ -16,11 +16,6 @@
         </div>
 
         {% javascript 'answer' %}
-        <script>
-            $.datetimepicker.setLocale('fr');
-            $("[name='datetime']").datetimepicker({
-                format: 'd/m/Y H:i'
-            });
-        </script>
+        {% block footer %}{% endblock %}
     </body>
 </html>

@@ -1,4 +1,5 @@
 from datetime import datetime
+from unittest import mock
 
 from django.contrib.auth.models import User
 from django.test import TestCase
@@ -9,6 +10,20 @@ from django.utils import timezone
 from jepostule.pipeline import forms
 from jepostule.pipeline import models
 
+
+def interview_form_data(**kwargs):
+    data = {
+        'location': models.AnswerInterview.LOCATION_ONSITE,
+        'datetime': '31/12/2018 08:00',
+        'employer_name': 'Jessica Lange',
+        'employer_email': 'jessica@example.com',
+        'employer_phone': '0123456789',
+        'employer_address': 'Hollywood Blvd',
+        'message': 'Thanks for your application!',
+    }
+    for k, v in kwargs.items():
+        data[k] = v
+    return data
 
 class EmailViewsTests(TestCase):
 
@@ -53,15 +68,7 @@ class AnswerViewsTests(TestCase):
                 'pipeline:answer',
                 kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
             ),
-            data={
-                'location': models.AnswerInterview.LOCATION_ONSITE,
-                'datetime': '31/12/2018 08:00',
-                'employer_name': 'Jessica Lange',
-                'employer_email': 'jessica@example.com',
-                'employer_phone': '0123456789',
-                'employer_address': 'Hollywood Blvd',
-                'message': 'Thanks for your application!',
-            }
+            data=interview_form_data(),
         )
 
         self.assertEqual(200, response.status_code)
@@ -74,3 +81,36 @@ class AnswerViewsTests(TestCase):
             timezone.make_aware(datetime(2018, 12, 31, 8)).astimezone(timezone.utc),
             job_application.answer.answerinterview.datetime
         )
+
+    def test_answer_twice(self):
+        job_application = models.JobApplication.objects.create()
+        self.client.post(
+            reverse(
+                'pipeline:answer',
+                kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
+            ),
+            data=interview_form_data(),
+        )
+        response = self.client.post(
+            reverse(
+                'pipeline:answer',
+                kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
+            ),
+            data=interview_form_data(),
+        )
+        self.assertIn('Vous avez déjà répondu à cette candidature', response.content.decode())
+
+
+class FormsTests(TestCase):
+
+    def test_interview_answer_form_with_datetime_in_the_past(self):
+        job_application = models.JobApplication.objects.create()
+        with mock.patch.object(forms, 'now', return_value=timezone.make_aware(datetime(2018, 12, 31, 7, 59))):
+            form = forms.InterviewForm(job_application, interview_form_data())
+            self.assertEqual({}, form.errors)
+            self.assertTrue(form.is_valid())
+
+        with mock.patch.object(forms, 'now', return_value=timezone.make_aware(datetime(2018, 12, 31, 8, 1))):
+            form = forms.InterviewForm(job_application, interview_form_data())
+            self.assertIn('datetime', form.errors)
+            self.assertFalse(form.is_valid())

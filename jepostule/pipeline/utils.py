@@ -22,7 +22,7 @@ def send_mail(subject, message, from_email, recipient_list,
     if reply_to is not None and not isinstance(reply_to, tuple) and not isinstance(reply_to, list):
         raise ValueError("'reply_to' is of invalid type {}".format(reply_to.__class__))
     connection = mail.get_connection()
-    message = mail.EmailMultiAlternatives(
+    message = mail.EmailMessage(
         subject, message, from_email, recipient_list,
         connection=connection,
         reply_to=reply_to,

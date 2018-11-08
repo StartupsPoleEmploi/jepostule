@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="162px" height="69px" viewBox="0 0 162 69" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>picto-valider-bleu</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="30.3858108%" y1="27.8565858%" x2="190.747281%" y2="184.253419%" id="linearGradient-1">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#D8D8D8" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="maquette-postuler" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Proposer-un-entretien-mail-envoyé" transform="translate(-430.000000, -255.000000)">
+            <g id="picto-valider-bleu" transform="translate(430.000000, 257.000000)">
+                <g id="Group">
+                    <path d="M114,32.5 C114,50.4493539 99.4495258,65 81.5003839,65 C63.5512419,65 49,50.4493539 49,32.5 C49,14.5506461 63.5512419,0 81.5003839,0 C99.4495258,0 114,14.5506461 114,32.5 Z" id="Stroke-3" stroke="#4A90E2" stroke-width="4" fill="url(#linearGradient-1)"></path>
+                    <polyline id="Stroke-5" stroke="#4A90E2" stroke-width="7" stroke-linecap="round" points="67 27.7134043 79.4716038 42 96 23"></polyline>
+                    <path d="M2.10526316,33.2105168 C0.904084042,32.9666903 0,31.9047147 0,30.6315789 C0,29.3584432 0.904084042,28.2964676 2.10526316,28.0526411 L2.10526316,28 L40,28 L40,33.2631579 L2.10526316,33.2631579 L2.10526316,33.2105168 Z" id="Combined-Shape" fill="#4A90E2" fill-rule="nonzero"></path>
+                    <path d="M21.1388889,39.9952527 C21.0930008,39.9984003 21.0466872,40 21,40 C19.8954305,40 19,39.1045695 19,38 C19,36.8954305 19.8954305,36 21,36 C21.0466872,36 21.0930008,36.0015997 21.1388889,36.0047473 L21.1388889,36 L39.8055556,36 L39.8055556,40 L21.1388889,40 L21.1388889,39.9952527 Z" id="Combined-Shape" fill="#4A90E2" fill-rule="nonzero"></path>
+                    <path d="M124.135417,32.271336 C122.934427,32.1163095 122,30.9182561 122,29.4633075 C122,28.008359 122.934427,26.8103056 124.135417,26.6552791 L124.135417,26.6383075 L162,26.6383075 L162,32.2883075 L124.135417,32.2883075 L124.135417,32.271336 Z" id="Combined-Shape" fill="#4A90E2" fill-rule="nonzero" transform="translate(142.000000, 29.463308) scale(-1, 1) translate(-142.000000, -29.463308) "></path>
+                    <path d="M140.836364,35.6475347 C141.9009,35.7447966 142.733333,36.5989687 142.733333,37.6383075 C142.733333,38.6776464 141.9009,39.5318185 140.836364,39.6290804 L140.836364,39.6383075 L122,39.6383075 L122,35.6383075 L140.836364,35.6383075 L140.836364,35.6475347 Z" id="Combined-Shape" fill="#4A90E2" fill-rule="nonzero"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

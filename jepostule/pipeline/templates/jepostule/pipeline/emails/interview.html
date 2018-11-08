@@ -3,17 +3,17 @@
 
 {% block content %}
 <!--intro-->
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;">L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;" align="center">Proposition d'entretien d'embauche</p>
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;">L'entretien se déroulera {{ answer.location }}.</p>
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;">Si vous êtes disponible, {{ answer.employer_name }} aimerait vous rencontrer le {{ answer.datetime.date }} à {{ answer.datetime.time }}.</p>
+<p style="margin: 0 16px 10px; padding: 0;">L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
+<p style="font-weight: bold; margin: 0 16px 10px; padding: 0;" align="center">Proposition d'entretien d'embauche</p>
+<p style="margin: 0 16px 10px; padding: 0;">L'entretien se déroulera {{ answer.location_verbose }}.</p>
+<p style="margin: 0 16px 10px; padding: 0;">Si vous êtes disponible, {{ answer.employer_name }} aimerait vous rencontrer le {{ answer.datetime.date }} à {{ answer.datetime.time }}.</p>
 {% if answer.message %}
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;">{{ answer.message|linebreaksbr }}</p>
+<p style="margin: 0 16px 10px; padding: 0;">{{ answer.message|linebreaksbr }}</p>
 {% endif %}
 
 <!--demandes complémentaires-->
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;" align="center">Pour toute demande complémentaire au recruteur</p>
-<p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 16px 10px; padding: 0;" align="center">
+<p style="font-weight: bold; margin: 0 16px 10px; padding: 0;" align="center">Pour toute demande complémentaire au recruteur</p>
+<p style="margin: 0 16px 10px; padding: 0;" align="center">
 {{ answer.employer_name }}<br />
 {{ answer.employer_phone }}<br />
 {{ answer.employer_email }}<br />

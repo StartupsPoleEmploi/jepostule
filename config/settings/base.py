@@ -97,10 +97,9 @@ USE_TZ = True
 
 # Static assets management
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = '/tmp/jepostule/static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'jepostule', 'static'),
-    os.path.join(BASE_DIR, 'node_modules'),
 ]
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATICFILES_FINDERS = (
@@ -113,8 +112,8 @@ PIPELINE = {
     'JAVASCRIPT': {
         'answer': {
             'source_filenames': (
-              'jquery/dist/jquery.min.js',
-              'jquery-datetimepicker/build/jquery.datetimepicker.full.js',
+              'vendor/jquery.min.js',
+              'vendor/jquery.datetimepicker.full.js',
             ),
             'output_filename': 'js/answer.js',
         }
@@ -122,10 +121,18 @@ PIPELINE = {
     'STYLESHEETS': {
         'answer': {
             'source_filenames': (
-                'pipeline/css/form.css',
-                'jquery-datetimepicker/build/jquery.datetimepicker.min.css',
+                'css/jepostule-base.css',
+                'css/pipeline-form.css',
+                'vendor/jquery.datetimepicker.min.css',
             ),
             'output_filename': 'css/answer.css',
+        },
+        'embed': {
+            'source_filenames': (
+                'css/jepostule-base.css',
+                'css/embed-iframe.css',
+            ),
+            'output_filename': 'css/embed.css',
         },
     },
 }

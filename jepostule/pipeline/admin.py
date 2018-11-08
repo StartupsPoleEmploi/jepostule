@@ -37,10 +37,11 @@ class JobApplicationAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     search_fields = ('created_at', 'candidate_email', 'employer_email', 'job', 'coordinates',)
     sortable_by = ('created_at', 'candidate_email', 'employer_email',)
-    readonly_fields = ('view_answer',)
+    readonly_fields = ('employer_answer',)
     inlines = (JobApplicationEventInlineAdmin,)
 
-    def view_answer(self, obj):
+    def employer_answer(self, obj):
+        # This will display "-" in case there is no answer
         url = reverse(
             'pipeline:email_answer',
             kwargs={'answer_id': obj.answer.id}

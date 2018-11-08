@@ -1,0 +1,16 @@
+@font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans-Regular.ttf") format("opentype");
+}
+@font-face {
+    font-family: "Open Sans";
+    src: url("../fonts/OpenSans-Bold.ttf") format("opentype");
+    font-weight: bold;
+}
+
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: "Open Sans", "Verdana", sans-serif;
+}

@@ -5,6 +5,7 @@ ALLOWED_HOSTS = [
     'jepostule.pole-emploi.fr',
     'localhost',
 ]
+STATIC_ROOT = '/var/www/jepostule/static'
 
 # SECRET_KEY = 'setme'
 DATABASES['default']['HOST'] = 'postgres'

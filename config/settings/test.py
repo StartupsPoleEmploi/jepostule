@@ -1,6 +1,8 @@
 from .base import * # pylint: disable=unused-wildcard-import
 
 REDIS_DB = 1
+PIPELINE['PIPELINE_ENABLED'] = False
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 
 LOGGING['handlers'] = {
     'console': {

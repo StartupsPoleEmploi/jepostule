@@ -2,11 +2,23 @@
 {% block title %}{{ form.title }}{% endblock %}
 {% block contenttitle %}{{ form.title }}{% endblock %}
 {% block content %}
-    <p><b>Proposer un entretien à {{ job_application.candidate_name }} pour le poste de {{ job_application.job }}</b><p>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form }}
-        <p></p>
-        <button type="submit">Proposer un entretien</button>
-    </form>
+<p><b>Proposer un entretien à {{ job_application.candidate_name }} pour le poste de {{ job_application.job }}</b><p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <p></p>
+    <button type="submit">Proposer un entretien</button>
+</form>
+{% endblock %}
+
+{% block footer %}
+<script>
+    (function() {
+        $.datetimepicker.setLocale('fr');
+        $("[name='datetime']").datetimepicker({
+            format: '{{ form.date_format_js }}',
+            startDate: '{{ form.min_datetime_str }}'
+        });
+    }());
+</script>
 {% endblock %}

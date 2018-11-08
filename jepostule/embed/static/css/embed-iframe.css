@@ -1,8 +1,4 @@
-* {
-    box-sizing: border-box;
-}
 body {
-    font-family: Helvetica, "Open Sans", sans-serif;
     margin: auto;
     background-color: white;
     color: #4A4A4A;
@@ -52,7 +48,6 @@ a:visited {
     color: #4A4A4A;
 }
 a.back, a.back:visited {
-    font-family: Signika, "Open Sans", sans-serif;
     display: inline-block;
 }
 .modify-link {

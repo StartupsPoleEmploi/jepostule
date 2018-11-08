@@ -45,7 +45,6 @@ def subscribe(topic):
     Decorator for asynchronous tasks. This adds utility methods and attributes
     to decorated functions:
 
-        topic (str): name of the topic subscribed to
         run_async(*args, **kwargs): delay execution of function
         consume(): execute pending tasks
 
@@ -64,7 +63,6 @@ def subscribe(topic):
             produce(topic, *args, **kwargs)
         def consume_topic():
             consume(topic)
-        func.topic = topic
         func.run_async = run_async
         func.consume = consume_topic
         return func
