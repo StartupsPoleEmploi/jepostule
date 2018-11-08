@@ -1,0 +1,12 @@
+{% extends "jepostule/pipeline/answers/base.html" %}
+{% block title %}{{ form.title }}{% endblock %}
+{% block contenttitle %}{{ form.title }}{% endblock %}
+{% block content %}
+<p><b>À l'intention de {{ job_application.candidate_name }}</b><p>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <p></p>
+    <button type="submit">Voir le récapitulatif de votre email</button>
+</form>
+{% endblock %}
