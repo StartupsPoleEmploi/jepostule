@@ -1,11 +1,1 @@
-{% extends "jepostule/pipeline/answers/base.html" %}
-{% block title %}{{ form.title }}{% endblock %}
-{% block contenttitle %}{{ form.title }}{% endblock %}
-{% block content %}
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <p></p>
-    <button type="submit">Envoyer</button>
-</form>
-{% endblock %}
+{% extends "jepostule/pipeline/answers/form.html" %}

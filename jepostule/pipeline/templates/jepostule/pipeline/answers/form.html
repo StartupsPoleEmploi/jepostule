@@ -1,0 +1,14 @@
+{% extends "jepostule/pipeline/answers/base.html" %}
+{% block title %}{{ form.title }}{% endblock %}
+{% block contenttitle %}{{ form.title }}{% endblock %}
+
+{% block content %}
+<p><b>{% block contentintro %}{% endblock %}</b></p>
+
+<form action="{% url 'pipeline:preview_answer' answer_uuid=answer_uuid status=status  %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <p></p>
+    <button type="submit">Voir le récapitulatif de votre email</button>
+</form>
+{% endblock %}

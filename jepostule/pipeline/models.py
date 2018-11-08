@@ -70,23 +70,27 @@ class Answer(models.Model):
 
 class AnswerRejection(Answer):
     REASON_UNKNOWN = 'unknown'
-    REASON_PROFILE = 'profile'
     REASON_NO_VACANCY = 'novacancy'
-    REASONS = dict((
+    REASON_EXPERIENCE = 'experience'
+    REASON_SKILLS = 'skills'
+    REASON_EDUCATION = 'education'
+    REASONS = [
         (REASON_UNKNOWN, "Je préfère ne pas expliciter"),
-        (REASON_PROFILE, "Le profil ne convient pas aux exigences du poste"),
-        (REASON_NO_VACANCY, "Pas de poste disponible pour le moment"),
-    ))
+        (REASON_NO_VACANCY, "Pas de poste de ce type disponible pour le moment"),
+        (REASON_EXPERIENCE, "Expérience non adaptée au poste au sein de notre entreprise"),
+        (REASON_SKILLS, "Compétences non adaptées au poste au sein de notre entreprise"),
+        (REASON_EDUCATION, "Formations/Qualifications insuffisantes/inadaptées au poste au sein de notre entreprise"),
+    ]
     reason = models.CharField(
         max_length=16, blank=False,
-        choices=REASONS.items(),
+        choices=REASONS,
         default=REASON_UNKNOWN,
     )
     message = models.TextField(blank=True)
 
     @property
     def reason_verbose(self):
-        return self.REASONS[self.reason]
+        return dict(self.REASONS)[self.reason]
 
 
 class AnswerEmployerInfo(Answer):

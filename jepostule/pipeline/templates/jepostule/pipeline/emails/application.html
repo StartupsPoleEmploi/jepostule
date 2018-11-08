@@ -2,64 +2,13 @@
 {% block title %}Candidature au poste de {{ job_application.job }}{% endblock %}
 
 {% block content %}
-<!--intro-->
-<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-    <tbody>
-        <tr style="vertical-align: top; padding: 0;" align="left">
-            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                    <tr style="vertical-align: top; padding: 0;" align="left">
-                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">Votre entreprise intéresse {{ job_application.candidate_name }} qui vous propose de découvrir sa candidature.</p>
-                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Candidature spontanée au poste de {{ job_application.job }}</p>
-                        </th>
-                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                        </th>
-                    </tr>
-                </table>
-            </th>
-        </tr>
-    </tbody>
-</table>
+<p style="margin: 0 16px 10px; padding: 0;">{{ job_application.candidate_name }} vous propose de découvrir sa candidature</p>
+<p style="margin: 32px 16px 10px; padding: 0; font-weight: bold;" align="center">Candidature spontanée - {{ job_application.job }}</p>
 
-<!--Message-->
-<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-    <tbody>
-        <tr style="vertical-align: top; padding: 0;" align="left">
-            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                    <tr style="vertical-align: top; padding: 0;" align="left">
-                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
-                        </th>
-                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                        </th>
-                    </tr>
-                </table>
-            </th>
-        </tr>
-    </tbody>
-</table>
+<p style="margin: 0 16px 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
 
 <!--Vous pouvez répondre-->
-<table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
-    <tbody>
-        <tr style="vertical-align: top; padding: 0;" align="left">
-            <th style="width: 564px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0 auto; padding: 0 16px 16px;" align="left">
-                <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
-                    <tr style="vertical-align: top; padding: 0;" align="left">
-                        <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                            <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0;" align="center">Vous pouvez répondre en 3 clics à {{ job_application.candidate_name }}</p>
-                        </th>
-                        <th style="visibility: hidden; width: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                        </th>
-                    </tr>
-                </table>
-            </th>
-        </tr>
-    </tbody>
-</table>
-
+<p style="margin: 32px 16px 10px; padding: 0; font-weight: bold" align="center">Quelle réponse souhaitez-vous lui apporter ?</p>
 
 <!--Liens réponse-->
 <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; position: relative; display: table; padding: 0;">
@@ -69,7 +18,7 @@
                 <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                     <tr style="vertical-align: top; padding: 0;" align="left">
                         <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #D0021B; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_REJECTION %}" style="color: #D0021B; text-decoration: none;" target="_blank">Refuser <br />la candidature</a></p>
+                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #D0021B; border-radius: 3px;" align="center"><a href="{% url 'pipeline:send_answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_REJECTION %}" style="color: #D0021B; text-decoration: none;" target="_blank">Refuser <br />la candidature</a></p>
                         </th>
                     </tr>
                 </table>
@@ -78,7 +27,7 @@
                 <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                     <tr style="vertical-align: top; padding: 0;" align="left">
                         <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #F5A623; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_REQUEST_INFO %}" style="color: #F5A623; text-decoration: none;" target="_blank">Demander plus <br />d'informations</a></p>
+                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #F5A623; border-radius: 3px;" align="center"><a href="{% url 'pipeline:send_answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_REQUEST_INFO %}" style="color: #F5A623; text-decoration: none;" target="_blank">Demander plus <br />d'informations</a></p>
                         </th>
                     </tr>
                 </table>
@@ -87,7 +36,7 @@
                 <table style="border-spacing: 0; border-collapse: collapse; vertical-align: top; text-align: left; width: 100%; padding: 0;">
                     <tr style="vertical-align: top; padding: 0;" align="left">
                         <th style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; font-size: 16px; margin: 0; padding: 0;" align="left">
-                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #02BE72; border-radius: 3px;" align="center"><a href="{% url 'pipeline:answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_INTERVIEW %}" style="color: #02BE72;; text-decoration: none;" target="_blank">Proposer <br />un entretien</a></p>
+                            <p style="font-family: Helvetica, Arial, sans-serif; font-weight: bold; line-height: 1.3; font-size: 16px; margin: 0 0 10px; padding: 0; border: 2px solid #02BE72; border-radius: 3px;" align="center"><a href="{% url 'pipeline:send_answer' answer_uuid=job_application.answer_uuid status=job_application.ANSWER_INTERVIEW %}" style="color: #02BE72;; text-decoration: none;" target="_blank">Proposer <br />un entretien</a></p>
                         </th>
                     </tr>
                 </table>

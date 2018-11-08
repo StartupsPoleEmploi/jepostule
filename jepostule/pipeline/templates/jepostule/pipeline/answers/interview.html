@@ -1,15 +1,6 @@
-{% extends "jepostule/pipeline/answers/base.html" %}
-{% block title %}{{ form.title }}{% endblock %}
-{% block contenttitle %}{{ form.title }}{% endblock %}
-{% block content %}
-<p><b>Proposer un entretien à {{ job_application.candidate_name }} pour le poste de {{ job_application.job }}</b><p>
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <p></p>
-    <button type="submit">Proposer un entretien</button>
-</form>
-{% endblock %}
+{% extends "jepostule/pipeline/answers/form.html" %}
+
+{% block contentintro %}Proposer un entretien à {{ job_application.candidate_name }} pour le poste de {{ job_application.job }}{% endblock %}
 
 {% block footer %}
 <script>

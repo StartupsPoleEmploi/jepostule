@@ -1,6 +1,10 @@
 {% extends "jepostule/pipeline/answers/base.html" %}
+{% load static %}
 {% block title %}{{ form.title }}{% endblock %}
 {% block contenttitle %}{{ form.title }}{% endblock %}
 {% block content %}
-<p class="center"><b>{{ form.success_message }}</b><p>
+<div class="center">
+    <img src="{% static 'img/icons/valider-blue.svg' %}" alt="" class="img-result">
+</div>
+<h2 class="center">{{ form.success_message }}</h2>
 {% endblock %}

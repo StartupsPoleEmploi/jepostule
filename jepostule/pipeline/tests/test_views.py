@@ -55,7 +55,7 @@ class AnswerViewsTests(TestCase):
     def test_answer_interview_get(self):
         job_application = models.JobApplication.objects.create()
         response = self.client.get(reverse(
-            'pipeline:answer',
+            'pipeline:send_answer',
             kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
         ))
 
@@ -65,7 +65,7 @@ class AnswerViewsTests(TestCase):
         job_application = models.JobApplication.objects.create()
         response = self.client.post(
             reverse(
-                'pipeline:answer',
+                'pipeline:send_answer',
                 kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
             ),
             data=interview_form_data(),
@@ -86,14 +86,14 @@ class AnswerViewsTests(TestCase):
         job_application = models.JobApplication.objects.create()
         self.client.post(
             reverse(
-                'pipeline:answer',
+                'pipeline:send_answer',
                 kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
             ),
             data=interview_form_data(),
         )
         response = self.client.post(
             reverse(
-                'pipeline:answer',
+                'pipeline:send_answer',
                 kwargs={'answer_uuid': job_application.answer_uuid, 'status': models.JobApplication.ANSWER_INTERVIEW}
             ),
             data=interview_form_data(),

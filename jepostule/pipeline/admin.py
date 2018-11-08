@@ -2,18 +2,18 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .models import JobApplication, JobApplicationEvent
+from . import models
 
 
 class JobApplicationEventAdminMixin:
     def visualize(self, obj):
-        if obj.name == JobApplicationEvent.SENT_TO_EMPLOYER:
+        if obj.name == models.JobApplicationEvent.SENT_TO_EMPLOYER:
             url = reverse(
                 'pipeline:email_application',
                 kwargs={'job_application_id': obj.job_application.id}
             )
             return format_html("<a href='{url}' target='_blank' rel='noopener'>Email</a>", url=url)
-        if obj.name == JobApplicationEvent.CONFIRMED_TO_CANDIDATE:
+        if obj.name == models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE:
             url = reverse(
                 'pipeline:email_confirmation',
                 kwargs={'job_application_id': obj.job_application.id}
@@ -24,12 +24,12 @@ class JobApplicationEventAdminMixin:
 
 
 class JobApplicationEventInlineAdmin(admin.TabularInline, JobApplicationEventAdminMixin):
-    model = JobApplicationEvent
+    model = models.JobApplicationEvent
     readonly_fields = ('created_at', 'name', 'value', 'visualize')
     extra = 0
 
 
-@admin.register(JobApplication)
+@admin.register(models.JobApplication)
 class JobApplicationAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
     list_display = ('id', 'candidate_email', 'employer_email',)
@@ -49,7 +49,7 @@ class JobApplicationAdmin(admin.ModelAdmin):
         return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer</a>", url=url)
 
 
-@admin.register(JobApplicationEvent)
+@admin.register(models.JobApplicationEvent)
 class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
     date_hierarchy = 'created_at'
     list_display = ('id', 'name', 'value', 'candidate_email', 'employer_email', 'visualize',)
@@ -67,3 +67,8 @@ class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
 
     def employer_email(self, obj):
         return obj.job_application.employer_email
+
+
+@admin.register(models.Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    pass
