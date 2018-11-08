@@ -35,9 +35,7 @@ def send_application_to_employer(job_application_id, attachments=None):
     subject = "Candidature spontanée - {}".format(
         job_application.job,
     )
-    message = get_template('jepostule/pipeline/emails/application.html').render({
-        'job_application': job_application
-    })
+    message = get_application_message(job_application)
     send_mail(subject, message,
               settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
               reply_to=[job_application.candidate_email],
@@ -57,8 +55,18 @@ def send_confirmation_to_candidate(job_application_id):
     job_application = JobApplication.objects.get(id=job_application_id)
     # TODO fix subject
     subject = "Votre candidature a bien été envoyée"
-    message = get_template('jepostule/pipeline/emails/confirmation.html').render({
-        'job_application': job_application
-    })
+    message = get_confirmation_message(job_application)
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY, [job_application.candidate_email])
     job_application.events.create(name=JobApplicationEvent.CONFIRMED_TO_CANDIDATE)
+
+
+def get_application_message(job_application):
+    return get_template('jepostule/pipeline/emails/application.html').render({
+        'job_application': job_application
+    })
+
+
+def get_confirmation_message(job_application):
+    return get_template('jepostule/pipeline/emails/confirmation.html').render({
+        'job_application': job_application
+    })

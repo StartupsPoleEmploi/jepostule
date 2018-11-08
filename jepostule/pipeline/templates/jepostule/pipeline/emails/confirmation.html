@@ -1,17 +1,12 @@
-{% extends "jepostule/pipeline/emails/base.html" %}
-{% block title %}Candidature au poste de {{ job_application.job }}{% endblock %}
-
-{% block content %}
-<p style="margin: 32px 16px 10px; padding: 0;" align="center">Candidature spontanée au poste de {{ job_application.job }}</p>
-<p style="font-weight: bold; margin: 32px 16px 10px; padding: 0;" align="center">Entreprise contactée</p>
-<p style="margin: 0 16px 10px; padding: 0;" align="center">
+<p style="margin: 32px 0 10px; padding: 0;" align="center">Candidature spontanée au poste de {{ job_application.job }}</p>
+<p style="font-weight: bold; margin: 32px 0 10px; padding: 0;" align="center">Entreprise contactée</p>
+<p style="margin: 0 0 10px; padding: 0;" align="center">
 {{ job_application.employer_description }}<br />
 {{ job_application.employer_email }}
 </p>
 
 
-<p style="font-weight: bold; margin: 32px 16px 10px; padding: 0;" align="center">Candidature spontanée - {{ job_application.job }}</p>
-<p style="margin: 32px 16px 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
+<p style="font-weight: bold; margin: 32px 0 10px; padding: 0;" align="center">Candidature spontanée - {{ job_application.job }}</p>
+<p style="margin: 32px 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
 
-<p style="font-weight: bold; margin: 32px 16px 10px; padding: 0;">N'hésitez pas à relancer cette entreprise si vous n'avez pas de nouvelle dans 15 jours.</p>
-{% endblock %}
+<p style="font-weight: bold; margin: 32px 0 10px; padding: 0;">N'hésitez pas à relancer cette entreprise si vous n'avez pas de nouvelle dans 15 jours.</p>

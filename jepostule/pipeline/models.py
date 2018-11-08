@@ -69,6 +69,8 @@ class Answer(models.Model):
 
 
 class AnswerRejection(Answer):
+    answer_type = JobApplication.ANSWER_REJECTION
+
     REASON_UNKNOWN = 'unknown'
     REASON_NO_VACANCY = 'novacancy'
     REASON_EXPERIENCE = 'experience'
@@ -105,10 +107,12 @@ class AnswerEmployerInfo(Answer):
 
 
 class AnswerRequestInfo(AnswerEmployerInfo):
-    pass
+    answer_type = JobApplication.ANSWER_REQUEST_INFO
 
 
 class AnswerInterview(AnswerEmployerInfo):
+    answer_type = JobApplication.ANSWER_INTERVIEW
+
     LOCATION_ONSITE = 'onsite'
     LOCATION_PHONE = 'phone'
     LOCATION_VIDEO = 'video'

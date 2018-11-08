@@ -1,16 +1,10 @@
-{% extends "jepostule/pipeline/emails/base.html" %}
-{% block title %}Refus de candidature{% endblock %}
-
-{% block content %}
-<p style="margin: 0 16px 10px; padding: 0;">L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
-<p style="font-weight: bold; margin: 0 16px 10px; padding: 0;" align="center">Refus de candidature</p>
+<p style="margin: 0 0 10px; padding: 0;">L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
+<p style="font-weight: bold; margin: 0 0 10px; padding: 0;" align="center">Refus de candidature</p>
 
 {% if answer.reason != answer.REASON_UNKNOWN %}
-<p style="margin: 0 16px 10px; padding: 0;">Pour la raison suivante : {{ answer.reason_verbose }}</p>
+<p style="margin: 0 0 10px; padding: 0;">Pour la raison suivante : {{ answer.reason_verbose }}</p>
 {% endif %}
 
 {% if answer.message %}
-<p style="margin: 0 16px 10px; padding: 0;">{{ answer.messaage|linebreaksbr }}</p>
+<p style="margin: 0 0 10px; padding: 0;">{{ answer.messaage|linebreaksbr }}</p>
 {% endif %}
-
-{% endblock %}

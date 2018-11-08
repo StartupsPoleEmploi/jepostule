@@ -4,30 +4,33 @@ from django.views.decorators.http import require_http_methods
 
 from . import forms
 from . import models
+from . import application as application_pipeline
 from . import answer as answer_pipeline
 
 
 @login_required
 def email_application(request, job_application_id):
     job_application = get_object_or_404(models.JobApplication, id=job_application_id)
-    return render(request, 'jepostule/pipeline/emails/application.html', {
-        'job_application': job_application,
-    })
+    return view_email_response(request, application_pipeline.get_application_message(job_application))
 
 
 @login_required
 def email_confirmation(request, job_application_id):
     job_application = get_object_or_404(models.JobApplication, id=job_application_id)
-    return render(request, 'jepostule/pipeline/emails/confirmation.html', {
-        'job_application': job_application,
-    })
+    return view_email_response(request, application_pipeline.get_confirmation_message(job_application))
 
 
 @login_required
 def email_answer(request, answer_id):
     answer = get_object_or_404(models.Answer, id=answer_id)
-    template, context = answer_pipeline.get_answer_template(answer)
-    return render(request, template, context)
+    message = answer_pipeline.get_answer_message(answer)
+    return view_email_response(request, message)
+
+
+def view_email_response(request, message):
+    return render(request, 'jepostule/pipeline/emails/full.html', {
+        'message': message,
+    })
 
 
 @require_http_methods(['GET', 'POST'])
@@ -63,8 +66,8 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
             if is_preview:
                 template = 'jepostule/pipeline/answers/preview.html'
                 context.update({
-                    'subject': "TODO",
-                    'message': "TODO",
+                    'subject': answer_pipeline.get_subject(job_application),
+                    'message': answer_pipeline.get_answer_message_from_instance(form.instance),
                 })
             else:
                 result = form.save()

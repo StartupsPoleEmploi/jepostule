@@ -6,6 +6,12 @@ from .utils import send_mail
 from . import models
 
 
+TEMPLATES = [
+    ('answerinterview', models.JobApplication.ANSWER_INTERVIEW, 'jepostule/pipeline/emails/interview.html'),
+    ('answerrejection', models.JobApplication.ANSWER_REJECTION, 'jepostule/pipeline/emails/rejection.html'),
+    ('answerrequestinfo', models.JobApplication.ANSWER_REQUEST_INFO, 'jepostule/pipeline/emails/request_info.html'),
+]
+
 def send(job_application_id):
     send_answer_to_candidate.run_async(job_application_id)
 
@@ -14,10 +20,8 @@ def send(job_application_id):
 def send_answer_to_candidate(job_application_id):
     job_application = models.JobApplication.objects.get(id=job_application_id)
 
-    subject = "Proposition d'entretien d'embauche - {}".format(
-        job_application.employer_description
-    )
-    template, context = get_answer_template(job_application.answer)
+    subject = get_subject(job_application)
+    template, context = get_answer_message_template(job_application.answer)
     message = get_template(template).render(context)
 
     reply_to = []
@@ -29,21 +33,32 @@ def send_answer_to_candidate(job_application_id):
               reply_to=reply_to)
 
 
-def get_answer_template(answer):
+def get_answer_message(answer):
     """
+    WARNING: answer is an Answer object
+    """
+    template, context = get_answer_message_template(answer)
+    return get_template(template).render(context)
+
+
+def get_answer_message_template(answer):
+    """
+    WARNING: answer is an Answer object
     Return:
         template (str)
         context (dict)
     """
-    if hasattr(answer, 'answerinterview'):
-        template = 'jepostule/pipeline/emails/interview.html'
-        obj = answer.answerinterview
-    elif hasattr(answer, 'answerrejection'):
-        template = 'jepostule/pipeline/emails/rejection.html'
-        obj = answer.answerrejection
-    elif hasattr(answer, 'answerrequestinfo'):
-        template = 'jepostule/pipeline/emails/request_info.html'
-        obj = answer.answerrequestinfo
-    else:
-        raise ValueError('Undefined answer')
-    return template, {'answer': obj}
+    for attr, _, template in TEMPLATES:
+        if hasattr(answer, attr):
+            return template, {'answer': getattr(answer, attr)}
+    raise ValueError('Undefined answer')
+
+
+def get_answer_message_from_instance(answer):
+    for _, answer_type, template in TEMPLATES:
+        if answer.answer_type == answer_type:
+            return get_template(template).render({'answer': answer})
+    raise ValueError('Undefined answer type')
+
+def get_subject(job_application):
+    return "Réponse de l'entreprise {}".format(job_application.employer_description)
