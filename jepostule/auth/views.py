@@ -9,20 +9,6 @@ from . import exceptions
 from . import utils
 
 
-def required_parameters(*parameters):
-    """
-    View decorator to verify that some parameters are present and non-empty.
-    """
-    def decorator(func):
-        def decorated(request, *args, **kwargs):
-            for parameter in parameters:
-                if not getattr(request, request.method).get(parameter):
-                    return missing_parameter_response(parameter)
-            return func(request, *args, **kwargs)
-        return decorated
-    return decorator
-
-
 def catch_credentials_errors(func):
     """
     View decorator to catch authentication exceptions and return the right response.
@@ -35,11 +21,16 @@ def catch_credentials_errors(func):
     return decorated
 
 
-@required_parameters('client_id', 'client_secret', 'candidate_email', 'employer_email')
+@require_POST
+@csrf_exempt
 @catch_credentials_errors
 def application_token(request):
-    utils.verify_client_secret(request.GET['client_id'], request.GET['client_secret'])
-    token, timestamp = utils.make_new_application_token(request.GET['client_id'], request.GET['candidate_email'], request.GET['employer_email'])
+    """
+    This is POST to avoid client secrets passed in clear in the url.
+    """
+    utils.verify_client_secret(request.POST.get('client_id'), request.POST.get('client_secret'))
+    params = dict(request.POST.items())
+    token, timestamp = utils.make_new_application_token(**params)
     return JsonResponse({
         "token": token,
         "timestamp": timestamp,
@@ -49,20 +40,10 @@ def application_token(request):
 @require_POST
 @csrf_exempt
 @catch_credentials_errors
-@required_parameters('client_id', 'token', 'timestamp', 'candidate_email', 'employer_email')
 def application_token_refresh(request):
-    utils.verify_application_token(
-        request.POST['token'],
-        request.POST['client_id'],
-        request.POST['candidate_email'],
-        request.POST['employer_email'],
-        request.POST['timestamp'],
-    )
-    token, timestamp = utils.make_new_application_token(
-        request.POST['client_id'],
-        request.POST['candidate_email'],
-        request.POST['employer_email']
-    )
+    params = dict(request.POST.items())
+    utils.verify_application_token(**params)
+    token, timestamp = utils.make_new_application_token(**params)
     return JsonResponse({
         "token": token,
         "timestamp": timestamp,

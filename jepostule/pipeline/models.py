@@ -16,6 +16,7 @@ class JobApplication(models.Model):
     candidate_last_name = models.CharField(max_length=64)
     candidate_phone = models.CharField(max_length=32)
     candidate_address = models.CharField(max_length=256)
+    candidate_peid = models.CharField(max_length=64, db_index=True)
     employer_email = models.CharField(max_length=64, db_index=True)
     employer_description = models.CharField(max_length=256)
     message = models.TextField(max_length=4000)

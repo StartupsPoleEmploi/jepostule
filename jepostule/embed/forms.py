@@ -28,6 +28,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'candidate_email',
             'candidate_first_name',
             'candidate_last_name',
+            'candidate_peid',
             'employer_email',
             'employer_description',
             'job',
@@ -39,6 +40,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'candidate_email': forms.EmailInput(attrs={'readonly': True}),
             'candidate_first_name': forms.HiddenInput(),
             'candidate_last_name': forms.HiddenInput(),
+            'candidate_peid': forms.HiddenInput(),
             'employer_email': forms.EmailInput(attrs={'readonly': True}),
             'employer_description': forms.TextInput(attrs={'readonly': True}),
             'job': forms.TextInput(attrs={'readonly': True}),
@@ -66,13 +68,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         """
         cleaned_data = super().clean()
         try:
-            auth_utils.verify_application_token(
-                cleaned_data.get('token'),
-                cleaned_data.get('client_id'),
-                cleaned_data.get('candidate_email'),
-                cleaned_data.get('employer_email'),
-                cleaned_data.get('timestamp', 0),
-            )
+            auth_utils.verify_application_token(**cleaned_data)
         except auth_utils.exceptions.AuthError as e:
             raise forms.ValidationError(e.message)
         return cleaned_data

@@ -16,10 +16,7 @@ from .import forms
 @require_http_methods(["GET", "POST"])
 def candidater(request):
     response = get_candidater(request) if request.method == 'GET' else post_candidater(request)
-
-    # TODO test this
-    if request.META.get('HTTP_REFERER'):
-        response['X-Frame-Options'] = "allow-from " + request.META['HTTP_REFERER']
+    response.xframe_options_exempt = True
     return response
 
 
@@ -84,18 +81,19 @@ def demo(request):
     """
     client_id = get_object_or_404(ClientPlatform, client_id=ClientPlatform.DEMO_CLIENT_ID).client_id
     params = {
+        'client_id': client_id,
         'candidate_first_name': 'John',
         'candidate_last_name': 'Doe',
         'candidate_email': 'candidat@example.com',
+        'candidate_peid': '123456789',
         'employer_email': 'employeur@example.com',
         'employer_description': """Uniqlo Europe LTD - 75009 Paris""",
         'siret': '73345678900023',
         'job': 'Boucher',
     }
     params.update(request.GET.items())
-    token, timestamp = auth_utils.make_new_application_token(client_id, params['candidate_email'], params['employer_email'])
+    token, timestamp = auth_utils.make_new_application_token(**params)
     params.update({
-        'client_id': client_id,
         'token': token,
         'timestamp': timestamp,
     })

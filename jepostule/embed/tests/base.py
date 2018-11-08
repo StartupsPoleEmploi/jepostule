@@ -15,6 +15,7 @@ class JobApplicationFormTestCase(TestCase):
             'candidate_last_name': 'Doe',
             'candidate_phone': '0612345678',
             'candidate_address': "Dernier café avant la fin du monde",
+            'candidate_peid': "123456789",
             'employer_email': 'boss@bigco.fr',
             'employer_description': "ACME BigCo Commerce de gros",
             'message': "Bonjour !" * 20,

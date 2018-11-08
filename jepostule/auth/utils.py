@@ -12,12 +12,12 @@ from . import models
 TOKEN_VALIDITY_SECONDS = 30*60
 
 
-def make_new_application_token(client_id, candidate_email, employer_email):
-    timestamp = int(time())
-    return make_application_token(client_id, candidate_email, employer_email, timestamp), timestamp
+def make_new_application_token(**params):
+    params['timestamp'] = int(time())
+    return make_application_token(**params), params['timestamp']
 
 
-def make_application_token(client_id, candidate_email, employer_email, timestamp):
+def make_application_token(**params):
     """
     Create an application token that cannot be reverse computed such that
     candidates cannot apply from or send to any email address.
@@ -39,26 +39,42 @@ def make_application_token(client_id, candidate_email, employer_email, timestamp
     Return:
         token (str)
     """
+    required_keys = sorted([
+        'candidate_email',
+        'candidate_peid',
+        'employer_email',
+        'timestamp',
+    ])
+    client_id = params.get('client_id')
     client_secret = get_client_secret(client_id)
-    string = settings.SECRET_KEY + client_secret
-    string += candidate_email.lower() + employer_email.lower()
-    string += str(int(timestamp))
-    return hashlib.sha256(string.encode()).hexdigest()
+    decoded = settings.SECRET_KEY + client_secret
+
+    for key in required_keys:
+        try:
+            decoded += str(params[key]).lower()
+        except KeyError:
+            raise exceptions.MissingParameter(key)
+
+    return hashlib.sha256(decoded.encode()).hexdigest()
 
 
-def verify_application_token(token, client_id, candidate_email, employer_email, timestamp):
+def verify_application_token(**params):
     try:
-        timestamp = int(float(timestamp))
+        timestamp = int(float(params['timestamp']))
+    except KeyError:
+        raise exceptions.MissingParameter('timestamp')
     except (ValueError, TypeError):
         raise exceptions.InvalidTimestamp
     if timestamp + TOKEN_VALIDITY_SECONDS < time():
         raise exceptions.TokenExpiredError
-    if not token or token != make_application_token(client_id, candidate_email, employer_email, timestamp):
+
+    token = params.get('token')
+    if not token or token != make_application_token(**params):
         raise exceptions.InvalidToken
 
 
 def verify_client_secret(client_id, client_secret):
-    if not client_secret or get_client_secret(client_id) != client_secret:
+    if not client_secret or not client_id or get_client_secret(client_id) != client_secret:
         raise exceptions.InvalidCredentials
 
 
