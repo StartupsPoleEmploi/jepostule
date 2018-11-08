@@ -31,7 +31,6 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'candidate_peid',
             'employer_email',
             'employer_description',
-            'job',
             'siret',
             'message',
         )
@@ -43,7 +42,6 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'candidate_peid': forms.HiddenInput(),
             'employer_email': forms.EmailInput(attrs={'readonly': True}),
             'employer_description': forms.TextInput(attrs={'readonly': True}),
-            'job': forms.TextInput(attrs={'readonly': True}),
             'siret': forms.HiddenInput(),
             # TODO add min_length=100 validation on message?
             'message': forms.Textarea(attrs={'readonly': True}),
@@ -78,10 +76,11 @@ class JobApplicationForm(JobApplicationPartialForm):
     class Meta:
         model = JobApplication
         fields = tuple(list(JobApplicationPartialForm.Meta.fields) + [
-            'candidate_phone', 'candidate_address',
+            'job', 'candidate_phone', 'candidate_address',
         ])
         widgets = JobApplicationPartialForm.Meta.widgets.copy()
         widgets.update({
+            'job': forms.TextInput(attrs={'readonly': True}),
             'candidate_phone': forms.TextInput(attrs={'readonly': True}),
             'candidate_address': forms.TextInput(attrs={'readonly': True}),
         })

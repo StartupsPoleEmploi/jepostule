@@ -69,3 +69,11 @@ class UtilsTests(TestCase):
         models.ClientPlatform.objects.create(client_id='id1', client_secret='secret1')
         self.assertRaises(exceptions.InvalidTimestamp, utils.verify_application_token, token='token', **self.token_params(timestamp='should be integer'))
         self.assertRaises(exceptions.InvalidTimestamp, utils.verify_application_token, token='token', **self.token_params(timestamp=None))
+
+    def test_make_token_with_float(self):
+        models.ClientPlatform.objects.create(client_id='id1', client_secret='secret1')
+        self.assertEqual(
+            utils.make_application_token(**self.token_params(timestamp=1)),
+            utils.make_application_token(**self.token_params(timestamp=1.0))
+        )
+

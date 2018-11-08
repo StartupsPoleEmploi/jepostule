@@ -48,10 +48,11 @@ def make_application_token(**params):
     client_id = params.get('client_id')
     client_secret = get_client_secret(client_id)
     decoded = settings.SECRET_KEY + client_secret
+    params['timestamp'] = str(get_timestamp(**params))
 
     for key in required_keys:
         try:
-            decoded += str(params[key]).lower()
+            decoded += params[key].lower()
         except KeyError:
             raise exceptions.MissingParameter(key)
 
@@ -59,19 +60,20 @@ def make_application_token(**params):
 
 
 def verify_application_token(**params):
-    try:
-        timestamp = int(float(params['timestamp']))
-    except KeyError:
-        raise exceptions.MissingParameter('timestamp')
-    except (ValueError, TypeError):
-        raise exceptions.InvalidTimestamp
-    if timestamp + TOKEN_VALIDITY_SECONDS < time():
+    if get_timestamp(**params) + TOKEN_VALIDITY_SECONDS < time():
         raise exceptions.TokenExpiredError
 
     token = params.get('token')
     if not token or token != make_application_token(**params):
         raise exceptions.InvalidToken
 
+def get_timestamp(**params):
+    try:
+        return int(float(params['timestamp']))
+    except KeyError:
+        raise exceptions.MissingParameter('timestamp')
+    except (ValueError, TypeError):
+        raise exceptions.InvalidTimestamp
 
 def verify_client_secret(client_id, client_secret):
     if not client_secret or not client_id or get_client_secret(client_id) != client_secret:

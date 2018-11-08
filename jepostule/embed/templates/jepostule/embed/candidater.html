@@ -41,7 +41,7 @@
         <h2>Vous recherchez un poste de</h2>
         <p>
             <ul data-errors="job"></ul>
-            <input type="text" name="job" value="{{ form.cleaned_data.job }}">
+            <input type="text" name="job" value="{{ form.cleaned_data.job }}" placeholder="Chauffeur, Menuisier...">
         </p>
 
         <h2>Remplissez vos coordonnées complémentaires</h2>
@@ -96,6 +96,7 @@
             {{ form.token }}
             {{ form.timestamp }}
             {{ form.siret }}
+            {{ form.candidate_peid }}
 
             <h2>L'entreprise à laquelle je candidate</h2>
             {{ form.employer_description }}
