@@ -23,13 +23,15 @@ services:
       - redis:/data
 
   zookeeper:
-    # TODO backup data to volume?
     image: zookeeper:3.4
     restart: unless-stopped
     environment:
       ZOO_MY_ID: 1
     ports:
       - 2181:2181
+    volumes:
+      - zookeeper_data:/data
+      - zookeeper_datalog:/datalog
 
   kafka:
     image: kafka:latest
@@ -73,3 +75,5 @@ volumes:
   postgres:
   redis:
   kafka:
+  zookeeper_data:
+  zookeeper_datalog:

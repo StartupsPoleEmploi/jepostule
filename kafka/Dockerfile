@@ -14,8 +14,7 @@ ENV BROKER_ID 0
 ENV ZOOKEEPER_CONNECT zookeeper:2181
 ENV LISTENERS localhost
 EXPOSE 9092
-COPY ./bin/create-topic.sh /usr/local/bin/
-COPY ./bin/configure-topic.sh /usr/local/bin/
+COPY ./bin/create-topics.sh /usr/local/bin/
 CMD ./bin/kafka-server-start.sh ./config/server.properties \
     --override broker.id=$BROKER_ID \
     --override zookeeper.connect=$ZOOKEEPER_CONNECT \

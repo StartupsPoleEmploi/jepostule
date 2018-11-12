@@ -23,14 +23,7 @@ migrate: migrate-postgres migrate-kafka
 migrate-postgres: services ## run postgres migrations
 	./manage.py migrate
 migrate-kafka: services ## create and configure required kafka topics
-	# send-application: 5 days retention, 11 Mb messages
-	docker-compose run --rm kafka bash -c \
-		"create-topic.sh --partitions=1 --replication-factor=1 --topic=send-application \
-		&& configure-topic.sh --entity-name=send-application --add-config 'cleanup.policy=delete,retention.ms=432000000,max.message.bytes=11534336'"
-	# send-confirmation: 5 days retention, 1 Mb messages
-	docker-compose run --rm kafka bash -c \
-		"create-topic.sh --partitions=1 --replication-factor=1 --topic=send-confirmation \
-		&& configure-topic.sh --entity-name=send-confirmation --add-config 'cleanup.policy=delete,retention.ms=432000000,max.message.bytes=1048576'"
+	docker-compose run --rm kafka bash create-topics.sh
 
 compile-requirements: ## generate .txt requirements files from .in files
 	pip-compile --output-file requirements/base.txt requirements/base.in
