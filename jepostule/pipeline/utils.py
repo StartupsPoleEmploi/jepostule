@@ -4,8 +4,8 @@ from django.core import mail
 
 
 # pylint: disable=too-many-arguments
-def send_mail(subject, message, from_email, recipient_list,
-              reply_to=None, attachments=None, html_message=None):
+def send_mail(subject, html_content, from_email, recipient_list,
+              reply_to=None, attachments=None):
     """
     We don't rely on django.core.mail.send_mail function, because it does not
     let us override the 'reply-to' field.
@@ -23,12 +23,11 @@ def send_mail(subject, message, from_email, recipient_list,
         raise ValueError("'reply_to' is of invalid type {}".format(reply_to.__class__))
     connection = mail.get_connection()
     message = mail.EmailMessage(
-        subject, message, from_email, recipient_list,
+        subject, html_content, from_email, recipient_list,
         connection=connection,
         reply_to=reply_to,
         attachments=attachments,
     )
-    if html_message:
-        message.attach_alternative(html_message, 'text/html')
+    message.attach_alternative(html_content, 'text/html')
 
     return message.send()

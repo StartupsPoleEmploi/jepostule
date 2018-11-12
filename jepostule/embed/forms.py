@@ -12,16 +12,6 @@ class JobApplicationPartialForm(forms.ModelForm):
     steps, we need to manually edit the fields with client-side code.
     """
 
-    defaults = {
-        "message": """Bonjour,
-Votre entreprise suscite tout mon intérêt ; c'est pourquoi je me permets aujourd'hui de vous transmettre ma candidature spontanée.
-
-C'est avec plaisir que je vous rencontrerai lors d'un entretien afin de vous présenter de vive voix mes motivations à rejoindre votre équipe.
-
-Dans l'attente de votre retour, je reste à votre écoute pour tout complément d'information.
-"""
-    }
-
     class Meta:
         model = JobApplication
         fields = (
@@ -69,10 +59,21 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
 
 
 class JobApplicationForm(JobApplicationPartialForm):
+    defaults = {
+        'message': """Bonjour,
+Votre entreprise suscite tout mon intérêt ; c'est pourquoi je me permets aujourd'hui de vous transmettre ma candidature spontanée.
+
+C'est avec plaisir que je vous rencontrerai lors d'un entretien afin de vous présenter de vive voix mes motivations à rejoindre votre équipe.
+
+Dans l'attente de votre retour, je reste à votre écoute pour tout complément d'information.
+""",
+        'send_confirmation': True,
+    }
+
     class Meta:
         model = JobApplication
         fields = tuple(list(JobApplicationPartialForm.Meta.fields) + [
-            'job', 'candidate_phone', 'candidate_address',
+            'job', 'candidate_phone', 'candidate_address', 'send_confirmation',
         ])
         widgets = JobApplicationPartialForm.Meta.widgets.copy()
         widgets.update({
@@ -85,7 +86,6 @@ class JobApplicationForm(JobApplicationPartialForm):
         super().__init__(*args, label_suffix='', **kwargs)
 
     send_confirmation = forms.BooleanField(
-        help_text="plonk",
         label="Je souhaite recevoir une copie de ma candidature sur ma boite mail",
         initial=True,
         required=False,
