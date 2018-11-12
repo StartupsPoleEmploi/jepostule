@@ -1,4 +1,6 @@
 {
+  "name": "jepostule",
+  "version": "0.0.1",
   "dependencies": {
     "jquery-datetimepicker": "^2.5.20",
     "yuglify": "^2.0.0"

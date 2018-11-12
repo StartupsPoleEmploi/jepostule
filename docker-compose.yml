@@ -53,21 +53,21 @@ services:
       - kafka
       - postgres
 
-  jepostule_consume_send_application:
+  jepostule_consume_topics:
     image: jepostule:latest
     restart: unless-stopped
     depends_on:
       - kafka
       - postgres
-    command: ./manage.py consumetopics send-application
+    command: ./manage.py consumetopics all
 
-  jepostule_consume_send_confirmation:
+  jepostule_dequeue_delayed:
     image: jepostule:latest
     restart: unless-stopped
     depends_on:
       - kafka
       - postgres
-    command: ./manage.py consumetopics send-confirmation
+    command: ./manage.py dequeue_delayed
 
 volumes:
   postgres:

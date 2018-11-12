@@ -9,12 +9,14 @@ COPY . /jepostule
 WORKDIR /jepostule
 
 RUN pip install -r requirements/prod.txt
-RUN npm install -g
+RUN npm install
 
+ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 EXPOSE 8000
 
-RUN rm -r static/ && ./manage.py collectstatic --no-input
+RUN rm -rf static/ && ./manage.py collectstatic --no-input
+VOLUME /jepostule/static
 
 CMD uwsgi --module=config.wsgi:application \
     --master \
