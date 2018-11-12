@@ -71,7 +71,8 @@ def send_confirmation_to_candidate(job_application_id):
 
 def get_application_message(job_application):
     return get_template('jepostule/pipeline/emails/application.html').render({
-        'job_application': job_application
+        'job_application': job_application,
+        'jepostule_base_url': settings.JEPOSTULE_BASE_URL,
     })
 
 

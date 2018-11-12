@@ -171,6 +171,7 @@ REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 0
 
+JEPOSTULE_BASE_URL = 'http://127.0.0.1:8000'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 JEPOSTULE_NO_REPLY = 'no-reply@jepostule.labonneboite.pole-emploi.fr'
 ATTACHMENTS_MAX_SIZE_BYTES = 10*1024*1024 # 10 Mb
