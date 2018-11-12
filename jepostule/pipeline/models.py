@@ -41,9 +41,11 @@ class JobApplicationEvent(models.Model):
     """
     SENT_TO_EMPLOYER = 'sent'
     CONFIRMED_TO_CANDIDATE = 'confirmed'
+    ANSWERED = 'answered'
     NAMES = (
         (SENT_TO_EMPLOYER, "Envoyé à l'employeur"),
         (CONFIRMED_TO_CANDIDATE, "Confirmation envoyée au candidat"),
+        (ANSWERED, "Réponse envoyée au candidat"),
     )
 
     job_application = models.ForeignKey(

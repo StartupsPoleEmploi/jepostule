@@ -19,6 +19,12 @@ class JobApplicationEventAdminMixin:
                 kwargs={'job_application_id': obj.job_application.id}
             )
             return format_html("<a href='{url}' target='_blank' rel='noopener'>Email</a>", url=url)
+        if obj.name == models.JobApplicationEvent.ANSWERED:
+            url = reverse(
+                'pipeline:email_answer',
+                kwargs={'answer_id': obj.job_application.answer.id}
+            )
+            return format_html("<a href='{url}' target='_blank' rel='noopener'>Email</a>", url=url)
         return ''
     visualize.short_description = "Visualiser"
 

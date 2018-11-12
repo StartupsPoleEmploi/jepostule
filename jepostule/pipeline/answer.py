@@ -12,8 +12,6 @@ TEMPLATES = [
     ('answerrequestinfo', models.JobApplication.ANSWER_REQUEST_INFO, 'jepostule/pipeline/emails/request_info.html'),
 ]
 
-# TODO create corresponding events
-
 
 def send(job_application_id):
     send_answer_to_candidate.run_async(job_application_id)
@@ -34,6 +32,7 @@ def send_answer_to_candidate(job_application_id):
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY,
               [job_application.candidate_email],
               reply_to=reply_to)
+    job_application.events.create(name=models.JobApplicationEvent.ANSWERED)
 
 
 def get_answer_message(answer):
