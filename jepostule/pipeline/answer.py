@@ -12,6 +12,9 @@ TEMPLATES = [
     ('answerrequestinfo', models.JobApplication.ANSWER_REQUEST_INFO, 'jepostule/pipeline/emails/request_info.html'),
 ]
 
+# TODO create corresponding events
+
+
 def send(job_application_id):
     send_answer_to_candidate.run_async(job_application_id)
 
@@ -59,6 +62,7 @@ def get_answer_message_from_instance(answer):
         if answer.answer_type == answer_type:
             return get_template(template).render({'answer': answer})
     raise ValueError('Undefined answer type')
+
 
 def get_subject(job_application):
     return "Réponse de l'entreprise {}".format(job_application.employer_description)

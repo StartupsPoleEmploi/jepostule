@@ -96,11 +96,11 @@ class AnswerRejection(Answer):
 
 
 class AnswerEmployerInfo(Answer):
-    employer_name = models.CharField(max_length=128, blank=True)
-    employer_email = models.EmailField(max_length=128, blank=True)
-    employer_phone = models.CharField(max_length=32, blank=True)
-    employer_address = models.CharField(max_length=256, blank=True)
-    message = models.TextField(blank=True)
+    employer_name = models.CharField(max_length=128, blank=False)
+    employer_email = models.EmailField(max_length=128, blank=False)
+    employer_phone = models.CharField(max_length=32, blank=False)
+    employer_address = models.CharField(max_length=256, blank=False)
+    message = models.TextField(blank=False)
 
     class Meta:
         abstract = True
@@ -122,7 +122,7 @@ class AnswerInterview(AnswerEmployerInfo):
         (LOCATION_VIDEO, "en visio conférence"),
     ))
 
-    datetime = models.DateTimeField(blank=True)
+    datetime = models.DateTimeField(blank=False)
     location = models.CharField(
         max_length=16, blank=False,
         choices=LOCATIONS.items(),

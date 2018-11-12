@@ -2,6 +2,9 @@
 {% block title %}Répondre à une candidature{% endblock %}
 {% block contenttitle %}Répondre à une candidature{% endblock %}
 {% block content %}
-<!--TODO améliorer la formulation-->
 <p>Vous avez déjà répondu à cette candidature</p>
+
+<p><b>Objet :</b> {{ subject }}</p>
+<p>{{ message|linebreaksbr }}</p>
+
 {% endblock %}

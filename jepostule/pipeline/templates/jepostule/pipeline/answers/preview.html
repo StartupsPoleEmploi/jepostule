@@ -3,7 +3,7 @@
 {% block contenttitle %}Voici le récapitulatif de votre email{% endblock %}
 
 {% block content %}
-<p><b>Objet : {{ subject }}</b></p>
+<p><b>Objet :</b> {{ subject }}</p>
 <p>{{ message|linebreaksbr }}</p>
 
 <form action="{% url 'pipeline:send_answer' answer_uuid=answer_uuid status=status  %}" method="POST">

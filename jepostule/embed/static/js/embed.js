@@ -194,6 +194,8 @@
                     var data = JSON.parse(e.target.responseText);
                     document.querySelector("[name='token']").value = data.token;
                     document.querySelector("[name='timestamp']").value = data.timestamp;
+                } else if (e.target.status >= 500) {
+                    window.location.hash = '#erreur';
                 } else {
                     window.location.hash = "#erreur-authentification";
                 }

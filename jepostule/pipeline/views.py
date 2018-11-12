@@ -37,7 +37,11 @@ def view_email_response(request, message):
 def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=False):
     job_application = get_object_or_404(models.JobApplication, answer_uuid=answer_uuid)
     if models.Answer.objects.filter(job_application=job_application).exists():
-        return render(request, 'jepostule/pipeline/answers/already_answered.html')
+        answer = models.Answer.objects.get(job_application=job_application)
+        return render(request, 'jepostule/pipeline/answers/already_answered.html', {
+            'subject': answer_pipeline.get_subject(job_application),
+            'message': answer_pipeline.get_answer_message(answer),
+        })
 
     try:
         FormClass = {

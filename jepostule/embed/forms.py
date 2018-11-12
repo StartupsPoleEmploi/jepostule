@@ -43,7 +43,6 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
             'employer_email': forms.EmailInput(attrs={'readonly': True}),
             'employer_description': forms.TextInput(attrs={'readonly': True}),
             'siret': forms.HiddenInput(),
-            # TODO add min_length=100 validation on message?
             'message': forms.Textarea(attrs={'readonly': True}),
         }
 
@@ -56,9 +55,6 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
     timestamp = forms.FloatField(
         widget=forms.HiddenInput()
     )
-
-    # TODO ajouter une case "recevoir une copie" qui est cochée par défaut
-
 
     def clean(self):
         """
@@ -84,6 +80,16 @@ class JobApplicationForm(JobApplicationPartialForm):
             'candidate_phone': forms.TextInput(attrs={'readonly': True}),
             'candidate_address': forms.TextInput(attrs={'readonly': True}),
         })
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, label_suffix='', **kwargs)
+
+    send_confirmation = forms.BooleanField(
+        help_text="plonk",
+        label="Je souhaite recevoir une copie de ma candidature sur ma boite mail",
+        initial=True,
+        required=False,
+    )
 
 
 class MultipleFileInput(forms.FileInput):

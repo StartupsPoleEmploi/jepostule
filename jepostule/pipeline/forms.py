@@ -10,11 +10,7 @@ class BaseAnswerForm(forms.ModelForm):
 
     def __init__(self, job_application, *args, **kwargs):
         super().__init__(*args, label_suffix='', **kwargs)
-        self.job_application = job_application
-
-    def save(self, commit=True):
-        self.instance.job_application_id = self.job_application.id
-        return super().save(commit=commit)
+        self.instance.job_application = job_application
 
 
 class RejectionForm(BaseAnswerForm):

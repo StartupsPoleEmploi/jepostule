@@ -54,8 +54,7 @@ def post_candidater(request):
             application.Attachment(name=f.name, content=f.read())
             for f in attachments_form.cleaned_data['attachments']
         ]
-        # TODO in case of send error, display 500 error
-        application.send(job_application.id, attachments)
+        application.send(job_application.id, attachments, send_confirmation=form.cleaned_data['send_confirmation'])
         return render(request, 'jepostule/embed/candidater_success.html')
     return render(request, 'jepostule/embed/candidater_invalid.html', {
         'form': form,

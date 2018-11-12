@@ -21,6 +21,7 @@ class JobApplicationFormTestCase(TestCase):
             'message': "Bonjour !" * 20,
             'siret': "73334567800012",
             'job': "Ouvrier charpentier",
+            'send_confirmation': "true",
         }
         for key, value in kwargs.items():
             data[key] = value
