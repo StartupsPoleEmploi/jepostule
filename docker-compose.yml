@@ -67,7 +67,7 @@ services:
     depends_on:
       - kafka
       - postgres
-    command: ./manage.py dequeue_delayed
+    command: ./manage.py dequeuedelayed
 
 volumes:
   postgres:

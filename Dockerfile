@@ -22,4 +22,5 @@ CMD uwsgi --module=config.wsgi:application \
     --master \
     --http=0.0.0.0:8000 \
     --processes=8 \
-    --max-requests=5000
+    --max-requests=5000 \
+    --enable-threads
