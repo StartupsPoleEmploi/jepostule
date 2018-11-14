@@ -1,10 +1,8 @@
-import json
-
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from . import events
+from jepostule.utils import error_response
 from . import exceptions
 from . import utils
 
@@ -50,32 +48,5 @@ def application_token_refresh(request):
     })
 
 
-@require_POST
-@csrf_exempt
-def application_event_callback(request):
-    """
-    Callback endpoint used by Mailjet to monitor event updates
-    https://dev.mailjet.com/guides/#events
-    """
-    if request.content_type != 'application/json':
-        return error_response("Invalid content type", 400)
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return error_response("Invalid json content", 400)
-    if not isinstance(data, list):
-        return error_response("Expected array in json content", 400)
-    for event in data:
-        # Note that there is no way to make sure we are not flooded with spam events
-        events.log(event)
-    return JsonResponse({})
-
-
 def missing_parameter_response(name):
     return error_response("Missing required '{}' argument".format(name), 400)
-
-
-def error_response(reason, status):
-    return JsonResponse({
-        'error': reason
-    }, status=status)
