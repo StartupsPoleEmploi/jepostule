@@ -9,7 +9,7 @@ COPY . /jepostule
 WORKDIR /jepostule
 
 RUN pip install -r requirements/prod.txt
-RUN npm install
+RUN npm install --unsafe-perm
 
 ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
