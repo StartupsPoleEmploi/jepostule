@@ -2,6 +2,7 @@ from django.core import mail
 from django.test import TestCase
 from django.utils.timezone import now
 
+from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline import models
 from jepostule.pipeline import answer
 
@@ -11,6 +12,7 @@ class AnswerTests(TestCase):
     def test_answer_interview(self):
         job_application = models.JobApplication.objects.create(
             candidate_email='candidate@pe.fr',
+            client_platform=ClientPlatform.objects.create(client_id="id"),
         )
         models.AnswerInterview.objects.create(
             job_application=job_application,
@@ -25,6 +27,7 @@ class AnswerTests(TestCase):
     def test_rejection(self):
         job_application = models.JobApplication.objects.create(
             candidate_email='candidate@pe.fr',
+            client_platform=ClientPlatform.objects.create(client_id="id"),
         )
         models.AnswerRejection.objects.create(
             job_application=job_application,

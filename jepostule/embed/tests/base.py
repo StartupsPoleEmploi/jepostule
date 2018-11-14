@@ -2,12 +2,18 @@ from time import time
 
 from django.test import TestCase
 
+from jepostule.auth.models import ClientPlatform
+
 
 class JobApplicationFormTestCase(TestCase):
 
+    def setUp(self):
+        super().setUp()
+        self.client_platform = ClientPlatform.objects.create(client_id="id")
+
     def form_data(self, **kwargs):
         data = {
-            'client_id': 'id',
+            'client_id': self.client_platform.client_id,
             'token': 'apptoken',
             'timestamp': time(),
             'candidate_email': 'candidate@pe.fr',

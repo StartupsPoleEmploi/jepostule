@@ -2,6 +2,8 @@ import uuid
 
 from django.db import models
 
+from jepostule.auth.models import ClientPlatform
+
 
 class JobApplication(models.Model):
     """
@@ -23,6 +25,8 @@ class JobApplication(models.Model):
     job = models.CharField(max_length=128)
     siret = models.CharField(max_length=14, db_index=True)
     answer_uuid = models.UUIDField(default=uuid.uuid4, unique=True)
+
+    client_platform = models.ForeignKey(ClientPlatform, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 

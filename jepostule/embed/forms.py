@@ -53,6 +53,7 @@ class JobApplicationPartialForm(forms.ModelForm):
         cleaned_data = super().clean()
         try:
             auth_utils.verify_application_token(**cleaned_data)
+            self.instance.client_platform = auth_utils.get_client_platform(cleaned_data['client_id'])
         except auth_utils.exceptions.AuthError as e:
             raise forms.ValidationError(e.message)
         return cleaned_data

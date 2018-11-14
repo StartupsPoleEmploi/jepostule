@@ -3,6 +3,7 @@ from unittest import mock
 from django.conf import settings
 from django.test import TestCase
 
+from jepostule.auth.models import ClientPlatform
 from jepostule.kvstore import redis
 from jepostule.queue.exceptions import DelayProcessing
 from jepostule.pipeline import application
@@ -19,6 +20,7 @@ class ApplicationTests(TestCase):
             message="message",
             candidate_email="candidat@pe.fr",
             employer_email="boss@big.co",
+            client_platform=ClientPlatform.objects.create(client_id="id"),
         )
         attachment = application.Attachment(
             content=b'',
@@ -54,6 +56,7 @@ class ApplicationTests(TestCase):
             message="message",
             candidate_email="candidat@pe.fr",
             employer_email="boss@big.co",
+            client_platform=ClientPlatform.objects.create(client_id="id"),
         )
         application.send_application_to_employer(job_application.id)
         self.assertRaises(

@@ -67,6 +67,7 @@ def verify_application_token(**params):
     if not token or token != make_application_token(**params):
         raise exceptions.InvalidToken
 
+
 def get_timestamp(**params):
     try:
         return int(float(params['timestamp']))
@@ -75,13 +76,18 @@ def get_timestamp(**params):
     except (ValueError, TypeError):
         raise exceptions.InvalidTimestamp
 
+
 def verify_client_secret(client_id, client_secret):
     if not client_secret or not client_id or get_client_secret(client_id) != client_secret:
         raise exceptions.InvalidCredentials
 
 
 def get_client_secret(client_id):
+    return get_client_platform(client_id).client_secret
+
+
+def get_client_platform(client_id):
     try:
-        return models.ClientPlatform.objects.get(client_id=client_id).client_secret
+        return models.ClientPlatform.objects.get(client_id=client_id)
     except models.ClientPlatform.DoesNotExist:
         raise exceptions.InvalidCredentials

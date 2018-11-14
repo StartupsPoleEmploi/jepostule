@@ -5,6 +5,7 @@ from django.test import override_settings
 from django.utils.datastructures import MultiValueDict
 
 from jepostule.embed import forms
+from jepostule.pipeline import models
 from .base import JobApplicationFormTestCase
 
 
@@ -14,10 +15,14 @@ class FormsTest(JobApplicationFormTestCase):
         form = forms.JobApplicationForm(data=self.form_data())
         with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken') as make_application_token:
             is_valid = form.is_valid()
+
             self.assertEqual({}, form.errors)
             self.assertTrue(is_valid)
             make_application_token.assert_called_once()
 
+            form.save()
+            job_application = models.JobApplication.objects.get()
+            self.assertEqual(self.client_platform.id, job_application.client_platform.id)
 
     def test_invalid_token(self):
         form = forms.JobApplicationForm(data=self.form_data(token='invalid'))
@@ -28,7 +33,7 @@ class FormsTest(JobApplicationFormTestCase):
             make_application_token.assert_called_once()
 
     def test_invalid_client_id(self):
-        form = forms.JobApplicationForm(data=self.form_data())
+        form = forms.JobApplicationForm(data=self.form_data(client_id="invalid"))
         self.assertFalse(form.is_valid())
         self.assertEqual(['Paramètres client ID/secret invalides'], list(form.errors['__all__']))
 
