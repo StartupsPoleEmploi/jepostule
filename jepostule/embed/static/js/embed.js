@@ -23,13 +23,15 @@
         var visibleStep = document.querySelector("[data-step='" + window.location.hash.substring(1) + "']") || document.querySelector("[data-step]");
         visibleStep.removeAttribute('hidden');
         visibleStep.scrollIntoView();
+
+        // Warn parent window that height may have changed
+        sendMessage("resize", "height", window.document.documentElement.scrollHeight);
     }
     displayStep();
     window.onpopstate = displayStep;
 
     // Synchronize form fields that share the same name
     function onFieldChange(e) {
-        console.log("changed", e);
         syncFormField(e.target);
     }
     function syncFormField(element) {
