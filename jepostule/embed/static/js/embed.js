@@ -5,9 +5,18 @@
     var attachments = [];
     var max_attachments_size = 10*1024*1024;// 10 Mb
 
+    function sendMessage(action, label, value) {
+        window.parent.postMessage({
+            topic: "jepostule",
+            action: action,
+            label: label,
+            value: value,
+        }, "*");
+    }
 
     /* Navigation */
     function displayStep() {
+        sendMessage('navigate', window.location.hash);
         document.querySelectorAll("[data-step]").forEach(function(step) {
             step.setAttribute('hidden', '');
         });
@@ -147,6 +156,7 @@
     });
     attachmentsInput.addEventListener('change', function(e) {
         for(var i = 0; i < attachmentsInput.files.length; i++) {
+            sendMessage('attachments', 'add');
             attachments.push(attachmentsInput.files.item(i));
         }
         updateAttachments();
@@ -183,6 +193,7 @@
         });
     }
     function clickRemoveAttachment(e) {
+        sendMessage('attachments', 'remove');
         var name = e.target.parentElement.firstElementChild.textContent;
         for(var i = 0; i < attachments.length; i++) {
             if (attachments[i].name == name) {
@@ -229,7 +240,6 @@
             formData.append('attachments', attachments[i], attachments[i].name);
         }
 
-        // TODO: add ga events
         var formSubmit = document.querySelector("[type='submit']");
         formSubmit.setAttribute("disabled", '');
         var request = new XMLHttpRequest();
