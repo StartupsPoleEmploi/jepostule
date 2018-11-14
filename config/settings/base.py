@@ -101,7 +101,7 @@ STATIC_ROOT = '/tmp/jepostule/static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'jepostule', 'static'),
 ]
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
