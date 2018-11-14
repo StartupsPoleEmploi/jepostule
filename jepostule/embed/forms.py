@@ -61,6 +61,7 @@ class JobApplicationPartialForm(forms.ModelForm):
 class JobApplicationForm(JobApplicationPartialForm):
     defaults = {
         'message': """Bonjour,
+
 Votre entreprise suscite tout mon intérêt ; c'est pourquoi je me permets aujourd'hui de vous transmettre ma candidature spontanée.
 
 C'est avec plaisir que je vous rencontrerai lors d'un entretien afin de vous présenter de vive voix mes motivations à rejoindre votre équipe.

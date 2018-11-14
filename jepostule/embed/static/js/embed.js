@@ -18,6 +18,20 @@
     displayStep();
     window.onpopstate = displayStep;
 
+    // Synchronize form fields that share the same name
+    function onFieldChange(e) {
+        console.log("changed", e);
+        syncFormField(e.target);
+    }
+    function syncFormField(element) {
+        // Fill form value
+        var formInput = document.querySelector("form [readonly][name='" + element.name + "']");
+        formInput.value = element.value;
+    }
+    document.querySelectorAll("[data-watchchanges]").forEach(function(input) {
+        input.addEventListener("change", onFieldChange);
+    });
+
     /* Form and attachments validation */
     function clickValidateApplication(e) {
         // Maybe we could display a spinner here? In theory, form validation
@@ -35,6 +49,34 @@
             fieldErrors.innerHTML = '';
         });
 
+        // Synchronize form fields: this is required because the "change" event
+        // may not be fired when the user moves the cursor from the textarea
+        // directly to the "next" button.
+        document.querySelectorAll("[data-watchchanges]").forEach(function(input) {
+            syncFormField(input);
+        });
+
+        // Load some field values from local storage
+        var storageprefix = "";
+        function loadValue(input) {
+            if(input.value.length == 0) {
+                var value = localStorage.getItem(input.name);
+                if (value !== null) {
+                    input.value = value;
+                    input.dispatchEvent(new Event('change'), {'bubbles': true});
+                }
+            }
+        }
+        function saveValue(e) {
+            if(e.target.value.length > 0) {
+                localStorage.setItem(e.target.name, e.target.value);
+            }
+        }
+        document.querySelectorAll("input[data-localstorage]").forEach(function(input) {
+            loadValue(input);
+            input.addEventListener("change", saveValue);
+        });
+    
         // Validate asynchronously
         var formData = new FormData(form);
         var request = new XMLHttpRequest();
@@ -96,39 +138,6 @@
         element.addEventListener("click", clickValidateAttachments);
     });
 
-    // Synchronize form fields that share the same name
-    function updateFormField(e) {
-        // Film form value
-        var formInput = document.querySelector("form input[readonly][name='" + e.target.name + "']");
-        if(formInput !== null) {
-            formInput.value = e.target.value;
-        }
-    }
-    document.querySelectorAll("input,textarea").forEach(function(input) {
-        input.addEventListener("change", updateFormField);
-    });
-
-    // Load some field values from local storage
-    var storageprefix = "";
-    function loadValue(input) {
-        if(input.value.length == 0) {
-            var value = localStorage.getItem(input.name);
-            if (value !== null) {
-                input.value = value;
-                input.dispatchEvent(new Event('change'), {'bubbles': true});
-            }
-        }
-    }
-    function saveValue(e) {
-        if(e.target.value.length > 0) {
-            localStorage.setItem(e.target.name, e.target.value);
-        }
-    }
-    document.querySelectorAll("input[data-localstorage]").forEach(function(input) {
-        loadValue(input);
-        input.addEventListener("change", saveValue);
-    });
-    
     /* Attachments */
     // Heavily inspired by https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#Examples
 

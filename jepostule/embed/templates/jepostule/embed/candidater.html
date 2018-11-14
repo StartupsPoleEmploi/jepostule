@@ -41,25 +41,25 @@
         <h2>Vous recherchez un poste de</h2>
         <p>
             <ul data-errors="job"></ul>
-            <input type="text" name="job" value="{{ form.cleaned_data.job }}" placeholder="Chauffeur, Menuisier...">
+            <input type="text" name="job" value="{{ form.cleaned_data.job }}" placeholder="Chauffeur, Menuisier..." data-localstorage data-watchchanges>
         </p>
 
         <h2>Remplissez vos coordonnées complémentaires</h2>
         <p>
             <label for="candidate_phone">Votre téléphone</label>
             <ul data-errors="candidate_phone"></ul>
-            <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" data-localstorage>
+            <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" data-localstorage data-watchchanges>
         </p>
 
         <p>
             <label for="candidate_address">Votre adresse</label>
             <ul data-errors="candidate_address"></ul>
-            <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont" data-localstorage>
+            <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont" data-localstorage data-watchchanges>
         </p>
 
         <h2>Vous pouvez personnaliser cet email</h2>
         <ul data-errors="message"></ul>
-        <textarea name="message">{{ form.cleaned_data.message }}</textarea>
+        <textarea name="message" data-watchchanges>{{ form.cleaned_data.message }}</textarea>
 
         <div class="center"><a href="#documents" class="button validate-application">Je continue</a></div>
     </div>
