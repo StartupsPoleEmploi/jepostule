@@ -2,4 +2,8 @@
 <div class="step-content center">
     <img src="{% static 'img/icons/valider.svg' %}" alt="">
     <h2>Votre candidature a été envoyée avec succès</h2>
+
+    {% if next_url %}
+    <p><a href="{{ next_url }}">Revenir à la page précédente</a></p>
+    {% endif %}
 </div>

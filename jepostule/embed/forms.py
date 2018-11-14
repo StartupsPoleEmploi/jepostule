@@ -91,6 +91,10 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         initial=True,
         required=False,
     )
+    next_url = forms.URLField(
+        widget=forms.HiddenInput(),
+        required=False,
+    )
 
 
 class MultipleFileInput(forms.FileInput):

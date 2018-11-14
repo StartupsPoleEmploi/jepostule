@@ -55,7 +55,9 @@ def post_candidater(request):
             for f in attachments_form.cleaned_data['attachments']
         ]
         application.send(job_application.id, attachments, send_confirmation=form.cleaned_data['send_confirmation'])
-        return render(request, 'jepostule/embed/candidater_success.html')
+        return render(request, 'jepostule/embed/candidater_success.html', {
+            'next_url': form.cleaned_data['next_url'],
+        })
     return render(request, 'jepostule/embed/candidater_invalid.html', {
         'form': form,
         'attachments_form': attachments_form,
@@ -89,6 +91,7 @@ def demo(request):
         'employer_description': """Uniqlo Europe LTD - 75009 Paris""",
         'siret': '73345678900023',
         'job': 'Boucher',
+        'next_url': 'https://backtotheroots.com',
     }
     params.update(request.GET.items())
     token, timestamp = auth_utils.make_new_application_token(**params)
