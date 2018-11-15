@@ -4,7 +4,7 @@
 
 {% block content %}
 <p><b>Objet :</b> {{ subject }}</p>
-<p>{{ message|linebreaksbr }}</p>
+{{ message|safe }}
 
 <form action="{% url 'pipeline:send_answer' answer_uuid=answer_uuid status=status  %}" method="POST">
     <div hidden>

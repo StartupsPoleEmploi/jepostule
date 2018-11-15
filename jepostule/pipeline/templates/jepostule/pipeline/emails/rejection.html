@@ -1,10 +1,10 @@
-<p style="margin: 0 0 10px; padding: 0;">L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
-<p style="font-weight: bold; margin: 0 0 10px; padding: 0;" align="center">Refus de candidature</p>
-
+<p>L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
+<p class="text-center"><b>Refus de candidature</b></p>
+<br>
 {% if answer.reason != answer.REASON_UNKNOWN %}
-<p style="margin: 0 0 10px; padding: 0;">Pour la raison suivante : {{ answer.reason_verbose }}</p>
+<p>Pour la raison suivante : {{ answer.reason_verbose }}</p>
 {% endif %}
 
 {% if answer.message %}
-<p style="margin: 0 0 10px; padding: 0;">{{ answer.messaage|linebreaksbr }}</p>
+<p>{{ answer.messaage|linebreaksbr }}</p>
 {% endif %}
