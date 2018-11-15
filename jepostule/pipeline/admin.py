@@ -58,7 +58,7 @@ class JobApplicationAdmin(admin.ModelAdmin):
 @admin.register(models.JobApplicationEvent)
 class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
     date_hierarchy = 'created_at'
-    list_display = ('id', 'name', 'value', 'candidate_email', 'employer_email', 'visualize',)
+    list_display = ('id', 'created_at', 'name', 'value', 'candidate_email', 'employer_email', 'visualize',)
     list_display_links = ('id', 'name', 'value',)
     ordering = ('-created_at',)
     search_fields = ('created_at', 'job_application', 'name',)
