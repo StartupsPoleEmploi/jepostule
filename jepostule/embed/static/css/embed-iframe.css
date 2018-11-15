@@ -1,30 +1,37 @@
+html {
+    background-color: #FBFAFA;
+}
 body {
-    margin: auto;
+    margin: 20px auto;
     background-color: white;
     color: #4A4A4A;
     font-size: 14px;
-    max-width: 800px;
+    max-width: 470px;
     margin: auto;
 }
 .title {
-    height: 52px;
+    position: relative;
+    height: 50px;
     background-color: #7D3D8D;
     color: white;
+    margin-top: 20px;
 }
 .title h1 {
-    font-size: 18px;
+    font-size: 22px;
     font-weight: normal;
-    padding: 15px; 
+    padding: 10px 32px;
     margin: 0;
 }
 .title h1 .step-index{
     position: absolute;
-    right: 21px;
-    top: 15px;
+    top: 12px;
+    right: 23px;
+    font-size: 16px;
+    font-weight: bold;
 }
 .title h1 .disc {
     position: absolute;
-    top: 7px;
+    top: 5px;
     right: 15px;
     width: 40px;
     height: 40px;
@@ -32,13 +39,30 @@ body {
     opacity: 0.35;
     border-radius: 50%;
 }
+h2 {
+    font-size: 17px;
+    font-weight: bold;
+}
+h2 .subtitle {
+    font-weight: normal;
+    font-size: 16px;
+}
+h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 16px 0 8px 0;
+}
 .invisible {
     opacity: 0;
     position: absolute;
     z-index: -1000;
 }
 .step-content {
-    padding: 15px 15px 15px 15px;
+    padding: 8px 32px 8px 32px;
+}
+.modify-link {
+    text-align: center;
+    margin: 8px 0 24px 0;
 }
 a {
     color: #4A4A4A;
@@ -50,15 +74,8 @@ a:visited {
 a.back, a.back:visited {
     display: inline-block;
 }
-.modify-link {
-    text-align: center;
-}
-.modify-link a {
+a.color-link {
     color: #7D3D8D;
-}
-h2 {
-    font-size: 17px;
-    font-weight: bold;
 }
 a.button, button {
     cursor: pointer;
@@ -66,7 +83,7 @@ a.button, button {
     height: 45px;
     width: 100%;
     max-width: 400px;
-    margin: 27px auto 0 auto;
+    margin: 24px auto 20px auto;
     padding: 14px 0 14px 0;
     text-align: center;
     border-radius: 3px;
@@ -93,12 +110,24 @@ input[type="text"], input[type="email"], input[type="tel"], textarea {
     border: 1px solid #979797;
     border-radius: 3px;
     padding: 0 5px 0 5px;
+    margin: 8px 0 16px 0;
 }
 input[type="text"], input[type="email"], input[type="tel"] {
     height: 40px;
 }
 textarea {
     height: 277px;
+}
+form input, form input[type="text"], form input[type="email"], form input[type="tel"] {
+    margin: 0;
+    border: none;
+    height: 18px;
+    padding: 0;
+}
+form textarea {
+    margin: 0;
+    border: none;
+    padding: 0;
 }
 .one-display[data-count="0"] {
     display: none;
@@ -113,6 +142,9 @@ textarea {
     padding-left: 0;
     list-style: none;
 }
+ul:empty {
+    display: none;
+}
 .attachments-list ul li img {
     height: 12px;
     vertical-align: middle;
@@ -121,6 +153,7 @@ textarea {
 }
 ul[data-errors], ul[data-attachments-errors] {
     color: red;
+    margin: 0;
 }
 .attachments-list.attachments-no-delete img {
     display: none;
