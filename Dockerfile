@@ -5,17 +5,24 @@ RUN apt update -y && \
 RUN ln -s /usr/bin/python3 /usr/local/bin/python
 RUN ln -s /usr/bin/pip3 /usr/local/bin/pip
 
-COPY . /jepostule
 WORKDIR /jepostule
 
+# Install python requirements
+COPY ./requirements/ ./requirements/
 RUN pip install -r requirements/prod.txt
+
+# Install node requirements
+COPY ./package.json .
+RUN mkdir -p jepostule/static/vendor
 RUN npm install --unsafe-perm
 
+COPY . /jepostule
 ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 EXPOSE 8000
 
 RUN rm -rf static/ && ./manage.py collectstatic --no-input
+VOLUME /jepostule/log
 VOLUME /jepostule/static
 
 CMD uwsgi --module=config.wsgi:application \
