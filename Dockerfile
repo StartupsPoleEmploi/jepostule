@@ -21,7 +21,6 @@ ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 EXPOSE 8000
 
-RUN rm -rf static/ && ./manage.py collectstatic --no-input
 VOLUME /jepostule/log
 VOLUME /jepostule/static
 
