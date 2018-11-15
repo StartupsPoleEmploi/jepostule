@@ -126,8 +126,6 @@ form input, form input[type="text"], form input[type="email"], form input[type="
 }
 form textarea {
     margin: 0;
-    border: none;
-    padding: 0;
 }
 .one-display[data-count="0"] {
     display: none;
