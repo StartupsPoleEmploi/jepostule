@@ -13,7 +13,7 @@ RUN pip install -r requirements/prod.txt
 
 # Install node requirements
 COPY ./package.json .
-RUN mkdir -p jepostule/static/vendor
+RUN mkdir -p ./jepostule/static/vendor
 RUN npm install --unsafe-perm
 
 COPY . /jepostule
@@ -21,12 +21,12 @@ ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 EXPOSE 8000
 
-VOLUME /jepostule/log
-VOLUME /jepostule/static
-
+RUN mkdir -p /var/log/uwsgi
 CMD uwsgi --module=config.wsgi:application \
     --master \
     --http=0.0.0.0:8000 \
     --processes=8 \
     --max-requests=5000 \
-    --enable-threads
+    --enable-threads \
+    --logto /var/log/uwsgi/uwsgi.log \
+    --log-date
