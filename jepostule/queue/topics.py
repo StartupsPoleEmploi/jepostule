@@ -86,7 +86,7 @@ def send(topic, value):
     """
     ProducerClass = import_object(settings.QUEUE_PRODUCER)
     ProducerClass().send(topic, value)
-    logger.info("produced=%s", value)
+    logger.info("produced in topic=%s", topic)
 
 
 def consume(topic):
@@ -143,7 +143,7 @@ def process(topic, value):
         )
         raise
     finally:
-        logger.info("consumed=%s", value)
+        logger.info("consumed from topic=%s", topic)
 
 
 def delay(delay_seconds):
