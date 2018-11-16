@@ -1,0 +1,2 @@
+class ProduceError(Exception):
+    pass
