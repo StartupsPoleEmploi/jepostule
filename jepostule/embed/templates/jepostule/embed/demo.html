@@ -17,6 +17,20 @@
         <h2>Fiche entreprise : Boucherie Sanzot</h2>
 
         <p>Je postule !</p>
-        <iframe width="321px" height="900px" src="{{ iframe_url }}" frameborder="0"></iframe>
+        <iframe width="100%" height="900px" src="{{ iframe_url }}" frameborder="0"></iframe>
+        <script>
+            function onReceiveMessage(e) {
+                var origin = window.location.protocol + "//" + window.location.host;
+                if (e.origin === origin && e.data.topic === "jepostule") {
+                    var data = e.data;
+                    if (data.action === "resize") {
+                        document.getElementById("jepostule").height = data.value;
+                    } else if(data.action === "quit") {
+                        window.location = data.label;
+                    }
+                }
+            }
+            window.addEventListener("message", onReceiveMessage, false);
+        </script>
     </body>
 </html>

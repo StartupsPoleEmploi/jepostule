@@ -91,7 +91,7 @@ def demo(request):
         'employer_description': """Uniqlo Europe LTD - 75009 Paris""",
         'siret': '73345678900023',
         'job': 'Boucher',
-        'next_url': 'https://backtotheroots.com',
+        'next_url': 'https://example.com?plonk=pfiuut',
     }
     params.update(request.GET.items())
     token, timestamp = auth_utils.make_new_application_token(**params)

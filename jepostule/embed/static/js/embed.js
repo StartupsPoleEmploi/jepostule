@@ -27,6 +27,10 @@
         // Warn parent window that height may have changed
         sendMessage("resize", "height", window.document.documentElement.scrollHeight);
     }
+    function onClickQuit(e) {
+        e.preventDefault();
+        sendMessage("quit", e.target.attributes.href.value);
+    }
     displayStep();
     window.onpopstate = displayStep;
 
@@ -252,6 +256,9 @@
             } else {
                 document.querySelector("[data-step='fin']").innerHTML = request.responseText;
                 window.location.hash = '#fin';
+                document.querySelectorAll("a.quit").forEach(function(element) {
+                    element.addEventListener("click", onClickQuit);
+                });
             }
         });
         request.addEventListener('progress', function(e) {
