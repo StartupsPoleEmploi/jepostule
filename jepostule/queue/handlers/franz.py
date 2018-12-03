@@ -20,9 +20,9 @@ class KafkaProducer(base.BaseProducer):
         result = producer.send(
             topic, value=value, key=key,
         ).add_errback(self.on_send_error)
+        producer.flush()
         if result.failed():
             raise exceptions.ProduceError(topic, value, key)
-        producer.flush()
 
     @staticmethod
     def on_send_error(e):
