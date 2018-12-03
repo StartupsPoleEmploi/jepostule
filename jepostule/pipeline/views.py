@@ -3,6 +3,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, Http404
+from django.template.loader import get_template
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -17,7 +18,9 @@ from . import answer as answer_pipeline
 @login_required
 def email_application(request, job_application_id):
     job_application = get_object_or_404(models.JobApplication, id=job_application_id)
-    return view_email_response(request, application_pipeline.get_application_message(job_application))
+    footer = get_template('jepostule/pipeline/emails/footer.html').render()
+    message = application_pipeline.get_application_message(job_application)
+    return view_email_response(request, message, footer=footer)
 
 
 @login_required
@@ -33,10 +36,9 @@ def email_answer(request, answer_id):
     return view_email_response(request, message)
 
 
-def view_email_response(request, message):
-    return render(request, 'jepostule/pipeline/emails/full.html', {
-        'message': message,
-    })
+def view_email_response(request, message, **context):
+    context['message'] = message
+    return render(request, 'jepostule/pipeline/emails/full.html', context)
 
 
 @require_http_methods(['GET', 'POST'])

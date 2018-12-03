@@ -16,16 +16,27 @@
                 <table align="center" class="container float-center"><tbody><tr><td>
                   <table class="spacer"><tbody><tr><td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td></tr></tbody></table> 
                   <table class="row"><tbody><tr>
-                    <th class="small-12 large-12 columns first last"><table><tr><th>{{ message|safe }}</th>
-    <th class="expander"></th></tr></table></th>
+                    <th class="small-12 large-12 columns first last"><table><tr><th>
+                      {{ message|safe }}
+                   </th><th class="expander"></th></tr></table></th>
                   </tr></tbody></table>
+
+                  {% if footer %}
+                  <table class="row"><tbody><tr>
+                    <th class="small-12 large-12 columns first last"><table><tr><th>
+                      {{ footer|safe }}
+                   </th><th class="expander"></th></tr></table></th>
+                  </tr></tbody></table>
+                  {% endif %}
+
                   <table class="spacer"><tbody><tr><td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td></tr></tbody></table> 
                 </td></tr></tbody></table>
               </center>
             </td>
           </tr>
         </table>
-    <!-- prevent Gmail on iOS font size manipulation -->
-    <div style="display:none; white-space:nowrap; font:15px courier; line-height:0;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div>
+    
+        <!-- prevent Gmail on iOS font size manipulation -->
+        <div style="display:none; white-space:nowrap; font:15px courier; line-height:0;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div>
     </body>
 </html>

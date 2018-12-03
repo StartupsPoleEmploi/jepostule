@@ -40,8 +40,10 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     subject = "Candidature spontanée - {}".format(
         job_application.job,
     )
+    footer = get_template('jepostule/pipeline/emails/footer.html').render()
     message = get_template('jepostule/pipeline/emails/full.html').render({
         'message': get_application_message(job_application),
+        'footer': footer,
     })
     send_mail(subject, message,
               settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
