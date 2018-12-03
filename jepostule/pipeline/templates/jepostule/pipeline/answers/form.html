@@ -8,6 +8,7 @@
 <form action="{% url 'pipeline:preview_answer' answer_uuid=answer_uuid status=status  %}" method="POST">
     {% csrf_token %}
     {{ form }}
+    {% block formfooter %}{% endblock %}
     <p></p>
     <button type="submit">Voir le récapitulatif de votre email</button>
 </form>
