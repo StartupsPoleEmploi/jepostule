@@ -152,6 +152,10 @@ LOGGING = {
             'formatter': 'simple',
             'level': 'INFO',
         },
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
     },
     'loggers': {
         'root': {
@@ -161,6 +165,10 @@ LOGGING = {
         'jepostule': {
             'handlers': ['console'],
             'level': 'INFO',
+        },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
         },
     },
 }
