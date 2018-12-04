@@ -47,13 +47,7 @@ class JobApplicationAdmin(admin.ModelAdmin):
     inlines = (JobApplicationEventInlineAdmin,)
 
     def employer_answer(self, obj):
-        # This will display "-" in case there is no answer
-        url = reverse(
-            'pipeline:email_answer',
-            kwargs={'answer_id': obj.answer.id}
-        )
-        value = models.Answer.Types.ALL[obj.answer.get_details().answer_type]
-        return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer: {value}</a>", url=url, value=value)
+        return answer_link(obj.answer)
 
 
 @admin.register(models.JobApplicationEvent)
@@ -82,4 +76,17 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ('created_at', 'job_application',)
     list_display_links = ('created_at',)
     ordering = ('-created_at',)
-    readonly_fields = ('id', 'job_application', 'answerrejection', 'answerrequestinfo', 'answerinterview',)
+    readonly_fields = ('id', 'view_answer', 'job_application', 'answerrejection', 'answerrequestinfo', 'answerinterview',)
+
+    def view_answer(self, obj):
+        return answer_link(obj)
+
+
+def answer_link(answer):
+    # This will display "-" in case there is no answer
+    url = reverse(
+        'pipeline:email_answer',
+        kwargs={'answer_id': answer.id}
+    )
+    value = models.Answer.Types.ALL[answer.get_details().answer_type]
+    return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer: {value}</a>", url=url, value=value)
