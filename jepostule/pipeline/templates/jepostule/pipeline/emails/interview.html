@@ -1,15 +1,15 @@
-<p>L'entreprise {{ answer.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
+<p>L'entreprise {{ answer_details.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
 <p class="text-center"><b>Proposition d'entretien d'embauche</b></p>
-<p>L'entretien se déroulera {{ answer.location_verbose }}.</p>
-<p>Si vous êtes disponible, {{ answer.employer_name }} aimerait vous rencontrer le {{ answer.datetime.date }} à {{ answer.datetime.time }}.</p>
-{% if answer.message %}
-<p>{{ answer.message|linebreaksbr }}</p>
+<p>L'entretien se déroulera {{ answer_details.location_verbose }}.</p>
+<p>Si vous êtes disponible, {{ answer_details.employer_name }} aimerait vous rencontrer le {{ answer_details.datetime.date }} à {{ answer_details.datetime.time }}.</p>
+{% if answer_details.message %}
+<p>{{ answer_details.message|linebreaksbr }}</p>
 {% endif %}
 
 <p class="text-center"><b>Pour toute demande complémentaire au recruteur</b></p>
 <p class="text-center">
-    {{ answer.employer_name }}<br>
-    {{ answer.employer_phone }}<br>
-    {{ answer.employer_email }}<br>
-    {{ answer.employer_address }}
+    {{ answer_details.employer_name }}<br>
+    {{ answer_details.employer_phone }}<br>
+    {{ answer_details.employer_email }}<br>
+    {{ answer_details.employer_address }}
 </p>

@@ -79,7 +79,7 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
                 template = 'jepostule/pipeline/answers/preview.html'
                 context.update({
                     'subject': answer_pipeline.get_subject(job_application),
-                    'message': answer_pipeline.get_answer_message_from_instance(form.instance),
+                    'message': answer_pipeline.get_answer_details_message(form.instance),
                 })
             else:
                 result = form.save()

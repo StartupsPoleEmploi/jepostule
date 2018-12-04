@@ -1,18 +1,18 @@
 <p>Bonjour,
 Nous vous remercions de l'intérêt que vous manifestez pour notre entreprise.
 
-Afin d'étudier au mieux votre candidature au poste de {{ answer.job_application.job }}, nous souhaitons avoir des informations supplémentaires.
+Afin d'étudier au mieux votre candidature au poste de {{ answer_details.job_application.job }}, nous souhaitons avoir des informations supplémentaires.
 </p>
-<br>
+
 <p class="text-center"><b>Demande d'informations complémentaires</b></p>
-<p>{{ answer.message|linebreaksbr }}</p>
-<br>
-<p class="text-center"><b>Pour répondre au recruteur</b></p>
-<p>{{ answer.employer_name }}
-{{ answer.employer_phone }}
-{{ answer.employer_email }}
-{{ answer.employer_address }}</p>
-<br>
+<p>{{ answer_details.message|linebreaksbr }}</p>
+
 <p>Nous vous remercions par avance pour votre réponse,
 Cordialement,<br>
-{{ answer.employer_name }}</p>
+{{ answer_details.employer_name }}</p>
+
+<p class="text-center"><b>Pour répondre au recruteur</b></p>
+<p>{{ answer_details.employer_name }}<br>
+{{ answer_details.employer_phone }}<br>
+{{ answer_details.employer_email }}<br>
+{{ answer_details.employer_address }}</p>

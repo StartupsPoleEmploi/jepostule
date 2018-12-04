@@ -6,11 +6,11 @@ from .utils import send_mail
 from . import models
 
 
-TEMPLATES = [
-    ('answerinterview', models.JobApplication.ANSWER_INTERVIEW, 'jepostule/pipeline/emails/interview.html'),
-    ('answerrejection', models.JobApplication.ANSWER_REJECTION, 'jepostule/pipeline/emails/rejection.html'),
-    ('answerrequestinfo', models.JobApplication.ANSWER_REQUEST_INFO, 'jepostule/pipeline/emails/request_info.html'),
-]
+TEMPLATES = {
+    models.JobApplication.ANSWER_INTERVIEW: 'jepostule/pipeline/emails/interview.html',
+    models.JobApplication.ANSWER_REJECTION: 'jepostule/pipeline/emails/rejection.html',
+    models.JobApplication.ANSWER_REQUEST_INFO: 'jepostule/pipeline/emails/request_info.html',
+}
 
 
 def send(job_application_id):
@@ -26,8 +26,8 @@ def send_answer_to_candidate(job_application_id):
     message = get_template(template).render(context)
 
     reply_to = []
-    if hasattr(context['answer'], 'employer_email'):
-        reply_to.append(context['answer'].employer_email)
+    if hasattr(context['answer_details'], 'employer_email'):
+        reply_to.append(context['answer_details'].employer_email)
 
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY,
               [job_application.candidate_email],
@@ -45,22 +45,22 @@ def get_answer_message(answer):
 
 def get_answer_message_template(answer):
     """
-    WARNING: answer is an Answer object
+    Args:
+        answer (Answer)
     Return:
         template (str)
         context (dict)
     """
-    for attr, _, template in TEMPLATES:
-        if hasattr(answer, attr):
-            return template, {'answer': getattr(answer, attr)}
-    raise ValueError('Undefined answer')
+    return get_answer_details_template(answer.get_details())
 
 
-def get_answer_message_from_instance(answer):
-    for _, answer_type, template in TEMPLATES:
-        if answer.answer_type == answer_type:
-            return get_template(template).render({'answer': answer})
-    raise ValueError('Undefined answer type')
+def get_answer_details_message(answer_details):
+    template, context = get_answer_details_template(answer_details)
+    return get_template(template).render(context)
+
+
+def get_answer_details_template(answer_details):
+    return TEMPLATES[answer_details.answer_type], {'answer_details': answer_details}
 
 
 def get_subject(job_application):

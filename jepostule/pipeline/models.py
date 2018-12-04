@@ -66,12 +66,33 @@ class JobApplicationEvent(models.Model):
 class Answer(models.Model):
     """
     There exists multiple different answer types to job application. From a job
-    application, the corresponding answer can be accessed with:
+    application, the corresponding detailed answer can be accessed with:
 
-        job_application.answer.answerinterview
+        job_application.answer.answersomething
+
+    Or:
+
+        job_application.answer.get_details()
     """
     job_application = models.OneToOneField(JobApplication, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_details(self):
+        """
+        Return the child answer object.
+
+        Unfortunately, the chosen model representation does not prevent the
+        user from creating both an AnswerInterview and an AnswerRejection (for
+        example) for the same job application. But it's the only way to do it
+        (AFAIK) with separate tables. That means that this method returns only
+        the first child object found. But in practice, we make sure that no
+        Answer object exists when we create a new child object.
+        """
+        attributes = ['answerrejection', 'answerrequestinfo', 'answerinterview']
+        for attribute in attributes:
+            if hasattr(self, attribute):
+                return getattr(self, attribute)
+        raise AttributeError('details')
 
 
 class AnswerRejection(Answer):
