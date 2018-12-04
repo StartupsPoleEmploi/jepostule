@@ -82,6 +82,27 @@ class AnswerAdmin(admin.ModelAdmin):
         return answer_link(obj)
 
 
+@admin.register(models.AnswerRejection)
+class AnswerRejectionAdmin(admin.ModelAdmin):
+    ordering = ('-created_at',)
+    date_hierarchy = 'created_at'
+    list_display = ('created_at', 'reason',)
+
+
+@admin.register(models.AnswerRequestInfo)
+class AnswerRequestInfoAdmin(admin.ModelAdmin):
+    ordering = ('-created_at',)
+    date_hierarchy = 'created_at'
+    list_display = ('created_at', 'employer_email',)
+
+
+@admin.register(models.AnswerInterview)
+class AnswerInterviewAdmin(admin.ModelAdmin):
+    ordering = ('-created_at',)
+    date_hierarchy = 'created_at'
+    list_display = ('created_at', 'employer_email', 'datetime', 'location',)
+
+
 def answer_link(answer):
     # This will display "-" in case there is no answer
     url = reverse(
