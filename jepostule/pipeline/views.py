@@ -53,9 +53,9 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
 
     try:
         FormClass = {
-            models.JobApplication.ANSWER_REJECTION: forms.RejectionForm,
-            models.JobApplication.ANSWER_REQUEST_INFO: forms.RequestInfoForm,
-            models.JobApplication.ANSWER_INTERVIEW: forms.InterviewForm,
+            models.Answer.Types.REJECTION: forms.RejectionForm,
+            models.Answer.Types.REQUEST_INFO: forms.RequestInfoForm,
+            models.Answer.Types.INTERVIEW: forms.InterviewForm,
         }[status]
     except KeyError:
         raise Http404

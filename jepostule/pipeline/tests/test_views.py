@@ -66,7 +66,7 @@ class AnswerViewsTests(BaseViewTests):
             'pipeline:send_answer',
             kwargs={
                 'answer_uuid': self.job_application.answer_uuid,
-                'status': models.JobApplication.ANSWER_INTERVIEW
+                'status': models.Answer.Types.INTERVIEW
             }
         ))
 
@@ -78,7 +78,7 @@ class AnswerViewsTests(BaseViewTests):
                 'pipeline:send_answer',
                 kwargs={
                     'answer_uuid': self.job_application.answer_uuid,
-                    'status': models.JobApplication.ANSWER_INTERVIEW
+                    'status': models.Answer.Types.INTERVIEW
                 }
             ),
             data=interview_form_data(),
@@ -101,7 +101,7 @@ class AnswerViewsTests(BaseViewTests):
                 'pipeline:send_answer',
                 kwargs={
                     'answer_uuid': self.job_application.answer_uuid,
-                    'status': models.JobApplication.ANSWER_INTERVIEW
+                    'status': models.Answer.Types.INTERVIEW
                 }
             ),
             data=interview_form_data(),
@@ -111,7 +111,7 @@ class AnswerViewsTests(BaseViewTests):
                 'pipeline:send_answer',
                 kwargs={
                     'answer_uuid': self.job_application.answer_uuid,
-                    'status': models.JobApplication.ANSWER_INTERVIEW
+                    'status': models.Answer.Types.INTERVIEW
                 }
             ),
             data=interview_form_data(),

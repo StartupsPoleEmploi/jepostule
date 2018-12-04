@@ -52,7 +52,8 @@ class JobApplicationAdmin(admin.ModelAdmin):
             'pipeline:email_answer',
             kwargs={'answer_id': obj.answer.id}
         )
-        return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer</a>", url=url)
+        value = models.Answer.Types.ALL[obj.answer.get_details().answer_type]
+        return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer: {value}</a>", url=url, value=value)
 
 
 @admin.register(models.JobApplicationEvent)
@@ -77,4 +78,8 @@ class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
 
 @admin.register(models.Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    pass
+    date_hierarchy = 'created_at'
+    list_display = ('created_at', 'job_application',)
+    list_display_links = ('created_at',)
+    ordering = ('-created_at',)
+    readonly_fields = ('id', 'job_application', 'answerrejection', 'answerrequestinfo', 'answerinterview',)

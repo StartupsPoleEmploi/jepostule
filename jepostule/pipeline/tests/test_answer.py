@@ -46,7 +46,7 @@ class AnswerTests(TestCase):
             job_application=job_application,
             datetime=now(),
         )
-        self.assertEqual(models.JobApplication.ANSWER_INTERVIEW, job_application.answer.get_details().answer_type)
+        self.assertEqual(models.Answer.Types.INTERVIEW, job_application.answer.get_details().answer_type)
 
     def test_get_answer_message(self):
         job_application = models.JobApplication.objects.create(

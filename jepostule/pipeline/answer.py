@@ -7,9 +7,9 @@ from . import models
 
 
 TEMPLATES = {
-    models.JobApplication.ANSWER_INTERVIEW: 'jepostule/pipeline/emails/interview.html',
-    models.JobApplication.ANSWER_REJECTION: 'jepostule/pipeline/emails/rejection.html',
-    models.JobApplication.ANSWER_REQUEST_INFO: 'jepostule/pipeline/emails/request_info.html',
+    models.Answer.Types.INTERVIEW: 'jepostule/pipeline/emails/interview.html',
+    models.Answer.Types.REJECTION: 'jepostule/pipeline/emails/rejection.html',
+    models.Answer.Types.REQUEST_INFO: 'jepostule/pipeline/emails/request_info.html',
 }
 
 

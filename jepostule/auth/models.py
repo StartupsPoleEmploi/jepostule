@@ -17,3 +17,6 @@ class ClientPlatform(models.Model):
         max_length=32,
         default=generate_secret_key,
     )
+
+    def __str__(self):
+        return '%s object (%s)' % (self.__class__.__name__, self.client_id)

@@ -9,10 +9,6 @@ class JobApplication(models.Model):
     """
     Store all application-related data, except for the attachments.
     """
-    ANSWER_REJECTION = 0
-    ANSWER_REQUEST_INFO = 1
-    ANSWER_INTERVIEW = 2
-
     candidate_email = models.CharField(max_length=64, db_index=True)
     candidate_first_name = models.CharField(max_length=64)
     candidate_last_name = models.CharField(max_length=64)
@@ -36,6 +32,10 @@ class JobApplication(models.Model):
     @property
     def candidate_name(self):
         return "{} {}".format(self.candidate_first_name, self.candidate_last_name)
+
+    @property
+    def answer_types(self):
+        return Answer.Types
 
 
 class JobApplicationEvent(models.Model):
@@ -74,6 +74,16 @@ class Answer(models.Model):
 
         job_application.answer.get_details()
     """
+    class Types:
+        REJECTION = 0
+        REQUEST_INFO = 1
+        INTERVIEW = 2
+        ALL = {
+            REJECTION: 'Rejection',
+            REQUEST_INFO: 'Request info',
+            INTERVIEW: 'Interview',
+        }
+
     job_application = models.OneToOneField(JobApplication, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -96,7 +106,7 @@ class Answer(models.Model):
 
 
 class AnswerRejection(Answer):
-    answer_type = JobApplication.ANSWER_REJECTION
+    answer_type = Answer.Types.REJECTION
 
     REASON_UNKNOWN = 'unknown'
     REASON_NO_VACANCY = 'novacancy'
@@ -134,11 +144,11 @@ class AnswerEmployerInfo(Answer):
 
 
 class AnswerRequestInfo(AnswerEmployerInfo):
-    answer_type = JobApplication.ANSWER_REQUEST_INFO
+    answer_type = Answer.Types.REQUEST_INFO
 
 
 class AnswerInterview(AnswerEmployerInfo):
-    answer_type = JobApplication.ANSWER_INTERVIEW
+    answer_type = Answer.Types.INTERVIEW
 
     LOCATION_ONSITE = 'onsite'
     LOCATION_PHONE = 'phone'
