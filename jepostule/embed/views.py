@@ -1,6 +1,6 @@
 from urllib.parse import urlencode
 
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
@@ -76,11 +76,21 @@ def validate(request):
 
 def demo(request):
     """
-    Demo view to test the embedded application iframe. This requires that a
-    demo client id is stored in the settings. Custom from/to addresses can be
-    setup by the 'candidate_email' and 'employer_email' querystring parameters.
+    Demo view to test the embedded application iframe. This requires either that:
+    - a demo client id is stored in the settings.
+    - or client_id/client_secret are passed (in clear) as GET parameters
+
+    Custom parameters can also be set in the querystring.
     """
-    client_id = get_object_or_404(ClientPlatform, client_id=ClientPlatform.DEMO_CLIENT_ID).client_id
+    client_id = request.GET.get('client_id')
+    client_secret = request.GET.get('client_secret')
+    if client_id and client_secret:
+        try:
+            auth_utils.verify_client_secret(client_id, client_secret)
+        except auth_utils.exceptions.AuthError:
+            return Http404()
+    else:
+        client_id = get_object_or_404(ClientPlatform, client_id=ClientPlatform.DEMO_CLIENT_ID).client_id
     params = {
         'client_id': client_id,
         'candidate_first_name': 'John',
