@@ -249,7 +249,6 @@
         var formSubmit = document.querySelector("[type='submit']");
         formSubmit.setAttribute("disabled", '');
         var request = new XMLHttpRequest();
-        request.open("POST", form.action);
         request.addEventListener('load', function(e) {
             if (e.target.status >= 500) {
                 window.location.hash = '#erreur';
@@ -261,7 +260,7 @@
                 });
             }
         });
-        request.addEventListener('progress', function(e) {
+        request.upload.addEventListener('progress', function(e) {
             if (e.lengthComputable) {
                 document.querySelector(".progressbar").removeAttribute('hidden');
                 var percentComplete = e.loaded * 100 / e.total;
@@ -272,6 +271,7 @@
         request.addEventListener('loadend', function(e) {
             formSubmit.removeAttribute("disabled");
         });
+        request.open("POST", form.action);
         request.send(formData);
     }
 })();
