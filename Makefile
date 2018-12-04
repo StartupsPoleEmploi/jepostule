@@ -12,6 +12,9 @@ services: build-kafka ## start 3rd party services, such as kafka
 stop: ## stop all services
 	docker-compose rm --stop --force
 
+debug:
+	./manage.py runserver --settings=config.settings.debug
+
 test: ## run unit tests
 	./manage.py test --settings=config.settings.test --noinput
 test-coverage: ## run unit tests and produce a code coverage report in html format
