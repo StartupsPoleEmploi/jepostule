@@ -50,6 +50,7 @@ ul.errorlist {
     margin: 0;
 }
 button {
+    cursor: pointer;
     height: 48px;
     width: 100%;
     background-color: #656de5;
