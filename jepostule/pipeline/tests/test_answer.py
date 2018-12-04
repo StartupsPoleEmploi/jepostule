@@ -48,7 +48,7 @@ class AnswerTests(TestCase):
         )
         self.assertEqual(models.Answer.Types.INTERVIEW, job_application.answer.get_details().answer_type)
 
-    def test_get_answer_message(self):
+    def test_render_answer_message(self):
         job_application = models.JobApplication.objects.create(
             candidate_email='candidate@pe.fr',
             client_platform=ClientPlatform.objects.create(client_id="id"),
@@ -66,11 +66,11 @@ class AnswerTests(TestCase):
                     },
                 },
         ]):
-            rendered = answer.get_answer_message(job_application.answer)
+            rendered = answer.render_answer_message(job_application.answer)
         self.assertIn("Proposition d'entretien d'embauche", rendered)
         self.assertNotIn("INVALID__", rendered)
 
-    def test_get_answer_details_message(self):
+    def test_render_answer_details_message(self):
         job_application = models.JobApplication.objects.create(
             candidate_email='candidate@pe.fr',
             client_platform=ClientPlatform.objects.create(client_id="id"),
@@ -87,6 +87,6 @@ class AnswerTests(TestCase):
                     },
                 },
         ]):
-            rendered = answer.get_answer_details_message(answer_request_info)
+            rendered = answer.render_answer_details_message(answer_request_info)
         self.assertIn("informations supplémentaires", rendered)
         self.assertNotIn("INVALID__", rendered)

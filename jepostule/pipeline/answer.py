@@ -35,12 +35,19 @@ def send_answer_to_candidate(job_application_id):
     job_application.events.create(name=models.JobApplicationEvent.ANSWERED)
 
 
-def get_answer_message(answer):
+def render_answer_email(answer):
+    return get_template('jepostule/pipeline/emails/full.html').render({
+        'message': render_answer_message(answer),
+    })
+
+def render_answer_message(answer):
     """
-    WARNING: answer is an Answer object
+    Args:
+        answer (Answer)
+    Return:
+        rendered (str)
     """
-    template, context = get_answer_message_template(answer)
-    return get_template(template).render(context)
+    return render_answer_details_message(answer.get_details())
 
 
 def get_answer_message_template(answer):
@@ -54,7 +61,7 @@ def get_answer_message_template(answer):
     return get_answer_details_template(answer.get_details())
 
 
-def get_answer_details_message(answer_details):
+def render_answer_details_message(answer_details):
     template, context = get_answer_details_template(answer_details)
     return get_template(template).render(context)
 

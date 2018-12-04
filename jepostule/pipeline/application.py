@@ -40,12 +40,7 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     subject = "Candidature spontanée - {}".format(
         job_application.job,
     )
-    footer = get_template('jepostule/pipeline/emails/footer.html').render()
-    message = get_template('jepostule/pipeline/emails/full.html').render({
-        'message': get_application_message(job_application),
-        'footer': footer,
-    })
-    send_mail(subject, message,
+    send_mail(subject, render_application_email(job_application),
               settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
               reply_to=[job_application.candidate_email],
               attachments=attachments)
@@ -65,20 +60,34 @@ def send_confirmation_to_candidate(job_application_id):
     job_application = JobApplication.objects.get(id=job_application_id)
     subject = "Votre candidature a bien été envoyée"
     message = get_template('jepostule/pipeline/emails/full.html').render({
-        'message': get_confirmation_message(job_application),
+        'message': render_confirmation_message(job_application),
     })
     send_mail(subject, message, settings.JEPOSTULE_NO_REPLY, [job_application.candidate_email])
     job_application.events.create(name=JobApplicationEvent.CONFIRMED_TO_CANDIDATE)
 
 
-def get_application_message(job_application):
+def render_application_email(job_application):
+    footer = get_template('jepostule/pipeline/emails/footer.html').render()
+    return get_template('jepostule/pipeline/emails/full.html').render({
+        'message': render_application_message(job_application),
+        'footer': footer,
+    })
+
+
+def render_application_message(job_application):
     return get_template('jepostule/pipeline/emails/application.html').render({
         'job_application': job_application,
         'jepostule_base_url': settings.JEPOSTULE_BASE_URL,
     })
 
 
-def get_confirmation_message(job_application):
+def render_confirmation_email(job_application):
+    return get_template('jepostule/pipeline/emails/full.html').render({
+        'message': render_confirmation_message(job_application),
+    })
+
+
+def render_confirmation_message(job_application):
     return get_template('jepostule/pipeline/emails/confirmation.html').render({
         'job_application': job_application
     })

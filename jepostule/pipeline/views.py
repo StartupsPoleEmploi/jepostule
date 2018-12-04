@@ -2,8 +2,7 @@ import json
 
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from django.shortcuts import render, get_object_or_404, Http404
-from django.template.loader import get_template
+from django.shortcuts import render, get_object_or_404, Http404, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -18,27 +17,19 @@ from . import answer as answer_pipeline
 @login_required
 def email_application(request, job_application_id):
     job_application = get_object_or_404(models.JobApplication, id=job_application_id)
-    footer = get_template('jepostule/pipeline/emails/footer.html').render()
-    message = application_pipeline.get_application_message(job_application)
-    return view_email_response(request, message, footer=footer)
+    return HttpResponse(application_pipeline.render_application_email(job_application).encode())
 
 
 @login_required
 def email_confirmation(request, job_application_id):
     job_application = get_object_or_404(models.JobApplication, id=job_application_id)
-    return view_email_response(request, application_pipeline.get_confirmation_message(job_application))
+    return HttpResponse(application_pipeline.render_confirmation_email(job_application).encode())
 
 
 @login_required
 def email_answer(request, answer_id):
     answer = get_object_or_404(models.Answer, id=answer_id)
-    message = answer_pipeline.get_answer_message(answer)
-    return view_email_response(request, message)
-
-
-def view_email_response(request, message, **context):
-    context['message'] = message
-    return render(request, 'jepostule/pipeline/emails/full.html', context)
+    return HttpResponse(answer_pipeline.render_answer_email(answer).encode())
 
 
 @require_http_methods(['GET', 'POST'])
@@ -48,7 +39,7 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
         answer = models.Answer.objects.get(job_application=job_application)
         return render(request, 'jepostule/pipeline/answers/already_answered.html', {
             'subject': answer_pipeline.get_subject(job_application),
-            'message': answer_pipeline.get_answer_message(answer),
+            'message': answer_pipeline.render_answer_message(answer),
         })
 
     try:
@@ -79,7 +70,7 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
                 template = 'jepostule/pipeline/answers/preview.html'
                 context.update({
                     'subject': answer_pipeline.get_subject(job_application),
-                    'message': answer_pipeline.get_answer_details_message(form.instance),
+                    'message': answer_pipeline.render_answer_details_message(form.instance),
                 })
             else:
                 result = form.save()
