@@ -71,3 +71,8 @@ button.button-light {
 img.img-result {
     margin: 56px auto;
 }
+p.discrimination-warning {
+    margin-top: 0;
+    font-size: 12px;
+    /*margin-bottom: 0;*/
+}

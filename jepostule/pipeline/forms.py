@@ -13,6 +13,10 @@ class BaseAnswerForm(forms.ModelForm):
         self.instance.job_application = job_application
 
 
+class MessageWidget(forms.Textarea):
+    template_name = 'jepostule/pipeline/emails/widgets/message.html'
+
+
 class RejectionForm(BaseAnswerForm):
     title = "Refuser la candidature"
     template = 'jepostule/pipeline/answers/rejection.html'
@@ -24,7 +28,8 @@ class RejectionForm(BaseAnswerForm):
             'reason': forms.RadioSelect(attrs={
                 'class': 'bold'
             }),
-            'message': forms.Textarea(attrs={
+            'message': MessageWidget(attrs={
+                'template': '',
                 'placeholder': """Bonjour Madame, Monsieur,
 
 Nous ne pouvons donner suite à votre candidature car xxx"""
@@ -61,7 +66,7 @@ class RequestInfoForm(BaseAnswerForm):
             'employer_address': forms.TextInput(attrs={
                 'placeholder': '1 avenue de la République 75011 Paris',
             }),
-            'message': forms.Textarea(attrs={
+            'message': MessageWidget(attrs={
                 'rows': 10,
                 'placeholder': """Bonjour Madame, Monsieur,
 
@@ -102,7 +107,7 @@ class InterviewForm(BaseAnswerForm):
             'employer_address': forms.TextInput(attrs={
                 'placeholder': '1 avenue de la République 75011 Paris',
             }),
-            'message': forms.Textarea(attrs={
+            'message': MessageWidget(attrs={
                 'rows': 10,
                 'placeholder': "Questions ? Demande d'information ?",
             }),
