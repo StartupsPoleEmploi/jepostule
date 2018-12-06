@@ -139,6 +139,23 @@ optional arguments:
                         this delay (in seconds). Defaults to 10 minutes.
 ```
 
+### Debugging attachments from job applications
+
+The `forwardattachments` command will email the attachments associated to a specific job application to the right email addresses:
+
+```
+./manage.py forwardattachments --help                                            
+usage: manage.py forwardattachments job_application_id emails [emails ...]
+
+Find a specific job application and forward attachments for debugging
+purposes. Note that the attachments may not be found if they were removed from the
+Kafka queue.
+
+positional arguments:
+  job_application_id    Job application to find
+  emails                Email addresses to send attachments to
+```
+
 ## Running in production
 
 Copy the configuration file:
