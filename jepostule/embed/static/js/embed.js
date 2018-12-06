@@ -16,13 +16,16 @@
 
     /* Navigation */
     function displayStep() {
-        sendMessage('navigate', window.location.hash);
+        // Navigate to data step pointed by location hash, or the first data step if it cannot be found
         document.querySelectorAll("[data-step]").forEach(function(step) {
             step.setAttribute('hidden', '');
         });
         var visibleStep = document.querySelector("[data-step='" + window.location.hash.substring(1) + "']") || document.querySelector("[data-step]");
         visibleStep.removeAttribute('hidden');
         visibleStep.scrollIntoView();
+
+        // Warn parent window of navigation event
+        sendMessage('navigate', "#" + visibleStep.attributes["data-step"].value);
 
         // Warn parent window that height may have changed
         sendMessage("resize", "height", window.document.documentElement.scrollHeight);
