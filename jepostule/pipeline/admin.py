@@ -43,11 +43,13 @@ class JobApplicationAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     search_fields = ('created_at', 'candidate_email', 'employer_email', 'job',)
     sortable_by = ('created_at', 'candidate_email', 'employer_email',)
-    readonly_fields = ('employer_answer',)
+    readonly_fields = ('detailed_answer_link',)
     inlines = (JobApplicationEventInlineAdmin,)
 
-    def employer_answer(self, obj):
-        return answer_link(obj.answer)
+    def detailed_answer_link(self, obj):
+        # This will display "-" in case there is no answer
+        return detailed_answer_link(obj.answer.get_details())
+    detailed_answer_link.short_description = "Voir la réponse détaillée"
 
 
 @admin.register(models.JobApplicationEvent)
@@ -69,45 +71,73 @@ class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
     def employer_email(self, obj):
         return obj.job_application.employer_email
 
+class BaseAnswerAdmin(admin.ModelAdmin):
+    ordering = ('-created_at',)
+    date_hierarchy = 'created_at'
+    readonly_fields = ('job_application_link', 'email_link',)
+    exclude = ('job_application',)
+
+    def job_application_link(self, obj):
+        url = reverse(
+            'admin:jepostulepipeline_jobapplication_change',
+            kwargs={'object_id': obj.job_application.id},
+        )
+        return format_html(
+            "<a href='{url}'>Job Application ({email})</a>",
+            url=url,
+            email=obj.job_application.candidate_email,
+        )
+    job_application_link.short_description = "Voir la candidature associée"
+
+    def email_link(self, obj):
+        return answer_email_link(obj.answer_ptr)
+    email_link.short_description = "Voir l'email"
+
 
 @admin.register(models.Answer)
-class AnswerAdmin(admin.ModelAdmin):
-    date_hierarchy = 'created_at'
+class AnswerAdmin(BaseAnswerAdmin):
     list_display = ('created_at', 'job_application',)
     list_display_links = ('created_at',)
-    ordering = ('-created_at',)
-    readonly_fields = ('id', 'view_answer', 'job_application', 'answerrejection', 'answerrequestinfo', 'answerinterview',)
+    readonly_fields = (
+        'id', 'job_application_link', 'detailed_answer_link', 'email_link',
+        'answerrejection', 'answerrequestinfo', 'answerinterview',
+    )
 
-    def view_answer(self, obj):
-        return answer_link(obj)
+    def detailed_answer_link(self, obj):
+        return detailed_answer_link(obj.get_details())
+    detailed_answer_link.short_description = "Voir la réponse détaillée"
+
+    def email_link(self, obj):
+        return answer_email_link(obj)
+    email_link.short_description = "Voir l'email"
 
 
 @admin.register(models.AnswerRejection)
-class AnswerRejectionAdmin(admin.ModelAdmin):
-    ordering = ('-created_at',)
-    date_hierarchy = 'created_at'
+class AnswerRejectionAdmin(BaseAnswerAdmin):
     list_display = ('created_at', 'reason',)
 
 
 @admin.register(models.AnswerRequestInfo)
-class AnswerRequestInfoAdmin(admin.ModelAdmin):
-    ordering = ('-created_at',)
-    date_hierarchy = 'created_at'
+class AnswerRequestInfoAdmin(BaseAnswerAdmin):
     list_display = ('created_at', 'employer_email',)
 
 
 @admin.register(models.AnswerInterview)
-class AnswerInterviewAdmin(admin.ModelAdmin):
-    ordering = ('-created_at',)
-    date_hierarchy = 'created_at'
+class AnswerInterviewAdmin(BaseAnswerAdmin):
     list_display = ('created_at', 'employer_email', 'datetime', 'location',)
 
 
-def answer_link(answer):
-    # This will display "-" in case there is no answer
+def detailed_answer_link(detailed_answer):
+    answer_type = models.Answer.Types.ALL[detailed_answer.answer_type]
+    url = reverse(
+        'admin:jepostulepipeline_{}_change'.format(detailed_answer.__class__.__name__.lower()),
+        kwargs={'object_id': detailed_answer.id},
+    )
+    return format_html("<a href='{url}'>{type}</a>", url=url, type=answer_type)
+
+def answer_email_link(answer):
     url = reverse(
         'pipeline:email_answer',
         kwargs={'answer_id': answer.id}
     )
-    value = models.Answer.Types.ALL[answer.get_details().answer_type]
-    return format_html("<a href='{url}' target='_blank' rel='noopener'>Answer: {value}</a>", url=url, value=value)
+    return format_html("<a href='{url}' target='_blank' rel='noopener'>Email</a>", url=url)
