@@ -144,7 +144,7 @@ optional arguments:
 The `forwardattachments` command will email the attachments associated to a specific job application to the right email addresses:
 
 ```
-./manage.py forwardattachments --help                                            
+➭ ./manage.py forwardattachments --help
 usage: manage.py forwardattachments job_application_id emails [emails ...]
 
 Find a specific job application and forward attachments for debugging
@@ -154,6 +154,19 @@ Kafka queue.
 positional arguments:
   job_application_id    Job application to find
   emails                Email addresses to send attachments to
+```
+
+### Dump job application answers to csv
+
+```
+➭ ./manage.py dumpanswers --help
+usage: manage.py dumpanswers client_id dst
+
+Dump answer information with related job application to CSV.
+
+positional arguments:
+  client_id             Platform client ID of the platform (e.g: 'lbb')
+  dst                   Destination csv file path
 ```
 
 ## Running in production

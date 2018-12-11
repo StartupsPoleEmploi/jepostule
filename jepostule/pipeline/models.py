@@ -105,7 +105,14 @@ class Answer(models.Model):
         raise AttributeError('details')
 
 
-class AnswerRejection(Answer):
+class DetailedAnswerMixin:
+
+    @property
+    def type_name(self):
+        return self.Types.ALL[self.answer_type]
+
+
+class AnswerRejection(Answer, DetailedAnswerMixin):
     answer_type = Answer.Types.REJECTION
 
     REASON_UNKNOWN = 'unknown'
@@ -143,11 +150,11 @@ class AnswerEmployerInfo(Answer):
         abstract = True
 
 
-class AnswerRequestInfo(AnswerEmployerInfo):
+class AnswerRequestInfo(AnswerEmployerInfo, DetailedAnswerMixin):
     answer_type = Answer.Types.REQUEST_INFO
 
 
-class AnswerInterview(AnswerEmployerInfo):
+class AnswerInterview(AnswerEmployerInfo, DetailedAnswerMixin):
     answer_type = Answer.Types.INTERVIEW
 
     LOCATION_ONSITE = 'onsite'

@@ -128,12 +128,15 @@ class AnswerInterviewAdmin(BaseAnswerAdmin):
 
 
 def detailed_answer_link(detailed_answer):
-    answer_type = models.Answer.Types.ALL[detailed_answer.answer_type]
     url = reverse(
         'admin:jepostulepipeline_{}_change'.format(detailed_answer.__class__.__name__.lower()),
         kwargs={'object_id': detailed_answer.id},
     )
-    return format_html("<a href='{url}'>{type}</a>", url=url, type=answer_type)
+    return format_html(
+        "<a href='{url}'>{type}</a>",
+        url=url,
+        type=detailed_answer.type_name
+    )
 
 def answer_email_link(answer):
     url = reverse(
