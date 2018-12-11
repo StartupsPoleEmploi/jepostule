@@ -53,7 +53,7 @@ class RequestInfoForm(BaseAnswerForm):
         )
         labels = {
             'message': "",
-            'employer_name': "Nom du recruteur",
+            'employer_name': "Prénom et nom du recruteur",
             'employer_email': "Email du recruteur",
             'employer_phone': "Numéro de téléphone",
             'employer_address': "Adresse de l'entreprise",
@@ -93,7 +93,7 @@ class InterviewForm(BaseAnswerForm):
         )
         labels = {
             'location': "L'entretien se déroulera",
-            'employer_name': "Nom du recruteur",
+            'employer_name': "Prénom et nom du recruteur",
             'employer_email': "Email du recruteur",
             'employer_phone': "Numéro de téléphone",
             'employer_address': "Adresse de l'entreprise",
