@@ -88,7 +88,7 @@ def demo(request):
         try:
             auth_utils.verify_client_secret(client_id, client_secret)
         except auth_utils.exceptions.AuthError:
-            return Http404()
+            raise Http404
     else:
         client_id = get_object_or_404(ClientPlatform, client_id=ClientPlatform.DEMO_CLIENT_ID).client_id
     params = {
