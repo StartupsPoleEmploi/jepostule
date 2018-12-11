@@ -19,6 +19,7 @@ RUN npm install --unsafe-perm
 COPY . /jepostule
 ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
+ENV LANG C.UTF-8
 EXPOSE 8000
 
 RUN mkdir -p /var/log/uwsgi
