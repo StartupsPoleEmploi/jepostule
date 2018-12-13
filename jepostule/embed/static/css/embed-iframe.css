@@ -115,6 +115,10 @@ input[type="text"], input[type="email"], input[type="tel"], textarea {
 input[type="text"], input[type="email"], input[type="tel"] {
     height: 40px;
 }
+input[type="checkbox"] {
+    vertical-align: bottom;
+    margin-right: 10px;
+}
 textarea {
     height: 277px;
 }
