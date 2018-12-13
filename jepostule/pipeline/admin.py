@@ -58,7 +58,7 @@ class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
     list_display = ('id', 'created_at', 'name', 'value', 'candidate_email', 'employer_email', 'visualize',)
     list_display_links = ('id', 'name', 'value',)
     ordering = ('-created_at',)
-    search_fields = ('created_at', 'job_application', 'name',)
+    search_fields = ('created_at', 'name',)
     sortable_by = ('created_at', 'job_application', 'name',)
     readonly_fields = ('visualize',)
 
