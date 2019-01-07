@@ -27,6 +27,10 @@ class KafkaProducer(base.BaseProducer):
     @staticmethod
     def on_send_error(e):
         # Don't raise an exception here, because it's going to be caught
+        # We need to log an error in addition to an exception. This
+        # is because exception stacktraces that contain attachments
+        # are very large, and they may not reach sentry.
+        logger.error("An error occurred in the Kafka producer: %s", e)
         logger.exception(e)
 
 

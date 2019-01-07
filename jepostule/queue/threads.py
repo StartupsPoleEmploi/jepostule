@@ -39,6 +39,12 @@ class ThreadedConsumer:
                 try:
                     process(topic, value)
                 except Exception as e:# pylint: disable=broad-except
+                    # We need to log an error in addition to an exception. This
+                    # is because exception stacktraces that contain attachments
+                    # are very large, and they may not reach sentry.
+                    logger.error("Error processing value in topic %s. Please "
+                                 "check failed messages at "
+                                 "/admin/queue/failedmessage/. %s", topic, e)
                     logger.exception(e)
             if self.terminate:
                 return
