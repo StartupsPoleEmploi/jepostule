@@ -1,3 +1,5 @@
+import os
+
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
@@ -19,8 +21,8 @@ queue."""
             help="Job application to find"
         )
         parser.add_argument(
-            'emails', nargs='+',
-            help="Email addresses to send attachments to"
+            'dst', nargs='+',
+            help="Email addresses to send attachments to. Folder can also be specified this way."
         )
 
     def handle(self, *args, **options):
@@ -40,11 +42,25 @@ queue."""
                 if attachments:
                     for attachment in attachments:
                         print(attachment.name)
-                    send_mail(
-                        "job application {}".format(job_application_id),
-                        "", settings.JEPOSTULE_NO_REPLY,
-                        options['emails'],
-                        attachments=attachments,
-                    )
+                    transfer_attachments(job_application_id, attachments, options['dst'])
                 return
         print("Job application #{} was not found".format(job_application_id))
+
+def transfer_attachments(job_application_id, attachments, destinations):
+    for dst in destinations:
+        if is_email(dst):
+            send_mail(
+                "job application {}".format(job_application_id),
+                "", settings.JEPOSTULE_NO_REPLY, dst,
+                attachments=attachments,
+            )
+        else:
+            for attachment in attachments:
+                with open(os.path.join(dst, attachment.name), 'wb') as f:
+                    f.write(attachment.content)
+
+def is_email(dst):
+    """
+    Very simple heuristic to differentiate email addresses from folder paths
+    """
+    return "@" in dst and "/" not in dst
