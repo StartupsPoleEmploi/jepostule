@@ -116,6 +116,12 @@ PIPELINE = {
               'vendor/jquery.datetimepicker.full.js',
             ),
             'output_filename': 'js/answer.js',
+        },
+        'polyfill': {
+            'source_filenames': (
+              'js/polyfill/forEach.js',
+            ),
+            'output_filename': 'js/polyfill.js',
         }
     },
     'STYLESHEETS': {

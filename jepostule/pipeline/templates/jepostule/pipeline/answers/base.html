@@ -15,7 +15,9 @@
             {% block content %}{% endblock %}
         </div>
 
-        {% javascript 'answer' %}
         {% block footer %}{% endblock %}
+        {% javascript 'polyfill' %}
+        {% javascript 'answer' %}
+        {% block scripts %}{% endblock %}
     </body>
 </html>

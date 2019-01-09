@@ -9,5 +9,7 @@
     </head>
     <body>
         {% block content %}{% endblock %}
+        {% javascript 'polyfill' %}
+        <script src="{% static 'js/embed.js' %}"></script>
     </body>
 </html>
