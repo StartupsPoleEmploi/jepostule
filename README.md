@@ -1,4 +1,4 @@
-# Je Postule, par Pôle Emploi 
+# Je Postule, par Pôle emploi 
 
 ![Build status](https://img.shields.io/travis/StartupsPoleEmploi/jepostule.svg)
 ![GitHub](https://img.shields.io/github/license/StartupsPoleEmploi/jepostule.svg)
