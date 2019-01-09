@@ -41,7 +41,7 @@
         sendMessage("quit", e.target.attributes.href.value);
     }
     displayStep();
-    window.onpopstate = displayStep;
+    window.onhashchange = displayStep;
 
     // Synchronize form fields that share the same name
     function onFieldChange(e) {
