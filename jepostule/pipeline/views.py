@@ -1,6 +1,7 @@
 import json
 import logging
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.http import JsonResponse
@@ -103,7 +104,11 @@ def application_event_callback(request):
     """
     Callback endpoint used by Mailjet to monitor event updates
     https://dev.mailjet.com/guides/#events
+
+    The url given to mailjet should include the EVENT_CALLBACK_SECRET setting.
     """
+    if request.GET.get('secret') != settings.EVENT_CALLBACK_SECRET:
+        return error_response("Invalid secret", 403)
     if request.content_type != 'application/json':
         return error_response("Invalid content type", 400)
     try:

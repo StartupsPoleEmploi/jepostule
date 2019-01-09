@@ -3,7 +3,7 @@ from datetime import datetime
 from unittest import mock
 
 from django.contrib.auth.models import User
-from django.test import Client, TestCase
+from django.test import Client, TestCase, override_settings
 from django.urls import reverse
 from django.utils.html import escape as html_escape
 from django.utils import timezone
@@ -231,4 +231,20 @@ class EventCallbackTest(TestCase):
                 json.dumps(data),
                 content_type='application/json',
             )
+        self.assertEqual(200, response.status_code)
+
+    @override_settings(EVENT_CALLBACK_SECRET='abcd')
+    def test_secret_verification(self):
+        response = self.client.post(
+            reverse('pipeline:event_callback') + '?secret=incorrect',
+            json.dumps([]),
+            content_type='application/json',
+        )
+        self.assertEqual(403, response.status_code)
+
+        response = self.client.post(
+            reverse('pipeline:event_callback') + '?secret=abcd',
+            json.dumps([]),
+            content_type='application/json',
+        )
         self.assertEqual(200, response.status_code)

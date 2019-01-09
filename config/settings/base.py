@@ -176,6 +176,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 JEPOSTULE_NO_REPLY = 'nepasrepondre@jepostule.labonneboite.pole-emploi.fr'
 ATTACHMENTS_MAX_SIZE_BYTES = 10*1024*1024 # 10 Mb
 
+# For secure callback url, assign a random string value
+EVENT_CALLBACK_SECRET = None
+
 QUEUE_PRODUCER = 'jepostule.queue.handlers.franz.KafkaProducer'
 QUEUE_CONSUMER = 'jepostule.queue.handlers.franz.KafkaConsumer'
 KAFKA_BOOTSTRAP_SERVERS = ['localhost:9092']
