@@ -37,7 +37,7 @@ def email_answer(request, answer_id):
 def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=False):
     job_application = get_object_or_404(models.JobApplication, answer_uuid=answer_uuid)
     if models.Answer.objects.filter(job_application=job_application).exists():
-        return already_answered_response(request, job_application)
+        return already_answered_response(request, job_application.id)
 
     try:
         FormClass = {
@@ -73,7 +73,7 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
                 try:
                     result = form.save()
                 except IntegrityError:
-                    return already_answered_response(request, job_application)
+                    return already_answered_response(request, job_application.id)
                 answer_pipeline.send(result.job_application.id)
                 template = 'jepostule/pipeline/answers/success.html'
         else:
@@ -85,7 +85,8 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
     return render(request, template, context)
 
 
-def already_answered_response(request, job_application):
+def already_answered_response(request, job_application_id):
+    job_application = models.JobApplication.objects.get(id=job_application_id)
     return render(request, 'jepostule/pipeline/answers/already_answered.html', {
         'subject': answer_pipeline.get_subject(job_application),
         'message': answer_pipeline.render_answer_message(job_application.answer),
