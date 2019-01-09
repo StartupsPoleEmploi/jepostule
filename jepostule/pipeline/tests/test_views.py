@@ -217,3 +217,18 @@ class EventCallbackTest(TestCase):
             content_type='application/json',
         )
         self.assertEqual(200, response.status_code)
+
+    def test_spam_event(self):
+        data = [
+            {
+                'event': 'spam',
+                'email': 'hackz@loana.ru',
+            }
+        ]
+        with self.assertLogs('jepostule.pipeline.views', 'ERROR'):
+            response = self.client.post(
+                reverse('pipeline:event_callback'),
+                json.dumps(data),
+                content_type='application/json',
+            )
+        self.assertEqual(200, response.status_code)

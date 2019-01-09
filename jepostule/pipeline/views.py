@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
@@ -13,6 +14,9 @@ from . import forms
 from . import models
 from . import application as application_pipeline
 from . import answer as answer_pipeline
+
+
+logger = logging.getLogger(__name__)
 
 
 @login_required
@@ -111,4 +115,10 @@ def application_event_callback(request):
     for event in data:
         # Note that there is no way to make sure we are not flooded with spam events
         events.log(event)
+        if event.get('event') == 'spam':
+            # For now, we just log an error because spam events occur quite
+            # unfrequently. In the future, if more problems occur, we will need
+            # to increment a counter and launch a warning whenever this counter
+            # exceeds a threshold.
+            logger.error("Email spam alert: %s", event.get('email'))
     return JsonResponse({})
