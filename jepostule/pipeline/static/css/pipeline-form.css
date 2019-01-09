@@ -9,7 +9,7 @@ body {
     height: 70px;
     width: 539px;
     padding: 12px 0 0 0;
-    background-color: #656de5;
+    background-color: #4A90E2;
     color: white;
     font-weight: bold;
     text-align: center;
@@ -53,14 +53,14 @@ button {
     cursor: pointer;
     height: 48px;
     width: 100%;
-    background-color: #656de5;
+    background-color: #4A90E2;
     color: white;
     border-radius: 3px;
     border: 1px solid transparent;
     font-weight: bold;
 }
 button.button-light {
-    color: #656de5;
+    color: #4A90E2;
     background: none;
     border: none;
     font-weight: normal;
