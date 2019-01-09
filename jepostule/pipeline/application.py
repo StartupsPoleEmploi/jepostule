@@ -67,7 +67,9 @@ def send_confirmation_to_candidate(job_application_id):
 
 
 def render_application_email(job_application):
-    footer = get_template('jepostule/pipeline/emails/footer.html').render()
+    footer = get_template('jepostule/pipeline/emails/footer.html').render({
+        'jepostule_base_url': settings.JEPOSTULE_BASE_URL,
+    })
     return get_template('jepostule/pipeline/emails/full.html').render({
         'message': render_application_message(job_application),
         'footer': footer,
