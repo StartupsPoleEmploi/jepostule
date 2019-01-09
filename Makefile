@@ -12,7 +12,10 @@ services: build-kafka ## start 3rd party services, such as kafka
 stop: ## stop all services
 	docker-compose rm --stop --force
 
-debug:
+run: ## run a local server
+	./manage.py runserver
+
+debug: ## run a local server with debug settings
 	./manage.py runserver --settings=config.settings.debug
 
 test: ## run unit tests
