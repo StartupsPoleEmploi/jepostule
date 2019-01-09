@@ -16,7 +16,7 @@ from jepostule.pipeline import models
 def interview_form_data(**kwargs):
     data = {
         'location': models.AnswerInterview.LOCATION_ONSITE,
-        'datetime': '31/12/2018 08:00',
+        'datetime': '31/12/2051 08:00',
         'employer_name': 'Jessica Lange',
         'employer_email': 'jessica@example.com',
         'employer_phone': '0123456789',
@@ -91,7 +91,7 @@ class AnswerViewsTests(BaseViewTests):
         )
         self.assertEqual('Jessica Lange', self.job_application.answer.answerinterview.employer_name)
         self.assertEqual(
-            timezone.make_aware(datetime(2018, 12, 31, 8)).astimezone(timezone.utc),
+            timezone.make_aware(datetime(2051, 12, 31, 8)).astimezone(timezone.utc),
             self.job_application.answer.answerinterview.datetime
         )
 
@@ -122,12 +122,12 @@ class AnswerViewsTests(BaseViewTests):
 class FormsTests(BaseViewTests):
 
     def test_interview_answer_form_with_datetime_in_the_past(self):
-        with mock.patch.object(forms, 'now', return_value=timezone.make_aware(datetime(2018, 12, 31, 7, 59))):
+        with mock.patch.object(forms, 'now', return_value=timezone.make_aware(datetime(2051, 12, 31, 7, 59))):
             form = forms.InterviewForm(self.job_application, interview_form_data())
             self.assertEqual({}, form.errors)
             self.assertTrue(form.is_valid())
 
-        with mock.patch.object(forms, 'now', return_value=timezone.make_aware(datetime(2018, 12, 31, 8, 1))):
+        with mock.patch.object(forms, 'now', return_value=timezone.make_aware(datetime(2051, 12, 31, 8, 1))):
             form = forms.InterviewForm(self.job_application, interview_form_data())
             self.assertIn('datetime', form.errors)
             self.assertFalse(form.is_valid())
