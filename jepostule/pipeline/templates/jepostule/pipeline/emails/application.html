@@ -1,9 +1,11 @@
 <p class="text-center">{{ job_application.candidate_name }} vous propose de découvrir sa candidature</p>
 <br>
+<br>
 <p class="text-center"><b>Candidature spontanée - {{ job_application.job }}</b></p>
 
 <p style="margin: 0 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
 
+<br>
 <br>
 <p class="text-center"><b>Quelle réponse souhaitez-vous lui apporter ?</b></p>
 
@@ -24,9 +26,11 @@
     </th></tr></table></th>
 </tr></tbody></table>
 
+<br>
+
 <table class="row"><tbody><tr>
     <th class="small-12 large-4 columns first"><table><tr><th style="padding: 0 8px 0 8px;">
-        <p class="text-center">Coordonnées complètes</p>
+        <p class="text-center"><b>Coordonnées complètes</b></p>
         <p class="text-center">
             {{ job_application.candidate_name }}<br>
             {{ job_application.candidate_address }}<br>
