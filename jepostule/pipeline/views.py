@@ -93,7 +93,6 @@ def send_answer(request, answer_uuid, status, is_preview=False, modify_answer=Fa
 def already_answered_response(request, job_application_id):
     job_application = models.JobApplication.objects.get(id=job_application_id)
     return render(request, 'jepostule/pipeline/answers/already_answered.html', {
-        'subject': answer_pipeline.get_subject(job_application),
         'message': answer_pipeline.render_answer_message(job_application.answer),
     })
 

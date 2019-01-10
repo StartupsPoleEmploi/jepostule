@@ -1,9 +1,10 @@
 {% extends "jepostule/pipeline/answers/base.html" %}
 {% block title %}{{ form.title }}{% endblock %}
-{% block contenttitle %}Voici le récapitulatif de votre email{% endblock %}
+{% block contenttitle %}Récapitulatif de votre email{% endblock %}
 
 {% block content %}
 <p><b>Objet :</b> {{ subject }}</p>
+<br>
 {{ message|safe }}
 
 <form action="{% url 'pipeline:send_answer' answer_uuid=answer_uuid status=status  %}" method="POST">
