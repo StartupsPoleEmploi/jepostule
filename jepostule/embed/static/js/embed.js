@@ -199,9 +199,17 @@
         });
 
         // Show/Hide corresponding buttons
-        document.querySelectorAll('[data-count]').forEach(function(element) {
-            element.dataset.count = attachments.length;
-        });
+        // This is ugly, and would be better handled by css, but it's badly
+        // supported by IE 11
+        if (attachments.length === 0) {
+            document.getElementById("attachments-add").classList.remove("button-light");
+            document.getElementById("attachments-continue").style.display = 'none';
+            document.getElementById("no-attachments-continue").style.display = 'block';
+        } else {
+            document.getElementById("attachments-add").classList.add("button-light");
+            document.getElementById("attachments-continue").style.display = 'block';
+            document.getElementById("no-attachments-continue").style.display = 'none';
+        }
     }
     function clickRemoveAttachment(e) {
         sendMessage('attachments', 'remove');

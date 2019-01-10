@@ -102,10 +102,6 @@ a.button.button-light, button.button-light {
     background-color: white;
     color: #7D3D8D;
 }
-button.zero-dark[data-count="0"] {
-    background-color: #7D3D8D;
-    color: white;
-}
 input[type="text"], input[type="email"], input[type="tel"], textarea {
     width: 100%;
     border: 1px solid #979797;
@@ -134,15 +130,6 @@ form input, form input[type="text"], form input[type="email"], form input[type="
 }
 form textarea {
     margin: 0;
-}
-.one-display[data-count="0"] {
-    display: none;
-}
-.zero-display {
-    display: none;
-}
-.zero-display[data-count="0"] {
-    display: block;
 }
 .center {
     text-align: center;
