@@ -120,6 +120,7 @@ PIPELINE = {
         'polyfill': {
             'source_filenames': (
               'js/polyfill/forEach.js',
+              'js/polyfill/event.js',
             ),
             'output_filename': 'js/polyfill.js',
         }
