@@ -50,6 +50,26 @@
         input.addEventListener("change", onFieldChange);
     });
 
+    // Load some field values from local storage
+    function loadFromLocalStorage(input) {
+        if(input.value.length == 0) {
+            var value = localStorage.getItem(input.name);
+            if (value !== null) {
+                input.value = value;
+                input.dispatchEvent(new Event('change'), {'bubbles': true});
+            }
+        }
+    }
+    function saveToLocalStorage(input) {
+        if(input.value.length > 0) {
+            localStorage.setItem(input.name, input.value);
+        }
+    }
+    function forEachLocalStorageElement(func) {
+        document.querySelectorAll("input[data-localstorage]").forEach(func);
+    }
+    forEachLocalStorageElement(loadFromLocalStorage);
+
     /* Form and attachments validation */
     function clickValidateApplication(e) {
         // Maybe we could display a spinner here? In theory, form validation
@@ -74,27 +94,9 @@
             syncFormField(input);
         });
 
-        // Load some field values from local storage
-        var storageprefix = "";
-        function loadValue(input) {
-            if(input.value.length == 0) {
-                var value = localStorage.getItem(input.name);
-                if (value !== null) {
-                    input.value = value;
-                    input.dispatchEvent(new Event('change'), {'bubbles': true});
-                }
-            }
-        }
-        function saveValue(e) {
-            if(e.target.value.length > 0) {
-                localStorage.setItem(e.target.name, e.target.value);
-            }
-        }
-        document.querySelectorAll("input[data-localstorage]").forEach(function(input) {
-            loadValue(input);
-            input.addEventListener("change", saveValue);
-        });
-    
+        // Save values to local storage
+        forEachLocalStorageElement(saveToLocalStorage);
+
         // Validate asynchronously
         var formData = new FormData(form);
         var request = new XMLHttpRequest();
