@@ -260,7 +260,7 @@
             } else {
                 document.querySelector("[data-step='fin']").innerHTML = request.responseText;
                 window.location.hash = '#fin';
-                document.querySelectorAll("a.quit").forEach(function(element) {
+                document.querySelectorAll(".quit a").forEach(function(element) {
                     element.addEventListener("click", onClickQuit);
                 });
             }

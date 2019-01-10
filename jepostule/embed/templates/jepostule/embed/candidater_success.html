@@ -1,9 +1,13 @@
 {% load static %}
+<div class="title">
+    <h1>Candidature envoyée</h1>
+</div>
 <div class="step-content center">
-    <img src="{% static 'img/icons/valider.svg' %}" alt="">
-    <h2>Votre candidature a été envoyée avec succès</h2>
+    <img class="success" src="{% static 'img/icons/valider.svg' %}" alt="">
+    <h2>Votre candidature a été<br>
+        envoyée avec succès</h2>
 
     {% if next_url %}
-    <p><a href="{{ next_url }}" class="quit">Revenir à la page précédente</a></p>
+    <p class="quit"><a href="{{ next_url }}">Revenir à la page précédente</a></p>
     {% endif %}
 </div>

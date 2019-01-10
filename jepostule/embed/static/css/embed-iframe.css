@@ -28,6 +28,7 @@ body {
     right: 23px;
     font-size: 16px;
     font-weight: bold;
+    z-index: 1000;
 }
 .title h1 .disc {
     position: absolute;
@@ -35,8 +36,7 @@ body {
     right: 15px;
     width: 40px;
     height: 40px;
-    background-color: white;
-    opacity: 0.35;
+    background-color: #B257C9;
     border-radius: 50%;
 }
 h2 {
@@ -62,7 +62,7 @@ h3 {
 }
 .modify-link {
     text-align: center;
-    margin: 8px 0 24px 0;
+    margin: 8px 0 32px 0;
 }
 a {
     color: #4A4A4A;
@@ -79,10 +79,10 @@ a.color-link {
 }
 a.button, button {
     cursor: pointer;
-    display: inline-block;
+    display: block;
     height: 45px;
     width: 100%;
-    max-width: 400px;
+    max-width: 300px;
     margin: 24px auto 20px auto;
     padding: 14px 0 14px 0;
     text-align: center;
@@ -109,7 +109,7 @@ input[type="text"], input[type="email"], input[type="tel"], textarea {
     width: 100%;
     border: 1px solid #979797;
     border-radius: 3px;
-    padding: 0 5px 0 5px;
+    padding: 8px;
     margin: 8px 0 16px 0;
 }
 input[type="text"], input[type="email"], input[type="tel"] {
@@ -121,6 +121,9 @@ input[type="checkbox"] {
 }
 textarea {
     height: 277px;
+    padding: 16px;
+    font-family: "Open Sans", "Verdana", "sans-serif";
+    font-size: 14px;
 }
 form input, form input[type="text"], form input[type="email"], form input[type="tel"] {
     margin: 0;
@@ -171,4 +174,10 @@ ul[data-errors], ul[data-attachments-errors] {
     width: 0;
     height: 100%;
     background-color: rgb(23, 145, 220);
+}
+img.success {
+    margin: 80px 0 32px 0;
+}
+.quit {
+    margin-bottom: 106px;
 }
