@@ -103,6 +103,9 @@ a.button.button-light, button.button-light {
     background-color: white;
     color: #7D3D8D;
 }
+input, textarea {
+    font-size: 14px;
+}
 input[type="text"], input[type="email"], input[type="tel"], textarea {
     width: 100%;
     border: 1px solid #979797;
@@ -121,7 +124,6 @@ textarea {
     height: 277px;
     padding: 16px;
     font-family: "Open Sans", "Verdana", "sans-serif";
-    font-size: 14px;
 }
 form input, form input[type="text"], form input[type="email"], form input[type="tel"] {
     margin: 0;
