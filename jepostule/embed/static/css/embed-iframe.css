@@ -58,7 +58,8 @@ h3 {
     z-index: -1000;
 }
 .step-content {
-    padding: 8px 32px 8px 32px;
+    padding: 8px 32px 40px 32px;
+    margin-bottom: 64px;
 }
 .modify-link {
     text-align: center;
