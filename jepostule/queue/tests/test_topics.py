@@ -40,6 +40,14 @@ class TopicsTest(TestCase):
         self.assertEqual(('val1',), args)
         self.assertEqual({'namedparam': 'val2'}, kwargs)
 
+    def test_failed_message_having_empty_value(self):
+        failed = FailedMessage.objects.create(
+            topic='testtopic',
+            value=None,
+        )
+
+        self.assertEqual(failed.value_bytes, None) 
+
     def test_retry_and_delete(self):
         processor = mock.Mock()
         topics.subscribe('testtopic')(processor)

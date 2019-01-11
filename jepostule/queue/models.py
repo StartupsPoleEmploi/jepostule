@@ -16,7 +16,7 @@ class Message(models.Model):
 
     @property
     def value_bytes(self):
-        return bytes(self.value)
+        return None if self.value is None else bytes(self.value)
 
     @property
     def value_readable(self):
