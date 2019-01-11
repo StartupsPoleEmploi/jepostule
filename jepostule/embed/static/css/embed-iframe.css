@@ -11,7 +11,7 @@ body {
 }
 .title {
     position: relative;
-    height: 50px;
+    height: 70px;
     background-color: #7D3D8D;
     color: white;
     margin-top: 20px;
@@ -19,12 +19,12 @@ body {
 .title h1 {
     font-size: 22px;
     font-weight: normal;
-    padding: 10px 32px;
+    padding: 18px 32px;
     margin: 0;
 }
 .title h1 .step-index{
     position: absolute;
-    top: 12px;
+    top: 24px;
     right: 23px;
     font-size: 16px;
     font-weight: bold;
@@ -32,7 +32,7 @@ body {
 }
 .title h1 .disc {
     position: absolute;
-    top: 5px;
+    top: 15px;
     right: 15px;
     width: 40px;
     height: 40px;
