@@ -1,7 +1,7 @@
 <p>L'entreprise {{ answer_details.job_application.employer_description }} vous répond suite à votre candidature spontanée.</p>
 <br>
 <p class="text-center"><b>Proposition d'entretien d'embauche</b></p>
-<p>Si vous êtes disponible, {{ answer_details.employer_name }} aimerait vous rencontrer le {{ answer_details.datetime.date }} à {{ answer_details.datetime.time }}.</p>
+<p>Si vous êtes disponible, {{ answer_details.employer_name }} aimerait s'entretenir avec vous le {{ answer_details.datetime.date }} à {{ answer_details.datetime.time }}.</p>
 <p>L'entretien se déroulera {{ answer_details.location_verbose }}.</p>
 <br>
 {% if answer_details.message %}
