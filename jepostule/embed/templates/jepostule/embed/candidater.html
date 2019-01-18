@@ -54,7 +54,7 @@
 
         <h3>Vous pouvez personnaliser cet email</h3>
         <ul data-errors="message"></ul>
-        <textarea name="message" data-watchchanges>{{ form.cleaned_data.message }}</textarea>
+        <textarea name="message" data-localstorage data-watchchanges>{{ form.cleaned_data.message }}</textarea>
 
         <div class="center"><a href="#documents" class="button validate-application">Je continue</a></div>
     </div>

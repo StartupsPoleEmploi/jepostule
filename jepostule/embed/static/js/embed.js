@@ -52,21 +52,20 @@
 
     // Load some field values from local storage
     function loadFromLocalStorage(input) {
-        if(input.value.length == 0) {
-            var value = localStorage.getItem(input.name);
-            if (value !== null) {
-                input.value = value;
-                input.dispatchEvent(new Event('change'), {'bubbles': true});
-            }
+        var value = localStorage.getItem(input.name);
+        if (value !== null && value.length > 0) {
+            input.value = value;
+            input.dispatchEvent(new Event('change'), {'bubbles': true});
         }
     }
     function saveToLocalStorage(input) {
+        console.log("save", input.name, input.value);
         if(input.value.length > 0) {
             localStorage.setItem(input.name, input.value);
         }
     }
     function forEachLocalStorageElement(func) {
-        document.querySelectorAll("input[data-localstorage]").forEach(func);
+        document.querySelectorAll("[data-localstorage]").forEach(func);
     }
     forEachLocalStorageElement(loadFromLocalStorage);
 
