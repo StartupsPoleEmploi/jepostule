@@ -6,7 +6,7 @@
 #
 certifi==2018.10.15       # via sentry-sdk
 django-pipeline==1.6.14
-django==2.1.2
+django==2.1.5
 kafka-python==1.4.3
 psycopg2-binary==2.7.5
 pytz==2018.5              # via django

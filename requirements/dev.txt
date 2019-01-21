@@ -11,7 +11,7 @@ coverage==4.5.1
 decorator==4.3.0          # via ipython, traitlets
 django-debug-toolbar==1.11
 django-pipeline==1.6.14
-django==2.1.2
+django==2.1.5
 ipdb==0.11
 ipython-genutils==0.2.0   # via traitlets
 ipython==7.0.1            # via ipdb
