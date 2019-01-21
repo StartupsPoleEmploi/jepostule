@@ -56,7 +56,7 @@ class EmbedViewsTests(JobApplicationFormTestCase):
         self.assertEqual(1, len(mail.outbox))
         self.assertEqual(['boss@bigco.fr'], mail.outbox[0].recipients())
         self.assertEqual(['candidate@pe.fr'], mail.outbox[0].reply_to)
-        self.assertEqual(settings.JEPOSTULE_NO_REPLY, mail.outbox[0].from_email)
+        self.assertEqual("John Doe <{}>".format(settings.JEPOSTULE_NO_REPLY), mail.outbox[0].from_email)
 
         application.send_confirmation_to_candidate.consume()
         self.assertEqual(2, len(mail.outbox))

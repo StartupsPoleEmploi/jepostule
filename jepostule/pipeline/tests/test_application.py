@@ -18,6 +18,8 @@ class ApplicationTests(TestCase):
     def test_application_pipeline(self):
         job_application = models.JobApplication.objects.create(
             message="message",
+            candidate_first_name="Charles",
+            candidate_last_name="Sept",
             candidate_email="candidat@pe.fr",
             employer_email="boss@big.co",
             client_platform=ClientPlatform.objects.create(client_id="id"),
@@ -34,7 +36,7 @@ class ApplicationTests(TestCase):
             send_mail.assert_called_once()
 
             args, kwargs = send_mail.call_args
-            self.assertEqual(settings.JEPOSTULE_NO_REPLY, args[2])
+            self.assertEqual("Charles Sept <{}>".format(settings.JEPOSTULE_NO_REPLY), args[2])
             self.assertEqual(['boss@big.co'], args[3])
             self.assertEqual(1, len(kwargs['attachments']))
             self.assertEqual('moncv.doc', kwargs['attachments'][0].name)

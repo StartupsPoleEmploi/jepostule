@@ -40,8 +40,14 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     subject = "Candidature spontanée - {}".format(
         job_application.job,
     )
+    from_email = "{} {} <{}>".format(
+        job_application.candidate_first_name,
+        job_application.candidate_last_name,
+        settings.JEPOSTULE_NO_REPLY,
+    )
+
     send_mail(subject, render_application_email(job_application),
-              settings.JEPOSTULE_NO_REPLY, [job_application.employer_email],
+              from_email, [job_application.employer_email],
               reply_to=[job_application.candidate_email],
               attachments=attachments)
     job_application.events.create(name=JobApplicationEvent.SENT_TO_EMPLOYER)
