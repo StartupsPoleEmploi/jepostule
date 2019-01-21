@@ -48,7 +48,7 @@ class ApplicationTests(TestCase):
             send_mail.assert_called_once()
 
             args, kwargs = send_mail.call_args
-            self.assertEqual(settings.JEPOSTULE_NO_REPLY, args[2])
+            self.assertEqual("La Bonne Boite <{}>".format(settings.JEPOSTULE_NO_REPLY), args[2])
             self.assertEqual(['candidat@pe.fr'], args[3])
             self.assertIsNone(kwargs.get('attachments'))
             self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE).count())

@@ -61,7 +61,7 @@ class EmbedViewsTests(JobApplicationFormTestCase):
         application.send_confirmation_to_candidate.consume()
         self.assertEqual(2, len(mail.outbox))
         self.assertEqual(['candidate@pe.fr'], mail.outbox[1].recipients())
-        self.assertEqual(settings.JEPOSTULE_NO_REPLY, mail.outbox[1].from_email)
+        self.assertEqual("La Bonne Boite <{}>".format(settings.JEPOSTULE_NO_REPLY), mail.outbox[1].from_email)
 
 
     def test_send_with_incorrect_application_token(self):

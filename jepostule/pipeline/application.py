@@ -65,10 +65,13 @@ def send_confirmation_to_candidate(job_application_id):
     """
     job_application = JobApplication.objects.get(id=job_application_id)
     subject = "Votre candidature a bien été envoyée"
+    from_email = "La Bonne Boite <{}>".format(
+        settings.JEPOSTULE_NO_REPLY
+    )
     message = get_template('jepostule/pipeline/emails/full.html').render({
         'message': render_confirmation_message(job_application),
     })
-    send_mail(subject, message, settings.JEPOSTULE_NO_REPLY, [job_application.candidate_email])
+    send_mail(subject, message, from_email, [job_application.candidate_email])
     job_application.events.create(name=JobApplicationEvent.CONFIRMED_TO_CANDIDATE)
 
 
