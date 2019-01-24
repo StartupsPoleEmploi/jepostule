@@ -39,6 +39,7 @@ def get_candidater(request):
         'form': form,
         'form_errors': form_errors,
         'attachments_form': attachments_form,
+        'platform_name': form.instance.platform_attribute('name'),
     })
 
 

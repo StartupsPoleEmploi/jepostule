@@ -181,7 +181,8 @@ REDIS_DB = 0
 JEPOSTULE_BASE_URL = 'http://127.0.0.1:8000'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 JEPOSTULE_NO_REPLY = 'contact@jepostule.labonneboite.pole-emploi.fr'
-ATTACHMENTS_MAX_SIZE_BYTES = 10*1024*1024 # 10 Mb
+PLATFORM_ATTRIBUTES = {}
+ATTACHMENTS_MAX_SIZE_BYTES = 10 * 1024 * 1024  # 10 Mb
 
 # For secure callback url, assign a random string value
 EVENT_CALLBACK_SECRET = None

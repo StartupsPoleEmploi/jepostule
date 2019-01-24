@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.template.loader import get_template
 
 from jepostule.queue import topics
@@ -29,7 +28,7 @@ def send_answer_to_candidate(job_application_id):
     if hasattr(context['answer_details'], 'employer_email'):
         reply_to.append(context['answer_details'].employer_email)
 
-    send_mail(subject, message, settings.JEPOSTULE_NO_REPLY,
+    send_mail(subject, message, job_application.platform_attribute('contact_email'),
               [job_application.candidate_email],
               reply_to=reply_to)
     job_application.events.create(name=models.JobApplicationEvent.ANSWERED)

@@ -43,7 +43,7 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     from_email = "{} {} <{}>".format(
         job_application.candidate_first_name,
         job_application.candidate_last_name,
-        settings.JEPOSTULE_NO_REPLY,
+        job_application.platform_attribute('contact_email'),
     )
 
     send_mail(subject, render_application_email(job_application),
@@ -65,8 +65,9 @@ def send_confirmation_to_candidate(job_application_id):
     """
     job_application = JobApplication.objects.get(id=job_application_id)
     subject = "Votre candidature a bien été envoyée"
-    from_email = "La Bonne Boite <{}>".format(
-        settings.JEPOSTULE_NO_REPLY
+    from_email = "{} <{}>".format(
+        job_application.platform_attribute('name'),
+        job_application.platform_attribute('contact_email'),
     )
     message = get_template('jepostule/pipeline/emails/full.html').render({
         'message': render_confirmation_message(job_application),

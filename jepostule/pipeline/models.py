@@ -1,5 +1,6 @@
 import uuid
 
+from django.conf import settings
 from django.db import models
 
 from jepostule.auth.models import ClientPlatform
@@ -36,6 +37,24 @@ class JobApplication(models.Model):
     @property
     def answer_types(self):
         return Answer.Types
+
+    DEFAULT_PLATFORM_ATTRIBUTES = {
+        'contact_email': settings.JEPOSTULE_NO_REPLY,
+        'name': 'La Bonne Boite',
+    }
+
+    def platform_attribute(self, key):
+        """
+        Attributes are platform-specific key/values set in the django settings.
+        This is a quick'n dirty way to have different templates and values for
+        different platforms. In the future, we should probably store these
+        values in the database.
+        """
+        default = self.DEFAULT_PLATFORM_ATTRIBUTES[key]  # Fail early if key does not exist
+        try:
+            return settings.PLATFORM_ATTRIBUTES.get(self.client_platform.client_id, {})[key]
+        except (ClientPlatform.DoesNotExist, KeyError):
+            return default
 
 
 class JobApplicationEvent(models.Model):
