@@ -70,7 +70,7 @@ Run unit tests with code coverage:
 
 ### Running a local development server
 
-    ./manage.py runserver
+    make run
 
 You can then view a demo of Je Postule at [http://127.0.0.1:8000/embed/demo](http://127.0.0.1:8000/embed/demo).  However, this will return a 404 unless you create a demo user (see below).
 
