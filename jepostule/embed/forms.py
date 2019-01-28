@@ -4,6 +4,7 @@ from django import forms
 from jepostule.auth import utils as auth_utils
 from jepostule.pipeline.models import JobApplication
 
+SEND_CONFIRMATION_EMAIL_DEFAULT = False
 
 
 class JobApplicationPartialForm(forms.ModelForm):
@@ -69,7 +70,7 @@ C'est avec plaisir que je vous rencontrerai lors d'un entretien afin de vous pr�
 
 Dans l'attente de votre retour, je reste à votre écoute pour tout complément d'information.
 """,
-        'send_confirmation': False,
+        'send_confirmation': SEND_CONFIRMATION_EMAIL_DEFAULT,
     }
 
     class Meta:
@@ -89,7 +90,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
 
     send_confirmation = forms.BooleanField(
         label="Je souhaite recevoir une copie de ma candidature sur ma boite mail",
-        initial=True,
+        initial=SEND_CONFIRMATION_EMAIL_DEFAULT,
         required=False,
     )
     next_url = forms.URLField(
