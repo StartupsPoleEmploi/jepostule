@@ -89,7 +89,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
 
     send_confirmation = forms.BooleanField(
         label="Je souhaite recevoir une copie de ma candidature sur ma boite mail",
-        initial=True,
+        initial=False,
         required=False,
     )
     next_url = forms.URLField(
