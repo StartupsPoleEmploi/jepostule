@@ -69,7 +69,7 @@ C'est avec plaisir que je vous rencontrerai lors d'un entretien afin de vous pr�
 
 Dans l'attente de votre retour, je reste à votre écoute pour tout complément d'information.
 """,
-        'send_confirmation': True,
+        'send_confirmation': False,
     }
 
     class Meta:
@@ -89,7 +89,7 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
 
     send_confirmation = forms.BooleanField(
         label="Je souhaite recevoir une copie de ma candidature sur ma boite mail",
-        initial=False,
+        initial=True,
         required=False,
     )
     next_url = forms.URLField(
