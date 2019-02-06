@@ -17,3 +17,9 @@
     --partitions=1 --replication-factor=1 --topic=send-answer
 /kafka/bin/kafka-configs.sh --zookeeper=$ZOOKEEPER_CONNECT --alter --entity-type=topics \
     --entity-name=send-answer --add-config 'cleanup.policy=delete,retention.ms=432000000,max.message.bytes=1048576'
+
+# process-email-event: 10 days retention, 1 Mb messages
+/kafka/bin/kafka-topics.sh --zookeeper=$ZOOKEEPER_CONNECT --create --if-not-exists \
+    --partitions=1 --replication-factor=1 --topic=process-email-event
+/kafka/bin/kafka-configs.sh --zookeeper=$ZOOKEEPER_CONNECT --alter --entity-type=topics \
+    --entity-name=process-email-event --add-config 'cleanup.policy=delete,retention.ms=864000000,max.message.bytes=1048576'

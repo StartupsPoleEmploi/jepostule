@@ -59,10 +59,16 @@ def subscribe(topic):
     """
     def decorator(func):
         Processors.subscribe(topic, func)
+
         def run_async(*args, **kwargs):
-            produce(topic, *args, **kwargs)
+            if settings.QUEUE_RUN_ASYNC:
+                produce(topic, *args, **kwargs)
+            else:
+                func(*args, **kwargs)
+
         def consume_topic():
             consume(topic)
+
         func.run_async = run_async
         func.consume = consume_topic
         return func

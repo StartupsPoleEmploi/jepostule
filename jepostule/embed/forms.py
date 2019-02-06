@@ -1,10 +1,52 @@
+import logging
+
 from django.conf import settings
 from django import forms
 
 from jepostule.auth import utils as auth_utils
-from jepostule.pipeline.models import JobApplication
+from jepostule.pipeline.models import JobApplication, Email
+from jepostule.security import blacklist
 
-SEND_CONFIRMATION_EMAIL_DEFAULT = False
+
+logger = logging.getLogger(__name__)
+
+class BlacklistForm(forms.Form):
+
+    candidate_email = forms.EmailField()
+    employer_email = forms.EmailField()
+
+    def clean_candidate_email(self):
+        details = blacklist.details(self.cleaned_data['candidate_email'])
+        if details.is_blacklisted:
+            message = "La raison du problème est malheureusement inconnue :-("
+            if details.reason == Email.SPAM:
+                message = (
+                    "Votre hébergeur de mail considère nos messages "
+                    "comme des spams. Nous ne pouvons donc vous contacter "
+                    "par email. Si vous pensez qu'il s'agit d'une erreur, "
+                    "veuillez contacter votre hébergeur de mail directement. "
+                )
+            elif details.reason == Email.BLOCKED:
+                message = (
+                    "Nos messages sont bloqués et ne peuvent pas vous être "
+                    "délivrés. Le problème peut venir d'une adresse email "
+                    "incorrecte ou d'une boite email pleine."
+                )
+            else:
+                logger.error("Unknown blacklisting reason: %s", details.reason)
+            raise forms.ValidationError(message)
+        return self.cleaned_data['candidate_email']
+
+    def clean_employer_email(self):
+        details = blacklist.details(self.cleaned_data['employer_email'])
+        if details.is_blacklisted:
+            raise forms.ValidationError(
+                "Les emails que nous essayons d'envoyer à cette entreprise ne"
+                "sont pas correctement reçus, pour des raisons indépendantes de"
+                "notre volonté :-( Nous ne pouvons donc pas envoyer de"
+                "candidature de votre part."
+            )
+        return self.cleaned_data['employer_email']
 
 
 class JobApplicationPartialForm(forms.ModelForm):
@@ -61,6 +103,7 @@ class JobApplicationPartialForm(forms.ModelForm):
 
 
 class JobApplicationForm(JobApplicationPartialForm):
+    SEND_CONFIRMATION_EMAIL_DEFAULT = False
     defaults = {
         'message': """Bonjour,
 
@@ -125,10 +168,9 @@ class AttachmentsField(forms.FileField):
         for attachment in value:
             total_size += attachment.size
             if total_size > settings.ATTACHMENTS_MAX_SIZE_BYTES:
-                max_size_mb = settings.ATTACHMENTS_MAX_SIZE_BYTES // (1024*1024)
+                max_size_mb = settings.ATTACHMENTS_MAX_SIZE_BYTES // (1024 * 1024)
                 message = "Pièces jointes trop grosses. La taille maximale autorisée est de %(max_size_mb)s Mo"
                 raise forms.ValidationError(message, params={'max_size_mb': max_size_mb})
-
 
 
 class AttachmentsForm(forms.Form):

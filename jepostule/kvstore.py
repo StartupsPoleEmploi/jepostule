@@ -16,7 +16,6 @@ class Redis:
             )
         return StrictRedis(connection_pool=cls.CONNECTION_POOL)
 
-
 def redis():
     """
     Return a redis client.

@@ -3,3 +3,4 @@ django-pipeline
 kafka-python
 psycopg2-binary
 redis
+requests

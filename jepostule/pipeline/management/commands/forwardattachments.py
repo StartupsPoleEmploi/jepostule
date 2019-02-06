@@ -6,7 +6,7 @@ from django.core.management.base import BaseCommand
 import kafka
 
 from jepostule.queue.serialize import loads
-from jepostule.pipeline.utils import send_mail
+from jepostule.email.utils import send_mail
 
 
 class Command(BaseCommand):

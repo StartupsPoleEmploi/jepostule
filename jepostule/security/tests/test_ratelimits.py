@@ -1,15 +1,10 @@
 from time import sleep
 
-from django.test import TestCase
-
-from jepostule.pipeline import ratelimits
-from jepostule.kvstore import redis
+from jepostule.security import ratelimits
+from jepostule.tests.base import CacheTestCase
 
 
-class RateLimitTests(TestCase):
-
-    def setUp(self):
-        redis().flushall()
+class RateLimitTests(CacheTestCase):
 
     def test_single_rate_limit(self):
         class TestLimiter(ratelimits.BaseLimiter):
@@ -43,7 +38,6 @@ class RateLimitTests(TestCase):
         self.assertLess(delay2, 60)
         self.assertLess(119, delay3)
         self.assertLess(delay3, 120)
-
 
     def test_flushing(self):
         class TestLimiter(ratelimits.BaseLimiter):

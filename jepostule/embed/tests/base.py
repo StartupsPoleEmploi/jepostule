@@ -1,11 +1,10 @@
 from time import time
 
-from django.test import TestCase
-
 from jepostule.auth.models import ClientPlatform
+from jepostule.tests.base import CacheTestCase
 
 
-class JobApplicationFormTestCase(TestCase):
+class JobApplicationFormTestCase(CacheTestCase):
 
     def setUp(self):
         super().setUp()
