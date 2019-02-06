@@ -1,3 +1,5 @@
+from unittest import mock
+
 from django.core import mail
 from django.test import TestCase
 from django.utils.timezone import now
@@ -8,6 +10,24 @@ from jepostule.pipeline import answer
 
 
 class AnswerTests(TestCase):
+
+    def test_answer_event(self):
+        job_application = models.JobApplication.objects.create(
+            candidate_email='candidate@pe.fr',
+            client_platform=ClientPlatform.objects.create(client_id="id"),
+        )
+        models.AnswerInterview.objects.create(
+            job_application=job_application,
+            datetime=now(),
+            employer_email='boss@bigco.com',
+        )
+        answer.send(job_application.id)
+        with mock.patch.object(answer, 'send_mail', return_value=[1234]) as send_mail:
+            answer.send_answer_to_candidate.consume()
+            send_mail.assert_called_once()
+        event = models.JobApplicationEvent.objects.get(name=models.JobApplicationEvent.ANSWERED)
+        self.assertEqual(1234, event.email.message_id)
+        self.assertEqual(event.email.SENT, event.email.status)
 
     def test_answer_interview(self):
         job_application = models.JobApplication.objects.create(

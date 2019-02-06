@@ -4,13 +4,16 @@
 #
 #    pip-compile --output-file requirements/prod.txt requirements/base.in requirements/prod.in
 #
-certifi==2018.10.15       # via sentry-sdk
+certifi==2018.10.15       # via requests, sentry-sdk
+chardet==3.0.4            # via requests
 django-pipeline==1.6.14
 django==2.1.5
+idna==2.8                 # via requests
 kafka-python==1.4.3
 psycopg2-binary==2.7.5
 pytz==2018.5              # via django
 redis==2.10.6
+requests==2.21.0
 sentry-sdk==0.4.3
-urllib3==1.24             # via sentry-sdk
+urllib3==1.24             # via requests, sentry-sdk
 uwsgi==2.0.17.1

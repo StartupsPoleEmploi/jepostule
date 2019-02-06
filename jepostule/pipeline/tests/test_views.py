@@ -9,6 +9,7 @@ from django.utils.html import escape as html_escape
 from django.utils import timezone
 
 from jepostule.auth.models import ClientPlatform
+from jepostule.pipeline import events
 from jepostule.pipeline import forms
 from jepostule.pipeline import models
 
@@ -225,12 +226,11 @@ class EventCallbackTest(TestCase):
                 'email': 'hackz@loana.ru',
             }
         ]
-        with self.assertLogs('jepostule.pipeline.views', 'ERROR'):
-            response = self.client.post(
-                reverse('pipeline:event_callback'),
-                json.dumps(data),
-                content_type='application/json',
-            )
+        response = self.client.post(
+            reverse('pipeline:event_callback'),
+            json.dumps(data),
+            content_type='application/json',
+        )
         self.assertEqual(200, response.status_code)
 
     @override_settings(EVENT_CALLBACK_SECRET='abcd')

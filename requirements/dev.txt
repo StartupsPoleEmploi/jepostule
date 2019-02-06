@@ -6,12 +6,15 @@
 #
 astroid==2.0.4            # via pylint
 backcall==0.1.0           # via ipython
+certifi==2018.11.29       # via requests
+chardet==3.0.4            # via requests
 click==7.0                # via pip-tools
 coverage==4.5.1
 decorator==4.3.0          # via ipython, traitlets
 django-debug-toolbar==1.11
 django-pipeline==1.6.14
 django==2.1.5
+idna==2.8                 # via requests
 ipdb==0.11
 ipython-genutils==0.2.0   # via traitlets
 ipython==7.0.1            # via ipdb
@@ -31,10 +34,12 @@ pygments==2.2.0           # via ipython
 pylint==2.1.1
 pytz==2018.5              # via django
 redis==2.10.6
+requests==2.21.0
 simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via astroid, pip-tools, prompt-toolkit, traitlets
 sqlparse==0.2.4           # via django-debug-toolbar
 traitlets==4.3.2          # via ipython
 typed-ast==1.1.0          # via astroid
+urllib3==1.24.1           # via requests
 wcwidth==0.1.7            # via prompt-toolkit
 wrapt==1.10.11            # via astroid

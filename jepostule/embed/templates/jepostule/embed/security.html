@@ -1,0 +1,18 @@
+{% extends "jepostule/embed/base.html" %}
+
+{% block content %}
+<div data-step="invalid">
+    <div class="title"><h1>J'envoie ma candidature</h1></div>
+    <div class="step-content center">
+        <p>Malheureusement nous ne pouvons pas procéder à l'envoi de votre candidature à cette entreprise.</p>
+
+        <p>{% for field in form %}
+        {% for error in field.errors %}
+        {{ error }}
+        {% endfor %}
+        {% endfor %}</p>
+
+        <p>Il est possible qu'il s'agisse d'un problème temporaire qui sera résolu d'ici quelques jours. En attendant, nous vous encourageons à candidater auprès de l'entreprise en lui envoyant directement un email : <a href="mailto:{{ form.cleaned_data.employer_email }}">{{ form.cleaned_data.employer_email }}</a>.</p>
+    </div>
+</div>
+{% endblock %}

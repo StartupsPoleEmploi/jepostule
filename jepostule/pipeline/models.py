@@ -75,11 +75,37 @@ class JobApplicationEvent(models.Model):
         JobApplication, on_delete=models.CASCADE, related_name='events'
     )
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
-    name = models.CharField(choices=NAMES, max_length=32, db_index=True, blank=False)
+    name = models.CharField(choices=NAMES, max_length=32, db_index=True)
     value = models.CharField(max_length=256, blank=True)
+
+    @property
+    def to_email(self):
+        if self.name in [self.CONFIRMED_TO_CANDIDATE, self.ANSWERED]:
+            return self.job_application.candidate_email
+        return self.job_application.employer_email
 
     class Meta:
         ordering = ['created_at']
+
+
+class Email(models.Model):
+    SENT = 'sent'
+    OPENED = 'opened'
+    SPAM = 'spam'
+    BLOCKED = 'blocked'
+    BOUNCED = 'bounced'
+    STATUSES = (
+        (SENT, "Envoyé"),
+        (OPENED, "Ouvert"),
+        (SPAM, "Mis en spam"),
+        (BLOCKED, "Bloqué (non envoyé)"),
+        (BOUNCED, "Bloqué (non reçu)"),
+    )
+
+    event = models.OneToOneField(JobApplicationEvent, on_delete=models.CASCADE)
+    message_id = models.BigIntegerField(db_index=True, null=True)
+    status = models.CharField(choices=STATUSES, max_length=16, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class Answer(models.Model):

@@ -3,6 +3,7 @@ from .base import * # pylint: disable=unused-wildcard-import
 REDIS_DB = 1
 PIPELINE['PIPELINE_ENABLED'] = False
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+MAILJET_API_BASE_URL = "https://thisdoesnotexist.com"
 
 LOGGING['handlers'] = {
     'console': {

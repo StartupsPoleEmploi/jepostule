@@ -25,6 +25,11 @@ def get_candidater(request):
     Generate application form and display it.
     """
     form_data = request.GET.copy()
+    blacklist_form = forms.BlacklistForm(data=form_data)
+    if not blacklist_form.is_valid():
+        return render(request, 'jepostule/embed/security.html', {
+            'form': blacklist_form,
+        })
     for k, v in forms.JobApplicationForm.defaults.items():
         form_data.setdefault(k, v)
     form = forms.JobApplicationForm(data=form_data)
@@ -63,7 +68,6 @@ def post_candidater(request):
         'form': form,
         'attachments_form': attachments_form,
     })
-
 
 
 @csrf_exempt

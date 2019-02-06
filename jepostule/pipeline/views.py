@@ -117,12 +117,5 @@ def application_event_callback(request):
     if not isinstance(data, list):
         return error_response("Expected array in json content", 400)
     for event in data:
-        # Note that there is no way to make sure we are not flooded with spam events
-        events.log(event)
-        if event.get('event') == 'spam':
-            # For now, we just log an error because spam events occur quite
-            # unfrequently. In the future, if more problems occur, we will need
-            # to increment a counter and launch a warning whenever this counter
-            # exceeds a threshold.
-            logger.error("Email spam alert: %s", event.get('email'))
+        events.receive(event)
     return JsonResponse({})

@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'jepostule.embed',
     'jepostule.pipeline.apps.PipelineConfig',
     'jepostule.queue',
+    'jepostule.security',
 ]
 
 MIDDLEWARE = [
@@ -180,15 +181,21 @@ REDIS_DB = 0
 
 JEPOSTULE_BASE_URL = 'http://127.0.0.1:8000'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_SENDING_MODULE = 'jepostule.email.backends.django'
 JEPOSTULE_NO_REPLY = 'contact@jepostule.labonneboite.pole-emploi.fr'
 PLATFORM_ATTRIBUTES = {}
 ATTACHMENTS_MAX_SIZE_BYTES = 10 * 1024 * 1024  # 10 Mb
+BLACKLIST_DURATION_SECONDS = 30 * 24 * 3600
+MAILJET_API_BASE_URL = "https://api.mailjet.com/v3.1"
+MAILJET_API_KEY = "setme"
+MAILJET_API_SECRET = "setme"
 
 # For secure callback url, assign a random string value
 EVENT_CALLBACK_SECRET = None
 
 QUEUE_PRODUCER = 'jepostule.queue.handlers.franz.KafkaProducer'
 QUEUE_CONSUMER = 'jepostule.queue.handlers.franz.KafkaConsumer'
+QUEUE_RUN_ASYNC = True
 KAFKA_BOOTSTRAP_SERVERS = ['localhost:9092']
 
 TEST_RUNNER = 'jepostule.tests.runner.JePostuleRunner'

@@ -1,7 +1,7 @@
 from django.template.loader import get_template
 
 from jepostule.queue import topics
-from .utils import send_mail
+from jepostule.email.utils import send_mail
 from . import models
 
 
@@ -28,16 +28,26 @@ def send_answer_to_candidate(job_application_id):
     if hasattr(context['answer_details'], 'employer_email'):
         reply_to.append(context['answer_details'].employer_email)
 
-    send_mail(subject, message, job_application.platform_attribute('contact_email'),
-              [job_application.candidate_email],
-              reply_to=reply_to)
-    job_application.events.create(name=models.JobApplicationEvent.ANSWERED)
+    message_id = send_mail(
+        subject, message, job_application.platform_attribute('contact_email'),
+        [job_application.candidate_email],
+        reply_to=reply_to
+    )
+    event = job_application.events.create(
+        name=models.JobApplicationEvent.ANSWERED,
+    )
+    models.Email.objects.create(
+        event=event,
+        message_id=message_id[0],
+        status=models.Email.SENT,
+    )
 
 
 def render_answer_email(answer):
     return get_template('jepostule/pipeline/emails/full.html').render({
         'message': render_answer_message(answer),
     })
+
 
 def render_answer_message(answer):
     """
