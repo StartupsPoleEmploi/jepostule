@@ -25,7 +25,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         datetime_format = "%Y%m%d-%H:%M:%S"
         min_date = make_aware(datetime.strptime(options["min_date"], datetime_format)) if options["min_date"] else None
-        max_date = make_aware(datetime.strptime(options["max_date"], datetime_format)) if options["min_date"] else None
+        max_date = make_aware(datetime.strptime(options["max_date"], datetime_format)) if options["max_date"] else None
 
         application_query = {}
         answer_query = {}
