@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import reverse
 from django.utils.html import format_html
 
+from jepostule.security import blacklist
 from . import models
 
 
@@ -43,13 +44,21 @@ class JobApplicationAdmin(admin.ModelAdmin):
     ordering = ('-created_at',)
     search_fields = ('id', 'created_at', 'candidate_email', 'employer_email', 'job',)
     sortable_by = ('created_at', 'candidate_email', 'employer_email',)
-    readonly_fields = ('detailed_answer_link',)
+    readonly_fields = ('detailed_answer_link', 'is_candidate_blacklisted', 'is_employer_blacklisted',)
     inlines = (JobApplicationEventInlineAdmin,)
 
     def detailed_answer_link(self, obj):
         # This will display "-" in case there is no answer
         return detailed_answer_link(obj.answer.get_details())
     detailed_answer_link.short_description = "Voir la réponse détaillée"
+
+    def is_candidate_blacklisted(self, obj):
+        return blacklist.is_blacklisted(obj.candidate_email)
+    is_candidate_blacklisted.short_description = "Candidat sur liste noire"
+
+    def is_employer_blacklisted(self, obj):
+        return blacklist.is_blacklisted(obj.employer_email)
+    is_employer_blacklisted.short_description = "Employeur sur liste noire"
 
 
 @admin.register(models.JobApplicationEvent)
