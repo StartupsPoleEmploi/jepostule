@@ -139,6 +139,8 @@ def detailed_answer_link(detailed_answer):
     )
 
 def answer_email_link(answer):
+    if not answer.id:
+        return ""
     url = reverse(
         'pipeline:email_answer',
         kwargs={'answer_id': answer.id}
