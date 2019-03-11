@@ -1,3 +1,5 @@
+import base64
+import mimetypes
 import re
 
 from django.conf import settings
@@ -7,6 +9,11 @@ import requests
 def send(subject, html_content, from_email, recipients, reply_to=None, attachments=None):
     from_name, from_email = parse_contact(from_email)
     to_names_emails = [parse_contact(recipient) for recipient in recipients]
+    attachments = [{
+        "ContentType": mimetype(attachment[0]),
+        "Filename": attachment[0],
+        "Base64Content": base64.encodebytes(attachment[1]).decode().strip(),
+    } for attachment in attachments] if attachments else []
     response = post_api(
         "/send",
         {
@@ -22,6 +29,7 @@ def send(subject, html_content, from_email, recipients, reply_to=None, attachmen
                     } for recipient in to_names_emails],
                     "Subject": subject,
                     "HTMLPart": html_content,
+                    "Attachments": attachments,
                 }
             ]
         }
@@ -41,6 +49,10 @@ def parse_contact(contact):
     if match:
         return match['name'], match['email']
     return "", contact
+
+def mimetype(url):
+    types = mimetypes.guess_type(url, strict=False)
+    return types[0] if types and types[0] else 'application/octet-stream'
 
 def post_api(endpoint, data):
     url = settings.MAILJET_API_BASE_URL + endpoint
