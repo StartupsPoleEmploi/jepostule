@@ -11,16 +11,14 @@ WORKDIR /jepostule
 COPY ./requirements/ ./requirements/
 RUN pip install -r requirements/prod.txt
 
-# Install node requirements
-COPY ./package.json .
-RUN mkdir -p ./jepostule/static/vendor
-RUN npm install --unsafe-perm
-
 COPY . /jepostule
 ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 ENV LANG C.UTF-8
 EXPOSE 8000
+
+# Install frontend requirements
+RUN npm install --unsafe-perm
 
 RUN mkdir -p /var/log/uwsgi
 CMD uwsgi --module=config.wsgi:application \

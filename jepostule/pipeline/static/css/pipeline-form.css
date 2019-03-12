@@ -7,7 +7,7 @@ body {
 }
 .title {
     height: 70px;
-    width: 539px;
+    width: 100%;
     padding: 12px 0 0 0;
     background-color: #4A90E2;
     color: white;
@@ -50,7 +50,7 @@ ul.errorlist {
     color: red;
     margin: 0;
 }
-button {
+form button {
     cursor: pointer;
     height: 48px;
     width: 100%;
@@ -60,7 +60,7 @@ button {
     border: 1px solid transparent;
     font-weight: bold;
 }
-button.button-light {
+form button.button-light {
     color: #4A90E2;
     background: none;
     border: none;
