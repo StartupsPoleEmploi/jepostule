@@ -6,6 +6,11 @@ build-jepostule:
 build-kafka:
 	docker build -t kafka:latest ./kafka
 
+assets: ## copy vendor assets
+	cp node_modules/jquery/dist/jquery.min.js jepostule/static/vendor/
+	cd node_modules/jquery-datetimepicker/build/ && cp jquery.datetimepicker.full.js jquery.datetimepicker.min.css ../../../jepostule/static/vendor/
+	mkdir -p jepostule/static/vendor/tarteaucitron && cd node_modules/tarteaucitronjs/ && cp -r tarteaucitron.js tarteaucitron.services.js lang css ../../jepostule/static/vendor/tarteaucitron
+
 services: build-kafka ## start 3rd party services, such as kafka
 	KAFKA_LISTENERS=localhost docker-compose up --detach kafka postgres redis
 

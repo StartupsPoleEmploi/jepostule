@@ -12,10 +12,42 @@
     <body>
         <div class="title"><h1>{% block contenttitle %}{% endblock %}</h1></div>
         <div class="content">
+            <div id="privacy"></div>
             {% block content %}{% endblock %}
         </div>
 
         {% javascript 'polyfill' %}
+        <script type="text/javascript" src="{% static 'vendor/tarteaucitron/tarteaucitron.js' %}" charset="utf-8"></script>
+        <script>
+            tarteaucitron.init({
+                "hashtag": "#privacy", /* Open the panel with this hashtag */
+                "cookieName": "privacy", /* Cookie name */
+                "orientation": "bottom", /* Banner position (top - bottom) */
+                "showAlertSmall": false, /* Show the small banner on bottom right */
+                "AcceptAllCta" : true, /* Show the accept all button when highPrivacy on */
+                "highPrivacy": true, /* Disable auto consent */
+                "handleBrowserDNTRequest": false, /* If Do Not Track == 1, disallow all */
+                "removeCredit": true, /* Remove credit link */
+                "moreInfoLink": true, /* Show more info link */
+                "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
+                //"privacyUrl": "/vieprivee", /* Privacy policy url */
+                //"moreInfoLink": "/cookiespolicy" /* Change the default readmore link pointing to opt-out.ferank.eu */
+            });
+
+            {% if HOTJAR_SITE_ID and HOTJAR_SURVEY_ID %}
+            // Hotjar
+            (tarteaucitron.job = tarteaucitron.job || []).push('hotjar');
+            tarteaucitron.user.hotjarId = {{ HOTJAR_SITE_ID }};
+            tarteaucitron.user.HotjarSv = {{ HOTJAR_SURVEY_ID }};
+            {% endif %}
+
+            {% if GOOGLE_ANALYTICS_TRACKING_ID %}
+            // Google analytics
+            tarteaucitron.user.gtagUa = '{{ GOOGLE_ANALYTICS_TRACKING_ID }}';
+            //tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
+            (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
+            {% endif %}
+        </script>
         {% javascript 'answer' %}
         {% block scripts %}{% endblock %}
     </body>

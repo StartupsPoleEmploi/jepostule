@@ -51,6 +51,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'jepostule.context_processors.template_settings',
             ],
         },
     },
@@ -113,15 +114,15 @@ PIPELINE = {
     'JAVASCRIPT': {
         'answer': {
             'source_filenames': (
-              'vendor/jquery.min.js',
-              'vendor/jquery.datetimepicker.full.js',
+                'vendor/jquery.min.js',
+                'vendor/jquery.datetimepicker.full.js',
             ),
             'output_filename': 'js/answer.js',
         },
         'polyfill': {
             'source_filenames': (
-              'js/polyfill/forEach.js',
-              'js/polyfill/event.js',
+                'js/polyfill/forEach.js',
+                'js/polyfill/event.js',
             ),
             'output_filename': 'js/polyfill.js',
         }
@@ -189,6 +190,11 @@ BLACKLIST_DURATION_SECONDS = 30 * 24 * 3600
 MAILJET_API_BASE_URL = "https://api.mailjet.com/v3.1"
 MAILJET_API_KEY = "setme"
 MAILJET_API_SECRET = "setme"
+
+# Analytics
+GOOGLE_ANALYTICS_TRACKING_ID = None
+HOTJAR_SITE_ID = None
+HOTJAR_SURVEY_ID = None
 
 # For secure callback url, assign a random string value
 EVENT_CALLBACK_SECRET = None
