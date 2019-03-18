@@ -17,6 +17,13 @@
         </div>
 
         {% javascript 'polyfill' %}
+        <script>
+            tarteaucitronCustomText = {
+                "alertBigPrivacy": "En poursuivant votre navigation vous acceptez le dépôt de cookies tiers destinés à améliorer votre expérience utilisateur",
+                "acceptAll": "J'accepte",
+                "disclaimer": "Certaines fonctionnalités de ce site s’appuient sur des services proposés par des sites tiers. Ces fonctionnalités déposent des cookies permettant notamment à ces sites de tracer votre navigation. Ces cookies ne sont déposés que si vous donnez votre accord. Nous vous invitons à vous informer sur la nature des cookies ci dessous. Vous pouvez les accepter ou les refuser globalement ou unitairement."
+            };
+        </script>
         <script type="text/javascript" src="{% static 'vendor/tarteaucitron/tarteaucitron.js' %}" charset="utf-8"></script>
         <script>
             tarteaucitron.init({
