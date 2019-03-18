@@ -20,12 +20,14 @@
         "moreInfoLink": true, /* Show more info link */
         "useExternalCss": false, /* If false, the tarteaucitron.css file will be loaded */
         //"privacyUrl": "/vieprivee", /* Privacy policy url */
-        //"moreInfoLink": "/cookiespolicy" /* Change the default readmore link pointing to opt-out.ferank.eu */
+        "moreInfoLink": false /* Change the default readmore link pointing to opt-out.ferank.eu */
     });
 
-    {% if HOTJAR_SITE_ID and HOTJAR_SURVEY_ID %}
+    {% if HOTJAR_SITE_ID %}
     // Hotjar
     (tarteaucitron.job = tarteaucitron.job || []).push('hotjar');
+    tarteaucitron.user.hotjarId = {{ HOTJAR_SITE_ID }};
+    tarteaucitron.user.HotjarSv = 6; // snippet version
     {% endif %}
 
     {% if GOOGLE_ANALYTICS_TRACKING_ID %}

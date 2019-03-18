@@ -194,7 +194,6 @@ MAILJET_API_SECRET = "setme"
 # Analytics
 GOOGLE_ANALYTICS_TRACKING_ID = None
 HOTJAR_SITE_ID = None
-HOTJAR_SURVEY_ID = None
 
 # For secure callback url, assign a random string value
 EVENT_CALLBACK_SECRET = None

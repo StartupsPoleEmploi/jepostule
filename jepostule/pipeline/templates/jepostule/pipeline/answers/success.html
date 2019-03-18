@@ -8,12 +8,3 @@
     <h2>{{ form.success_message }}</h2>
 </div>
 {% endblock %}
-
-{% block scripts %}
-{% if HOTJAR_SITE_ID and HOTJAR_SURVEY_ID %}
-<script>
-    tarteaucitron.user.hotjarId = {{ HOTJAR_SITE_ID }};
-    tarteaucitron.user.HotjarSv = {{ HOTJAR_SURVEY_ID }};
-</script>
-{% endif %}
-{% endblock %}
