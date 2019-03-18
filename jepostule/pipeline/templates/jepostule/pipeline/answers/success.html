@@ -8,3 +8,10 @@
     <h2>{{ form.success_message }}</h2>
 </div>
 {% endblock %}
+{% block scripts%}
+<script>
+    if (window.hj) {
+        window.hj('trigger', 'sondage-employeur');
+    }
+</script>
+{% endblock %}
