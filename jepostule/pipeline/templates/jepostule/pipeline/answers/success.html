@@ -15,3 +15,14 @@
     }
 </script>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('send', 'employeur', {
+            'event_category': 'envoyer',
+            'event_label': '{{ form.event_label }}'
+        });
+    };
+</script>
+{% endblock %}

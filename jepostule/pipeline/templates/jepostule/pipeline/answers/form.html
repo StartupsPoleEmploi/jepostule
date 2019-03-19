@@ -12,3 +12,15 @@
     <button type="submit">Voir le récapitulatif de votre email</button>
 </form>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('send', 'employeur', {
+            'event_category': 'repondre',
+            'event_label': '{{ form.event_label }}'
+        });
+    };
+</script>
+{% endblock %}
+{% block form_scripts %}{% endblock %}

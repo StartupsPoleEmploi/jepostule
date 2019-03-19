@@ -33,7 +33,6 @@
     {% if GOOGLE_ANALYTICS_TRACKING_ID %}
     // Google analytics
     tarteaucitron.user.gtagUa = '{{ GOOGLE_ANALYTICS_TRACKING_ID }}';
-    //tarteaucitron.user.gtagMore = function () { /* add here your optionnal gtag() */ };
     (tarteaucitron.job = tarteaucitron.job || []).push('gtag');
     {% endif %}
 </script>

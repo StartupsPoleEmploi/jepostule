@@ -7,6 +7,7 @@ from . import models
 class BaseAnswerForm(forms.ModelForm):
     title = ""
     success_message = "Votre réponse a été envoyée avec succès"
+    event_label = "undefined"
 
     def __init__(self, job_application, *args, **kwargs):
         super().__init__(*args, label_suffix='', **kwargs)
@@ -20,6 +21,7 @@ class MessageWidget(forms.Textarea):
 class RejectionForm(BaseAnswerForm):
     title = "Refuser la candidature"
     template = 'jepostule/pipeline/answers/rejection.html'
+    event_label = "refus"
 
     class Meta:
         model = models.AnswerRejection
@@ -44,6 +46,7 @@ Nous ne pouvons donner suite à votre candidature car xxx"""
 class RequestInfoForm(BaseAnswerForm):
     title = "Demander des informations complémentaires"
     template = 'jepostule/pipeline/answers/request_info.html'
+    event_label = "informations"
 
     class Meta:
         model = models.AnswerRequestInfo
@@ -82,6 +85,7 @@ class InterviewForm(BaseAnswerForm):
     template = 'jepostule/pipeline/answers/interview.html'
     date_format = '%d/%m/%Y %H:%M'
     date_format_js = 'd/m/Y H:i'
+    event_label = "entretien"
 
     # TODO certains champs ne sont pas requis : il faut spécifier au moins le téléphone ou l'email
     class Meta:

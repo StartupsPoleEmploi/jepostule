@@ -22,3 +22,14 @@
     <button class="button-light" type="submit">Modifier la réponse</button>
 </form>
 {% endblock %}
+
+{% block scripts %}
+<script>
+    tarteaucitron.user.gtagMore = function () {
+        gtag('send', 'employeur', {
+            'event_category': 'previsualiser',
+            'event_label': '{{ form.event_label }}'
+        });
+    };
+</script>
+{% endblock %}
