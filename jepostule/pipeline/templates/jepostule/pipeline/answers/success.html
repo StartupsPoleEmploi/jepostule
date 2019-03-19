@@ -8,16 +8,12 @@
     <h2>{{ form.success_message }}</h2>
 </div>
 {% endblock %}
-{% block scripts%}
+
+{% block scripts %}
 <script>
     if (window.hj) {
         window.hj('trigger', 'sondage-employeur');
     }
-</script>
-{% endblock %}
-
-{% block scripts %}
-<script>
     tarteaucitron.user.gtagMore = function () {
         gtag('send', 'employeur', {
             'event_category': 'envoyer',
