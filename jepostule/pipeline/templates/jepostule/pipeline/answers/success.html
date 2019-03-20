@@ -15,7 +15,7 @@
         window.hj('trigger', 'sondage-employeur');
     }
     tarteaucitron.user.gtagMore = function () {
-        gtag('send', 'employeur', {
+        gtag('event', 'employeur', {
             'event_category': 'envoyer',
             'event_label': '{{ form.event_label }}'
         });

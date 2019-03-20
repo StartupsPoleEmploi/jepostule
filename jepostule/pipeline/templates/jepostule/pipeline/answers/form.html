@@ -16,7 +16,7 @@
 {% block scripts %}
 <script>
     tarteaucitron.user.gtagMore = function () {
-        gtag('send', 'employeur', {
+        gtag('event', 'employeur', {
             'event_category': 'repondre',
             'event_label': '{{ form.event_label }}'
         });
