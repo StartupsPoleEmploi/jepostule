@@ -38,8 +38,8 @@ migrate-kafka: services ## create and configure required kafka topics
 
 compile-requirements: ## generate .txt requirements files from .in files
 	pip-compile --output-file requirements/base.txt requirements/base.in
-	pip-compile --output-file requirements/dev.txt requirements/base.in requirements/dev.in
-	pip-compile --output-file requirements/prod.txt requirements/base.in requirements/prod.in
+	pip-compile --output-file requirements/dev.txt requirements/dev.in
+	pip-compile --output-file requirements/prod.txt requirements/prod.in
 
 platform-migrate: migrate-kafka
 	docker-compose run --rm jepostule ./manage.py migrate
