@@ -211,7 +211,8 @@ class AnswerInterview(AnswerEmployerInfo, DetailedAnswerMixin):
         (LOCATION_VIDEO, "en visio conférence"),
     ))
 
-    datetime = models.DateTimeField(blank=False)
+    date = models.CharField(max_length=128, blank=False)
+    time = models.CharField(max_length=128, blank=False)
     location = models.CharField(
         max_length=16, blank=False,
         choices=LOCATIONS.items(),

@@ -133,7 +133,7 @@ class AnswerRequestInfoAdmin(BaseAnswerAdmin):
 
 @admin.register(models.AnswerInterview)
 class AnswerInterviewAdmin(BaseAnswerAdmin):
-    list_display = ('created_at', 'employer_email', 'datetime', 'location',)
+    list_display = ('created_at', 'employer_email', 'date', 'time', 'location',)
 
 
 def detailed_answer_link(detailed_answer):

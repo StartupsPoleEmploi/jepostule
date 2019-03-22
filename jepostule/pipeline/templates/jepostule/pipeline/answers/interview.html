@@ -6,10 +6,6 @@
 <script>
     (function() {
         $.datetimepicker.setLocale('fr');
-        $("[name='datetime']").datetimepicker({
-            format: '{{ form.date_format_js }}',
-            startDate: '{{ form.min_datetime_str }}'
-        });
     }());
 </script>
 {% endblock %}

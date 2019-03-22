@@ -91,12 +91,14 @@ class InterviewForm(BaseAnswerForm):
     class Meta:
         model = models.AnswerInterview
         fields = (
-            'location', 'datetime',
+            'location', 'date', 'time',
             'employer_name', 'employer_email', 'employer_phone', 'employer_address',
             'message',
         )
         labels = {
             'location': "L'entretien se déroulera",
+            'date': "Date de l'entretien",
+            'time': "Heure de l'entretien",
             'employer_name': "Prénom et nom du recruteur",
             'employer_email': "Email du recruteur",
             'employer_phone': "Numéro de téléphone",
@@ -117,16 +119,3 @@ class InterviewForm(BaseAnswerForm):
             }),
         }
 
-    datetime = forms.DateTimeField(
-        label="Date et heure de l'entretien",
-    )
-
-    def clean_datetime(self):
-        value = self.cleaned_data['datetime']
-        if value < now():
-            raise forms.ValidationError("La date de l'entretien est passée")
-        return value
-
-    @property
-    def min_datetime_str(self):
-        return now().strftime(self.date_format)

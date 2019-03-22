@@ -18,7 +18,6 @@ class AnswerTests(TestCase):
         )
         models.AnswerInterview.objects.create(
             job_application=job_application,
-            datetime=now(),
             employer_email='boss@bigco.com',
         )
         answer.send(job_application.id)
@@ -36,7 +35,6 @@ class AnswerTests(TestCase):
         )
         models.AnswerInterview.objects.create(
             job_application=job_application,
-            datetime=now(),
             employer_email='boss@bigco.com',
         )
         answer.send(job_application.id)
@@ -64,7 +62,6 @@ class AnswerTests(TestCase):
         )
         models.AnswerInterview.objects.create(
             job_application=job_application,
-            datetime=now(),
         )
         self.assertEqual(models.Answer.Types.INTERVIEW, job_application.answer.get_details().answer_type)
 
@@ -75,7 +72,6 @@ class AnswerTests(TestCase):
         )
         models.AnswerInterview.objects.create(
             job_application=job_application,
-            datetime=now(),
         )
         with self.settings(TEMPLATES=[
                 {
@@ -88,6 +84,7 @@ class AnswerTests(TestCase):
         ]):
             rendered = answer.render_answer_message(job_application.answer)
         self.assertIn("Proposition d'entretien d'embauche", rendered)
+        # FIXME
         self.assertNotIn("INVALID__", rendered)
 
     def test_render_answer_details_message(self):
