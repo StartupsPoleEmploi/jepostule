@@ -2,7 +2,8 @@
 
 {% block contentintro %}Proposer un entretien à {{ job_application.candidate_name }} pour le poste de {{ job_application.job }}{% endblock %}
 
-{% block form_scripts %}
+{% block scripts %}
+{{ block.super }}
 <script>
     (function() {
         $.datetimepicker.setLocale('fr');
