@@ -2,6 +2,7 @@ import uuid
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 from jepostule.auth.models import ClientPlatform
 
@@ -221,3 +222,7 @@ class AnswerInterview(AnswerEmployerInfo, DetailedAnswerMixin):
     @property
     def location_verbose(self):
         return self.LOCATIONS[self.location]
+
+    @property
+    def local_datetime(self):
+        return timezone.localtime(self.datetime)
