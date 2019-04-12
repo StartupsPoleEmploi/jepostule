@@ -28,4 +28,5 @@ CMD uwsgi --module=config.wsgi:application \
     --max-requests=5000 \
     --enable-threads \
     --logto /var/log/uwsgi/uwsgi.log \
-    --log-date
+    --log-date \
+    --buffer-size 32000
