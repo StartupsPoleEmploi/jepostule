@@ -102,6 +102,7 @@ def demo(request):
         'candidate_last_name': 'Doe',
         'candidate_email': 'candidat@example.com',
         'candidate_peid': '123456789',
+        'candidate_rome_code': 'A1101',
         'employer_email': 'employeur@example.com',
         'employer_description': """Uniqlo Europe LTD - 75009 Paris""",
         'siret': '73345678900023',
