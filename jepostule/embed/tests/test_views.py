@@ -43,6 +43,30 @@ class EmbedViewsTests(JobApplicationFormTestCase):
         response = self.client.get(reverse('embed:candidater'))
         self.assertEqual(200, response.status_code)
 
+    def test_successful_send_without_optional_candidate_rome_code(self):
+        form_data_without_candidate_rome_code = self.form_data()
+        form_data_without_candidate_rome_code.pop('candidate_rome_code')
+        with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken') as make_application_token:
+            response = self.client.post(
+                reverse('embed:candidater'),
+                data=form_data_without_candidate_rome_code,
+            )
+            make_application_token.assert_called_once()
+        self.assertEqual(200, response.status_code)
+
+        self.assertEqual(1, JobApplication.objects.count())
+
+        application.send_application_to_employer.consume()
+        self.assertEqual(1, len(mail.outbox))
+        self.assertEqual(['boss@bigco.fr'], mail.outbox[0].recipients())
+        self.assertEqual(['candidate@pe.fr'], mail.outbox[0].reply_to)
+        self.assertEqual("John Doe <{}>".format(settings.JEPOSTULE_NO_REPLY), mail.outbox[0].from_email)
+
+        application.send_confirmation_to_candidate.consume()
+        self.assertEqual(2, len(mail.outbox))
+        self.assertEqual(['candidate@pe.fr'], mail.outbox[1].recipients())
+        self.assertEqual("La Bonne Boite <{}>".format(settings.JEPOSTULE_NO_REPLY), mail.outbox[1].from_email)
+
     def test_successful_send(self):
         with mock.patch('jepostule.auth.utils.make_application_token', return_value='apptoken') as make_application_token:
             response = self.client.post(
