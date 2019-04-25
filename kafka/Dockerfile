@@ -3,10 +3,11 @@ FROM openjdk:11-jre-slim
 RUN apt update && \
     apt install -y wget
 
+ARG KAFKA_VERSION=2.2.0
 RUN mkdir /kafka
 WORKDIR /kafka
-RUN wget http://apache.mediamirrors.org/kafka/2.0.0/kafka_2.11-2.0.0.tgz
-RUN tar xzf kafka_2.11-2.0.0.tgz --strip-components=1 
+RUN wget http://apache.mediamirrors.org/kafka/$KAFKA_VERSION/kafka_2.11-$KAFKA_VERSION.tgz
+RUN tar xzf kafka_2.11-$KAFKA_VERSION.tgz --strip-components=1 
 
 VOLUME /tmp/kafka-logs
 
