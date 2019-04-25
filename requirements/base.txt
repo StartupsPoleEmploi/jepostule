@@ -4,14 +4,15 @@
 #
 #    pip-compile --output-file requirements/base.txt requirements/base.in
 #
-certifi==2018.11.29       # via requests
+certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
 django-pipeline==1.6.14
-django==2.1.7
+django==2.2
 idna==2.8                 # via requests
-kafka-python==1.4.3
-psycopg2-binary==2.7.5
-pytz==2018.5              # via django
-redis==2.10.6
+kafka-python==1.4.6
+psycopg2-binary==2.8.2
+pytz==2019.1              # via django
+redis==3.2.1
 requests==2.21.0
-urllib3==1.24.1           # via requests
+sqlparse==0.3.0           # via django
+urllib3==1.24.2           # via requests
