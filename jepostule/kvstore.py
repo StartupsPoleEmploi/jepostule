@@ -1,4 +1,5 @@
-from redis import ConnectionPool, StrictRedis
+from redis import ConnectionPool
+from redis import Redis as RedisClient
 
 from django.conf import settings
 
@@ -14,7 +15,7 @@ class Redis:
                 port=settings.REDIS_PORT,
                 db=settings.REDIS_DB
             )
-        return StrictRedis(connection_pool=cls.CONNECTION_POOL)
+        return RedisClient(connection_pool=cls.CONNECTION_POOL)
 
 def redis():
     """

@@ -42,7 +42,7 @@ class BaseLimiter:
         """
         score = score or time()
         client = redis()
-        client.zadd(cls.key(key), score, score)
+        client.zadd(cls.key(key), {score: score})
         client.expire(cls.key(key), cls.max_delay())
 
     @classmethod
