@@ -5,6 +5,7 @@ from django.conf import settings
 from jepostule.auth.models import ClientPlatform
 from jepostule.queue.exceptions import DelayProcessing
 from jepostule.pipeline import application
+from jepostule.pipeline import memo
 from jepostule.pipeline import models
 from jepostule.tests.base import PipelineCacheTestCase
 
@@ -13,10 +14,15 @@ class ApplicationTests(PipelineCacheTestCase):
 
     def test_application_pipeline(self):
         job_application = models.JobApplication.objects.create(
-            message="message",
+            message="je suis chaud bouillant pour bosser chez vous",
+            siret="82136020300011",
             candidate_first_name="Charles",
             candidate_last_name="Sept",
             candidate_email="candidat@pe.fr",
+            candidate_phone="0123456789",
+            candidate_address="3 rue du four 75018 Paris",
+            candidate_peid="jfljfdkgjfdkgjfdkgjdflkgjkldfgj",
+            candidate_rome_code="A1101",
             employer_email="boss@big.co",
             client_platform=ClientPlatform.objects.create(client_id="id"),
         )
@@ -41,6 +47,13 @@ class ApplicationTests(PipelineCacheTestCase):
             event = job_application.events.get(name=models.JobApplicationEvent.SENT_TO_EMPLOYER)
             self.assertEqual(666, event.email.message_id)
 
+        self.assertEqual(0, job_application.events.filter(name=models.JobApplicationEvent.FORWARDED_TO_MEMO).count())
+        mocked_response = {'idCandidature': '1161981', 'msg': 'Application saved', 'result': 'ok'}
+        with mock.patch.object(memo, 'get_response', return_value=mocked_response) as get_response:
+            application.forward_application_to_memo.consume()
+            get_response.assert_called_once()
+        self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.FORWARDED_TO_MEMO).count())
+
         with mock.patch.object(application, 'send_mail', return_value=[667]) as send_mail:
             application.send_confirmation_to_candidate.consume()
             send_mail.assert_called_once()
@@ -49,7 +62,10 @@ class ApplicationTests(PipelineCacheTestCase):
             self.assertEqual("La Bonne Boite <{}>".format(settings.JEPOSTULE_NO_REPLY), args[2])
             self.assertEqual(['candidat@pe.fr'], args[3])
             self.assertIsNone(kwargs.get('attachments'))
-            self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE).count())
+            self.assertEqual(
+                1,
+                job_application.events.filter(name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE).count(),
+            )
             event = job_application.events.get(name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE)
             self.assertEqual(667, event.email.message_id)
 

@@ -16,7 +16,7 @@ def send(job_application_id):
     send_answer_to_candidate.run_async(job_application_id)
 
 
-@topics.subscribe('send-answer')
+@topics.subscribe(topics.SEND_ANSWER)
 def send_answer_to_candidate(job_application_id):
     job_application = models.JobApplication.objects.get(id=job_application_id)
 

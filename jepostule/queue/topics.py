@@ -9,6 +9,12 @@ from .models import FailedMessage, DelayedMessage
 from . import exceptions
 from . import serialize
 
+SEND_APPLICATION = 'send-application'
+SEND_CONFIRMATION = 'send-confirmation'
+FORWARD_TO_MEMO = 'forward-to-memo'
+SEND_ANSWER = 'send-answer'
+PROCESS_EMAIL_EVENT = 'process-email-event'
+
 
 logger = logging.getLogger(__name__)
 

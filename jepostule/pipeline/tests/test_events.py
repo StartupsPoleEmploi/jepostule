@@ -30,9 +30,13 @@ class EventTests(PipelineCacheTestCase):
         event3 = job_application.events.create(
             name=models.JobApplicationEvent.ANSWERED
         )
+        event4 = job_application.events.create(
+            name=models.JobApplicationEvent.FORWARDED_TO_MEMO
+        )
         self.assertEqual('boss@company.com', event1.to_email)
         self.assertEqual('candidate@pe.fr', event2.to_email)
         self.assertEqual('candidate@pe.fr', event3.to_email)
+        self.assertIsNone(event4.to_email)
 
     def test_large_message_id(self):
         job_application = models.JobApplication.objects.create(

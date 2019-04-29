@@ -6,6 +6,7 @@ from django.core.management.base import BaseCommand
 import kafka
 
 from jepostule.queue.serialize import loads
+from jepostule.queue import topics
 from jepostule.email.utils import send_mail
 
 
@@ -27,7 +28,7 @@ queue."""
 
     def handle(self, *args, **options):
         consumer = kafka.KafkaConsumer(
-            'send-application',
+            topics.SEND_APPLICATION,
             bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
             consumer_timeout_ms=5000,
             auto_offset_reset='earliest',
