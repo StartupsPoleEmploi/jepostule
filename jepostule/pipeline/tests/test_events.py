@@ -6,10 +6,10 @@ from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline import events
 from jepostule.pipeline import models
 from jepostule.security import blacklist
-from jepostule.tests.base import CacheTestCase
+from jepostule.tests.base import PipelineCacheTestCase
 
 
-class EventTests(CacheTestCase):
+class EventTests(PipelineCacheTestCase):
 
     def setUp(self):
         super().setUp()

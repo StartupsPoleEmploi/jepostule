@@ -6,10 +6,10 @@ from jepostule.auth.models import ClientPlatform
 from jepostule.queue.exceptions import DelayProcessing
 from jepostule.pipeline import application
 from jepostule.pipeline import models
-from jepostule.tests.base import CacheTestCase
+from jepostule.tests.base import PipelineCacheTestCase
 
 
-class ApplicationTests(CacheTestCase):
+class ApplicationTests(PipelineCacheTestCase):
 
     def test_application_pipeline(self):
         job_application = models.JobApplication.objects.create(

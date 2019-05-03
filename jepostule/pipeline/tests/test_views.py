@@ -3,11 +3,12 @@ from datetime import datetime
 from unittest import mock
 
 from django.contrib.auth.models import User
-from django.test import Client, TestCase, override_settings
+from django.test import Client, override_settings
 from django.urls import reverse
 from django.utils.html import escape as html_escape
 from django.utils import timezone
 
+from jepostule.tests.base import PipelineTestCase
 from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline import events
 from jepostule.pipeline import forms
@@ -29,7 +30,7 @@ def interview_form_data(**kwargs):
     return data
 
 
-class BaseViewTests(TestCase):
+class BaseViewTests(PipelineTestCase):
 
     def setUp(self):
         client_platform = ClientPlatform.objects.create(client_id="id")
@@ -134,7 +135,7 @@ class FormsTests(BaseViewTests):
             self.assertFalse(form.is_valid())
 
 
-class EventCallbackTest(TestCase):
+class EventCallbackTest(PipelineTestCase):
 
     def test_open_events(self):
         # Sample data from mailjet's documentation

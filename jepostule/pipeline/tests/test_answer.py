@@ -2,15 +2,15 @@ from unittest import mock
 
 from django.core import mail
 from django.core.exceptions import ValidationError
-from django.test import TestCase
 from django.utils.timezone import now
 
+from jepostule.tests.base import PipelineTestCase
 from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline import models
 from jepostule.pipeline import answer
 
 
-class AnswerTests(TestCase):
+class AnswerTests(PipelineTestCase):
 
     def test_answer_event(self):
         job_application = models.JobApplication.objects.create(
