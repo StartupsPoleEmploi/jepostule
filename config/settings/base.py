@@ -65,7 +65,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'HOST': os.environ.get('POSTGRESQL_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('POSTGRESQL_PORT', '5433'),
+        'PORT': os.environ.get('POSTGRESQL_PORT', '5432'),
         'NAME': os.environ.get('POSTGRESQL_DB', 'jepostule'),
         'USER': os.environ.get('POSTGRESQL_USER', 'jepostule'),
         'PASSWORD': os.environ.get('POSTGRESQL_PASSWORD', 'mdp'),
@@ -177,7 +177,7 @@ LOGGING = {
 ############ JePostule-specific settings
 
 REDIS_HOST = 'localhost'
-REDIS_PORT = 6380
+REDIS_PORT = 6379
 REDIS_DB = 0
 
 JEPOSTULE_BASE_URL = 'http://127.0.0.1:8000'
