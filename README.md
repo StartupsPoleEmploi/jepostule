@@ -52,6 +52,16 @@ Je Postule depends on several services. To start these services, run:
 - [Kafka](http://kafka.apache.org/): a messaging queue to process tasks asynchronously. Messages are sorted in different topics and processed by consumers.
 - [Redis](https://redis.io): we use this key-value store to enforce per-address email rate limits. There is no strong resilience constraint on the data stored in redis.
 
+You can change Docker default ports mapping by using custom host ports. To do this, use an [`.env`](https://docs.docker.com/compose/compose-file/#variable-substitution) file containing custom environment variables to populate placeholders of `docker-compose.yml`, e.g.:
+
+    POSTGRES_HOST_PORT=5433
+    REDIS_HOST_PORT=6380
+
+After modifying Docker ports, don't forget to reflect changes for Django by exporting environment variables to be used in settings, e.g.:
+
+    export JEPOSTULE_REDIS_PORT=6380
+    export JEPOSTULE_POSTGRESQL_PORT=5433
+
 #### Database migrations
 
 Apply SQL migrations and create Kakfa topics:

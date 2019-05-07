@@ -64,11 +64,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('POSTGRESQL_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('POSTGRESQL_PORT', '5432'),
-        'NAME': os.environ.get('POSTGRESQL_DB', 'jepostule'),
-        'USER': os.environ.get('POSTGRESQL_USER', 'jepostule'),
-        'PASSWORD': os.environ.get('POSTGRESQL_PASSWORD', 'mdp'),
+        'HOST': os.environ.get('JEPOSTULE_POSTGRESQL_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('JEPOSTULE_POSTGRESQL_PORT', '5432'),
+        'NAME': os.environ.get('JEPOSTULE_POSTGRESQL_DB', 'jepostule'),
+        'USER': os.environ.get('JEPOSTULE_POSTGRESQL_USER', 'jepostule'),
+        'PASSWORD': os.environ.get('JEPOSTULE_POSTGRESQL_PASSWORD', 'mdp'),
     }
 }
 
@@ -176,11 +176,11 @@ LOGGING = {
 
 ############ JePostule-specific settings
 
-REDIS_HOST = 'localhost'
-REDIS_PORT = 6379
-REDIS_DB = 0
+REDIS_HOST = os.environ.get('JEPOSTULE_REDIS_HOST', 'localhost')
+REDIS_PORT = os.environ.get('JEPOSTULE_REDIS_PORT', '6379')
+REDIS_DB = os.environ.get('JEPOSTULE_REDIS_DB', '0')
 
-JEPOSTULE_BASE_URL = 'http://127.0.0.1:8000'
+JEPOSTULE_BASE_URL = os.environ.get('JEPOSTULE_BASE_URL', 'http://127.0.0.1:8000')
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_SENDING_MODULE = 'jepostule.email.backends.django'
 JEPOSTULE_NO_REPLY = 'contact@jepostule.labonneboite.pole-emploi.fr'
@@ -201,6 +201,6 @@ EVENT_CALLBACK_SECRET = None
 QUEUE_PRODUCER = 'jepostule.queue.handlers.franz.KafkaProducer'
 QUEUE_CONSUMER = 'jepostule.queue.handlers.franz.KafkaConsumer'
 QUEUE_RUN_ASYNC = True
-KAFKA_BOOTSTRAP_SERVERS = ['localhost:9092']
+KAFKA_BOOTSTRAP_SERVERS = [os.environ.get('JEPOSTULE_KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')]
 
 TEST_RUNNER = 'jepostule.tests.runner.JePostuleRunner'
