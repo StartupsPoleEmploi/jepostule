@@ -6,4 +6,3 @@ config/settings/local.py
 htmlcov/
 node_modules/
 
-.env

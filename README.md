@@ -52,15 +52,28 @@ Je Postule depends on several services. To start these services, run:
 - [Kafka](http://kafka.apache.org/): a messaging queue to process tasks asynchronously. Messages are sorted in different topics and processed by consumers.
 - [Redis](https://redis.io): we use this key-value store to enforce per-address email rate limits. There is no strong resilience constraint on the data stored in redis.
 
-You can change Docker default ports mapping by using custom host ports. To do this, use an [`.env`](https://docs.docker.com/compose/compose-file/#variable-substitution) file containing custom environment variables to populate placeholders of `docker-compose.yml`, e.g.:
+#### Environment-specific settings
 
-    POSTGRES_HOST_PORT=5433
-    REDIS_HOST_PORT=6380
+Some settings that are likely to vary between deploys can be configured through environment variables:
 
-After modifying Docker ports, don't forget to reflect changes for Django by exporting environment variables to be used in settings, e.g.:
+    export JEPOSTULE_BASE_URL='http://127.0.0.1:8000'
 
-    export JEPOSTULE_REDIS_PORT=6380
-    export JEPOSTULE_POSTGRESQL_PORT=5433
+    export POSTGRES_PORT='5433'
+    export POSTGRES_HOST='127.0.0.1'
+    export POSTGRES_DB='jepostule'
+    export POSTGRES_USER='jepostule'
+    export POSTGRES_PASSWORD='mdp'
+
+    export REDIS_HOST='localhost'
+    export REDIS_PORT='6380'
+    export REDIS_DB='0'
+
+    export KAFKA_PORT='9092'
+    export KAFKA_BOOTSTRAP_SERVERS='localhost:9092'
+
+    export ZOOKEEPER_PORT='2181'
+
+    export JEPOSTULE_PORT='8000'
 
 #### Database migrations
 
