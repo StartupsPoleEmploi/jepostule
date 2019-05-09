@@ -9,7 +9,7 @@ addons:
       - postgresql-client-common
 cache: pip
 env:
-  - POSTGRESQL_USER=postgres POSTGRESQL_PASSWORD=""
+  - POSTGRES_USER=postgres POSTGRES_PASSWORD=""
 services:
   - docker
   - postgresql
