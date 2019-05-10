@@ -40,11 +40,12 @@ input[type="text"], input[type="email"] {
     height: 40px;
 }
 ul {
-    margin-top: 0;
+    margin: 10px 0;
     padding-left: 0;
     list-style-type: none;
 }
 ul li {
+  padding: 5px 0;
 }
 ul.errorlist {
     color: red;
