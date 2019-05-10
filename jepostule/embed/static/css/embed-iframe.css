@@ -12,7 +12,7 @@ body {
 .title {
     position: relative;
     height: 70px;
-    background-color: #7D3D8D;
+    background-color: #54108E;
     color: white;
     margin-top: 20px;
 }
@@ -79,7 +79,7 @@ a.back, a.back:visited {
     display: inline-block;
 }
 a.color-link {
-    color: #7D3D8D;
+    color: #54108E;
 }
 a.button, button {
     cursor: pointer;
@@ -90,9 +90,9 @@ a.button, button {
     margin: 24px auto 20px auto;
     padding: 14px 0 14px 0;
     text-align: center;
-    border: 1px solid #7D3D8D;
+    border: 1px solid #54108E;
     border-radius: 3px;
-    background-color: #7D3D8D;
+    background-color: #54108E;
 
     color: white;
     font-weight: bold;
@@ -105,7 +105,7 @@ a.button:disabled, button:disabled {
 }
 a.button.button-light, button.button-light {
     background-color: white;
-    color: #7D3D8D;
+    color: #54108E;
 }
 input, textarea {
     font-size: 14px;
