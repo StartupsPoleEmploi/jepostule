@@ -192,7 +192,7 @@ positional arguments:
 Copy the configuration file:
 
     cp config/settings/local-sample.py config/settings/local.py
-    
+
 Note that on a production platform **this file must imperatively be modified**. Changes to `local.py` will not be versioned.
 
 Build docker images:

@@ -1,3 +1,9 @@
+# Mac Os
+.DS_Store
+
+# Editors
+.tm_properties
+
 *.swp
 *.pyc
 config/settings/local.py
@@ -5,4 +11,3 @@ config/settings/local.py
 .coverage
 htmlcov/
 node_modules/
-
