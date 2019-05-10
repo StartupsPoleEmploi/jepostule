@@ -25,21 +25,14 @@ class RejectionForm(BaseAnswerForm):
 
     class Meta:
         model = models.AnswerRejection
-        fields = ('reason', 'message',)
+        fields = ('reason',)
         widgets = {
             'reason': forms.RadioSelect(attrs={
                 'class': 'bold'
             }),
-            'message': MessageWidget(attrs={
-                'template': '',
-                'placeholder': """Bonjour Madame, Monsieur,
-
-Nous ne pouvons donner suite à votre candidature car xxx"""
-            })
         }
         labels = {
             'reason': "Précisez le motif",
-            'message': "Autre motif",
         }
 
 
