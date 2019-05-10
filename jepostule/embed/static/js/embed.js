@@ -204,10 +204,12 @@
             document.getElementById("attachments-add").classList.remove("button-light");
             document.getElementById("attachments-continue").style.display = 'none';
             document.getElementById("no-attachments-continue").style.display = 'block';
+            document.querySelector('.attachments-empty').style.display = 'block';
         } else {
             document.getElementById("attachments-add").classList.add("button-light");
             document.getElementById("attachments-continue").style.display = 'block';
             document.getElementById("no-attachments-continue").style.display = 'none';
+            document.querySelector('.attachments-empty').style.display = 'none';
         }
     }
     function clickRemoveAttachment(e) {

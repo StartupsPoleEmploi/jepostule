@@ -63,7 +63,7 @@ h3 {
 }
 .modify-link {
     text-align: center;
-    margin: 8px 0 32px 0;
+    margin: 8px 0;
 }
 a {
     color: #4A4A4A;
@@ -178,4 +178,11 @@ img.success {
 }
 .quit {
     margin-bottom: 106px;
+}
+
+.alert {
+    margin: 10px 0;
+    background: #e0e0e0;
+    color: #222;
+    padding: 1rem;
 }
