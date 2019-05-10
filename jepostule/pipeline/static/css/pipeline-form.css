@@ -59,6 +59,7 @@ form button {
     border-radius: 3px;
     border: 1px solid transparent;
     font-weight: bold;
+    font-size: 14px;
 }
 form button.button-light {
     color: #4A90E2;
