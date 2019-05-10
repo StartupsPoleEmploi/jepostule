@@ -29,6 +29,7 @@ body {
     font-size: 16px;
     font-weight: bold;
     z-index: 1000;
+    color: #54108E;
 }
 .title h1 .disc {
     position: absolute;
@@ -36,7 +37,7 @@ body {
     right: 15px;
     width: 40px;
     height: 40px;
-    background-color: #B257C9;
+    background-color: #FFF;
     border-radius: 50%;
 }
 h2 {
