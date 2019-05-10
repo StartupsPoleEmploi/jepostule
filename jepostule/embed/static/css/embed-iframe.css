@@ -67,6 +67,9 @@ h3 {
 }
 a {
     color: #4A4A4A;
+    text-decoration: underline;
+}
+a:hover {
     text-decoration: none;
 }
 a:visited {
