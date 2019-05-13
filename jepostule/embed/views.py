@@ -40,11 +40,13 @@ def get_candidater(request):
     form.is_valid()
     form_errors = forms.JobApplicationPartialForm(data=form_data).errors
     attachments_form = forms.AttachmentsForm()
+    show_employer_email = form.cleaned_data.get('employer_email') and form.cleaned_data.get('employer_description')
     return render(request, 'jepostule/embed/candidater.html', {
         'form': form,
         'form_errors': form_errors,
         'attachments_form': attachments_form,
         'platform_name': form.instance.platform_attribute('name'),
+        'show_employer_email': show_employer_email,
     })
 
 

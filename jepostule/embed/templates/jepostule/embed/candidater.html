@@ -28,14 +28,14 @@
             avec {{ platform_name }}</b></p>
         <div class="center"><a href="#infos" class="button">C'est parti !</a></div>
 
-        {% if request.GET.employer_email and request.GET.employer_description %}
+        {% if show_employer_email %}
             <br>
             <h2 class="line-behind-text">ou</h2>
             <p>Vous souhaitez directement postuler par mail :</p>
             <address>
-                <b>{{ request.GET.employer_description }}</b>
+                <b>{{ form.cleaned_data.employer_description }}</b>
                 <br>
-                <b><a href="mailto:{{ request.GET.employer_email }}">{{ request.GET.employer_email }}</a></b>
+                <b><a href="mailto:{{ form.cleaned_data.employer_email }}">{{ form.cleaned_data.employer_email }}</a></b>
             </address>
         {% endif %}
 
