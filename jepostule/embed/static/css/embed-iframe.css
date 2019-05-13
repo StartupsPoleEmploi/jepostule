@@ -9,6 +9,11 @@ body {
     max-width: 470px;
     margin: auto;
 }
+address {
+    background: #f3f6fa;
+    font-style: normal;
+    padding: 20px;
+}
 .title {
     position: relative;
     height: 70px;
@@ -186,4 +191,28 @@ img.success {
     background: #e0e0e0;
     color: #222;
     padding: 1rem;
+}
+
+/*
+Add a horizontal line on sides of text.
+https://www.trysmudford.com/blog/css-header-legend/
+
+Usage example:
+<h2 class="line-behind-text">Some text</h2>
+*/
+.line-behind-text {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.line-behind-text:before,
+.line-behind-text:after {
+    content: '';
+    border-top: 2px solid #cbcbcb;
+    flex: auto;
+    margin: 0 20px 0 0;
+}
+.line-behind-text:after {
+    margin: 0 0 0 20px;
 }
