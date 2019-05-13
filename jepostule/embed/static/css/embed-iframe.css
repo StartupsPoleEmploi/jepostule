@@ -216,3 +216,11 @@ Usage example:
 .line-behind-text:after {
     margin: 0 0 0 20px;
 }
+
+.external-link:after {
+    content: url('/static/img/icons/external-link.svg');
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 0 0 2px;
+}
