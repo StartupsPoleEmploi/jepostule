@@ -2,9 +2,10 @@
 
 <p>Nous vous remercions de l'intérêt que vous manifestez pour notre entreprise en déposant votre candidature{% if answer_details.job_application.job %} pour le poste de {{ answer_details.job_application.job | lower }}{% endif %}.</p>
 
-<p>Nous avons étudié votre dossier avec la plus grande attention. Cependant, nous ne sommes pas en mesure de donner une suite favorable à votre candidature{% if answer_details.reason != answer_details.REASON_UNKNOWN %} pour le motif suivant {{ answer_details.reason_verbose }}{% endif %}.</p>
+<p>Nous avons étudié votre dossier avec la plus grande attention. Cependant, nous ne sommes pas en mesure de donner une suite favorable à votre candidature{% if answer_details.reason != answer_details.REASON_UNKNOWN %} pour le motif suivant : {{ answer_details.reason_verbose }}{% endif %}.</p>
 
-{# The `message` field has been deleted from the rejection form. The following if-block can later be removed once all pending rejection will be sent. #}{% if answer_details.message %}
+{# The `message` field has been deleted from the rejection form. The following if-block can later be removed once all pending rejection will be sent. #}
+{% if answer_details.message %}
 <p><b>Commentaire :</b></p>
 <p>{{ answer_details.message|linebreaksbr }}</p>
 {% endif %}
