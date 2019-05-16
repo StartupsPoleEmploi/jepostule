@@ -16,13 +16,14 @@
 {% block scripts %}
 <script>
     tarteaucitron.user.gtagMore = function () {
+        gtag('config',
+            '{{ GOOGLE_ANALYTICS_TRACKING_ID }}',
+            {'page_path': '/recruteur/{{ form.event_label }}/{{ form.event_label }}'}
+        );
         gtag('event', 'employeur', {
             'event_category': 'repondre',
             'event_label': '{{ form.event_label }}'
         });
-    };
-    tarteaucitron.user.analyticsMore = function () {
-        ga('send', 'pageview', '/recruteur/{{ form.event_label }}/{{ form.event_label }}');
     };
 </script>
 {% endblock %}
