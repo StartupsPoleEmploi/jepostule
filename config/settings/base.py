@@ -112,6 +112,12 @@ STATICFILES_FINDERS = (
 # https://django-pipeline.readthedocs.io/en/latest/configuration.html
 PIPELINE = {
     'JAVASCRIPT': {
+        'common': {
+            'source_filenames': (
+                'js/common/localStorage.js',
+            ),
+            'output_filename': 'js/common.js',
+        },
         'answer': {
             'source_filenames': (
                 'vendor/jquery.min.js',

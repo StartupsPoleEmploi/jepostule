@@ -18,8 +18,8 @@
 
         {% javascript 'polyfill' %}
         {% include "jepostule/pipeline/answers/_privacy.html" %}
+        {% javascript 'common' %}
         {% javascript 'answer' %}
-        <script src="{% static 'js/common/localStorage.js' %}"></script>
         {% block scripts %}{% endblock %}
     </body>
 </html>

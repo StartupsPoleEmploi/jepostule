@@ -10,7 +10,7 @@
     <body>
         {% block content %}{% endblock %}
         {% javascript 'polyfill' %}
-        <script src="{% static 'js/common/localStorage.js' %}"></script>
+        {% javascript 'common' %}
         <script src="{% static 'js/embed.js' %}"></script>
     </body>
 </html>
