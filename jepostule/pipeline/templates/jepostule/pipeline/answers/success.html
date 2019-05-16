@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}{{ form.title }}{% endblock %}
 {% block contenttitle %}{{ form.title }}{% endblock %}
+
 {% block content %}
 <div class="center">
     <img src="{% static 'img/icons/valider-blue.svg' %}" alt="" class="img-result">
@@ -13,12 +14,15 @@
 <script>
     if (window.hj) {
         window.hj('trigger', 'sondage-employeur');
-    }
+    };
     tarteaucitron.user.gtagMore = function () {
         gtag('event', 'employeur', {
             'event_category': 'envoyer',
             'event_label': '{{ form.event_label }}'
         });
+    };
+    tarteaucitron.user.analyticsMore = function () {
+        ga('send', 'pageview', '/recruteur/{{ form.event_label }}/envoyer');
     };
 </script>
 {% endblock %}

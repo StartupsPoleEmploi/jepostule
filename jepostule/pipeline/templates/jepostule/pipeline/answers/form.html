@@ -21,5 +21,8 @@
             'event_label': '{{ form.event_label }}'
         });
     };
+    tarteaucitron.user.analyticsMore = function () {
+        ga('send', 'pageview', '/recruteur/{{ form.event_label }}/{{ form.event_label }}');
+    };
 </script>
 {% endblock %}
