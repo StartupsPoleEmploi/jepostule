@@ -50,25 +50,6 @@
         input.addEventListener("change", onFieldChange);
     });
 
-    // Load some field values from local storage
-    function loadFromLocalStorage(input) {
-        var value = localStorage.getItem(input.name);
-        if (value !== null && value.length > 0) {
-            input.value = value;
-            input.dispatchEvent(new Event('change'), {'bubbles': true});
-        }
-    }
-    function saveToLocalStorage(input) {
-        console.log("save", input.name, input.value);
-        if(input.value.length > 0) {
-            localStorage.setItem(input.name, input.value);
-        }
-    }
-    function forEachLocalStorageElement(func) {
-        document.querySelectorAll("[data-localstorage]").forEach(func);
-    }
-    forEachLocalStorageElement(loadFromLocalStorage);
-
     /* Form and attachments validation */
     function clickValidateApplication(e) {
         // Maybe we could display a spinner here? In theory, form validation
@@ -92,9 +73,6 @@
         document.querySelectorAll("[data-watchchanges]").forEach(function(input) {
             syncFormField(input);
         });
-
-        // Save values to local storage
-        forEachLocalStorageElement(saveToLocalStorage);
 
         // Validate asynchronously
         var formData = new FormData(form);

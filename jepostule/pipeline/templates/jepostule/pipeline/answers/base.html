@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 {% load pipeline %}
 <html>
     <head>
@@ -18,6 +19,7 @@
         {% javascript 'polyfill' %}
         {% include "jepostule/pipeline/answers/_privacy.html" %}
         {% javascript 'answer' %}
+        <script src="{% static 'js/common/localStorage.js' %}"></script>
         {% block scripts %}{% endblock %}
     </body>
 </html>

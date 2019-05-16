@@ -49,11 +49,16 @@ class RequestInfoForm(BaseAnswerForm):
         )
         widgets = {
             'location': forms.RadioSelect(),
+            'employer_name': forms.TextInput(attrs={
+                'data-localstorage': '',
+            }),
             'employer_phone': forms.TextInput(attrs={
-                'placeholder': '01 23 45 67 89'
+                'placeholder': '01 23 45 67 89',
+                'data-localstorage': '',
             }),
             'employer_address': forms.TextInput(attrs={
                 'placeholder': '1 avenue de la République 75011 Paris',
+                'data-localstorage': '',
             }),
             'message': MessageWidget(attrs={
                 'rows': 10,
@@ -86,11 +91,16 @@ class InterviewForm(BaseAnswerForm):
         }
         widgets = {
             'location': forms.RadioSelect(),
+            'employer_name': forms.TextInput(attrs={
+                'data-localstorage': '',
+            }),
             'employer_phone': forms.TextInput(attrs={
-                'placeholder': '01 23 45 67 89'
+                'placeholder': '01 23 45 67 89',
+                'data-localstorage': '',
             }),
             'employer_address': forms.TextInput(attrs={
                 'placeholder': '1 avenue de la République 75011 Paris',
+                'data-localstorage': '',
             }),
             'message': MessageWidget(attrs={
                 'rows': 10,
