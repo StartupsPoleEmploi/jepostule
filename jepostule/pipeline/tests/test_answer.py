@@ -1,6 +1,7 @@
 from unittest import mock
 
 from django.core import mail
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from django.utils.timezone import now
 
@@ -20,6 +21,7 @@ class AnswerTests(TestCase):
             job_application=job_application,
             datetime=now(),
             employer_email='boss@bigco.com',
+            message="Lorem ipsum",
         )
         answer.send(job_application.id)
         with mock.patch.object(answer, 'send_mail', return_value=[1234]) as send_mail:
@@ -38,6 +40,7 @@ class AnswerTests(TestCase):
             job_application=job_application,
             datetime=now(),
             employer_email='boss@bigco.com',
+            message="Lorem ipsum",
         )
         answer.send(job_application.id)
         answer.send_answer_to_candidate.consume()
@@ -65,8 +68,32 @@ class AnswerTests(TestCase):
         models.AnswerInterview.objects.create(
             job_application=job_application,
             datetime=now(),
+            employer_email='boss@bigco.com',
+            message="Lorem ipsum",
         )
         self.assertEqual(models.Answer.Types.INTERVIEW, job_application.answer.get_details().answer_type)
+
+    def test_mandatory_fields(self):
+        """
+        Checks that at least one of the following AnswerEmployerInfo's fields is not empty:
+        `employer_name`, `employer_email`, `employer_phone`, `employer_address`.
+        """
+        job_application = models.JobApplication.objects.create(
+            candidate_email='candidate@pe.fr',
+            client_platform=ClientPlatform.objects.create(client_id="id"),
+        )
+        with self.assertRaises(ValidationError) as cm:
+            answer_interview = models.AnswerInterview.objects.create(
+                job_application=job_application,
+                datetime=now(),
+                message="Lorem ipsum",
+            )
+        error = (
+            'Veuillez renseigner au moins un des champs suivants\xa0: '
+            '"Prénom et nom du recruteur", "Email du recruteur", '
+            '"Numéro de téléphone" ou "Adresse de l\'entreprise"'
+        )
+        self.assertIn(error, cm.exception)
 
     def test_render_answer_message(self):
         job_application = models.JobApplication.objects.create(
@@ -76,6 +103,8 @@ class AnswerTests(TestCase):
         models.AnswerInterview.objects.create(
             job_application=job_application,
             datetime=now(),
+            employer_email='boss@bigco.com',
+            message="Lorem ipsum",
         )
         with self.settings(TEMPLATES=[
                 {
@@ -97,6 +126,8 @@ class AnswerTests(TestCase):
         )
         answer_request_info = models.AnswerRequestInfo.objects.create(
             job_application=job_application,
+            employer_email='boss@bigco.com',
+            message="Lorem ipsum",
         )
         with self.settings(TEMPLATES=[
                 {

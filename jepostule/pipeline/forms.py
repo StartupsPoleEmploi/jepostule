@@ -47,13 +47,6 @@ class RequestInfoForm(BaseAnswerForm):
             'message',
             'employer_name', 'employer_email', 'employer_phone', 'employer_address',
         )
-        labels = {
-            'message': "",
-            'employer_name': "Prénom et nom du recruteur",
-            'employer_email': "Email du recruteur",
-            'employer_phone': "Numéro de téléphone",
-            'employer_address': "Adresse de l'entreprise",
-        }
         widgets = {
             'location': forms.RadioSelect(),
             'employer_phone': forms.TextInput(attrs={
@@ -80,7 +73,6 @@ class InterviewForm(BaseAnswerForm):
     date_format_js = 'd/m/Y H:i'
     event_label = "entretien"
 
-    # TODO certains champs ne sont pas requis : il faut spécifier au moins le téléphone ou l'email
     class Meta:
         model = models.AnswerInterview
         fields = (
@@ -90,10 +82,6 @@ class InterviewForm(BaseAnswerForm):
         )
         labels = {
             'location': "L'entretien se déroulera",
-            'employer_name': "Prénom et nom du recruteur",
-            'employer_email': "Email du recruteur",
-            'employer_phone': "Numéro de téléphone",
-            'employer_address': "Adresse de l'entreprise",
             'message': "Informations complémentaires",
         }
         widgets = {

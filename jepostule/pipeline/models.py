@@ -1,6 +1,7 @@
 import uuid
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
@@ -187,14 +188,34 @@ class AnswerRejection(Answer, DetailedAnswerMixin):
 
 
 class AnswerEmployerInfo(Answer):
-    employer_name = models.CharField(max_length=128, blank=False)
-    employer_email = models.EmailField(max_length=128, blank=False)
-    employer_phone = models.CharField(max_length=32, blank=False)
-    employer_address = models.CharField(max_length=256, blank=False)
+    employer_name = models.CharField(verbose_name="Prénom et nom du recruteur", max_length=128, blank=True)
+    employer_email = models.EmailField(verbose_name="Email du recruteur", max_length=128, blank=True)
+    employer_phone = models.CharField(verbose_name="Numéro de téléphone", max_length=32, blank=True)
+    employer_address = models.CharField(verbose_name="Adresse de l'entreprise", max_length=256, blank=True)
     message = models.TextField(blank=False)
 
     class Meta:
         abstract = True
+
+    def clean_fields(self, exclude=None):
+        super().clean_fields(exclude)
+        if not any([
+            self.employer_name,
+            self.employer_email,
+            self.employer_phone,
+            self.employer_address,
+        ]):
+            error = 'Veuillez renseigner au moins un des champs suivants : "{0}", "{1}", "{2}" ou "{3}"'.format(
+                self._meta.get_field('employer_name').verbose_name,
+                self._meta.get_field('employer_email').verbose_name,
+                self._meta.get_field('employer_phone').verbose_name,
+                self._meta.get_field('employer_address').verbose_name,
+            )
+            raise ValidationError(error)
+
+    def save(self, *args, **kwargs):
+        self.clean_fields()
+        super().save(*args, **kwargs)
 
 
 class AnswerRequestInfo(AnswerEmployerInfo, DetailedAnswerMixin):
