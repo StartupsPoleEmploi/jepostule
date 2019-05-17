@@ -90,8 +90,7 @@ class AnswerTests(TestCase):
             )
         error = (
             'Veuillez renseigner au moins un des champs suivants\xa0: '
-            '"Prénom et nom du recruteur", "Email du recruteur", '
-            '"Numéro de téléphone" ou "Adresse de l\'entreprise"'
+            '"Email du recruteur", "Numéro de téléphone" ou "Adresse de l\'entreprise"'
         )
         self.assertIn(error, cm.exception)
 

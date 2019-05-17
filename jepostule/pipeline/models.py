@@ -200,13 +200,11 @@ class AnswerEmployerInfo(Answer):
     def clean_fields(self, exclude=None):
         super().clean_fields(exclude)
         if not any([
-            self.employer_name,
             self.employer_email,
             self.employer_phone,
             self.employer_address,
         ]):
-            error = 'Veuillez renseigner au moins un des champs suivants : "{0}", "{1}", "{2}" ou "{3}"'.format(
-                self._meta.get_field('employer_name').verbose_name,
+            error = 'Veuillez renseigner au moins un des champs suivants : "{0}", "{1}" ou "{2}"'.format(
                 self._meta.get_field('employer_email').verbose_name,
                 self._meta.get_field('employer_phone').verbose_name,
                 self._meta.get_field('employer_address').verbose_name,
