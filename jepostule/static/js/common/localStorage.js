@@ -15,13 +15,14 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
 
-    // Load from local storage.
     Array.from(inputs).forEach(input => {
+      // Load value from local storage.
       let value = localStorage.getItem(input.name)
       if (value) {
         input.value = value
         input.dispatchEvent(new Event('change'), {'bubbles': true})
       }
+      // Save value to local storage.
       input.addEventListener('blur', saveToLocalStorage)
     })
 
