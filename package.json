@@ -2,7 +2,7 @@
   "name": "jepostule",
   "version": "0.0.1",
   "dependencies": {
-    "jquery-datetimepicker": "^2.5.20",
+    "jquery-datetimepicker": "^2.5.21",
     "yuglify": "^2.0.0",
     "tarteaucitronjs": "^1.2.0"
   },
