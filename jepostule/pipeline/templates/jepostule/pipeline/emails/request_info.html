@@ -13,7 +13,9 @@ Cordialement,<br>
 </p>
 <br>
 <p class="text-center"><b>Pour répondre au recruteur</b></p>
-<p class="text-center">{{ answer_details.employer_name }}<br>
-{{ answer_details.employer_phone }}<br>
-{{ answer_details.employer_email }}<br>
-{{ answer_details.employer_address }}</p>
+<p class="text-center">
+{% if answer_details.employer_name %}{{ answer_details.employer_name }}<br>{% endif %}
+{% if answer_details.employer_phone %}{{ answer_details.employer_phone }}<br>{% endif %}
+{% if answer_details.employer_email %}{{ answer_details.employer_email }}<br>{% endif %}
+{% if answer_details.employer_address %}{{ answer_details.employer_address }}{% endif %}
+</p>
