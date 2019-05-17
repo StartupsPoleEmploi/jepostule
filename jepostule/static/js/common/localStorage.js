@@ -2,22 +2,22 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  let useLocalStorage = inputs => {
+  var useLocalStorage = function (inputs) {
 
     if (!inputs.length) {
       return
     }
 
-    let saveToLocalStorage = (e) => {
-      let input = e.target
+    var saveToLocalStorage = function (e) {
+      var input = e.target
       if (input.value) {
         localStorage.setItem(input.name, input.value)
       }
     }
 
-    Array.from(inputs).forEach(input => {
+    inputs.forEach(function (input) {
       // Load value from local storage.
-      let value = localStorage.getItem(input.name)
+      var value = localStorage.getItem(input.name)
       if (value) {
         input.value = value
         input.dispatchEvent(new Event('change'), {'bubbles': true})

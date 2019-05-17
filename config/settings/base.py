@@ -103,12 +103,14 @@ STATIC_ROOT = '/tmp/jepostule/static'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'jepostule', 'static'),
 ]
+# https://django-pipeline.readthedocs.io/en/latest/usage.html#collect-static
 STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'pipeline.finders.PipelineFinder',
 )
+
 # https://django-pipeline.readthedocs.io/en/latest/configuration.html
 PIPELINE = {
     'JAVASCRIPT': {
