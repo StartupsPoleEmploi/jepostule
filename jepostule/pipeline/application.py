@@ -6,7 +6,7 @@ from django.template.loader import get_template
 from jepostule.email.utils import send_mail
 from jepostule.queue import topics
 from jepostule.security import ratelimits
-from . import models
+from . import models, memo
 
 
 Attachment = namedtuple('Attachment', ['name', 'content'])
@@ -26,7 +26,7 @@ def send(job_application_id, attachments=None, send_confirmation=True):
     )
 
 
-@topics.subscribe('send-application')
+@topics.subscribe(topics.SEND_APPLICATION)
 def send_application_to_employer(job_application_id, attachments=None, send_confirmation=True):
     """
     Args:
@@ -61,11 +61,26 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
         status=models.Email.SENT,
     )
     ratelimits.Sender.add(job_application.candidate_email)
+
+    forward_application_to_memo.run_async(job_application_id)
     if send_confirmation:
         send_confirmation_to_candidate.run_async(job_application_id)
 
 
-@topics.subscribe('send-confirmation')
+@topics.subscribe(topics.FORWARD_TO_MEMO)
+def forward_application_to_memo(job_application_id):
+    """
+    Args:
+        job_application_id (int): id of a JobApplication entry
+    """
+    job_application = models.JobApplication.objects.get(id=job_application_id)
+    memo.forward_job_application(job_application_id)
+    event = job_application.events.create(
+        name=models.JobApplicationEvent.FORWARDED_TO_MEMO,
+    )
+
+
+@topics.subscribe(topics.SEND_CONFIRMATION)
 def send_confirmation_to_candidate(job_application_id):
     """
     Args:

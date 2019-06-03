@@ -13,7 +13,7 @@ def receive(event):
     logger.info(event)
     process.run_async(event)
 
-@topics.subscribe('process-email-event')
+@topics.subscribe(topics.PROCESS_EMAIL_EVENT)
 def process(event):
     email_status = {
         "sent": models.Email.SENT,

@@ -6,10 +6,10 @@ from jepostule.auth.models import ClientPlatform
 from jepostule.pipeline import events
 from jepostule.pipeline import models
 from jepostule.security import blacklist
-from jepostule.tests.base import CacheTestCase
+from jepostule.tests.base import PipelineCacheTestCase
 
 
-class EventTests(CacheTestCase):
+class EventTests(PipelineCacheTestCase):
 
     def setUp(self):
         super().setUp()
@@ -30,9 +30,13 @@ class EventTests(CacheTestCase):
         event3 = job_application.events.create(
             name=models.JobApplicationEvent.ANSWERED
         )
+        event4 = job_application.events.create(
+            name=models.JobApplicationEvent.FORWARDED_TO_MEMO
+        )
         self.assertEqual('boss@company.com', event1.to_email)
         self.assertEqual('candidate@pe.fr', event2.to_email)
         self.assertEqual('candidate@pe.fr', event3.to_email)
+        self.assertIsNone(event4.to_email)
 
     def test_large_message_id(self):
         job_application = models.JobApplication.objects.create(

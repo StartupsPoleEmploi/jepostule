@@ -6,6 +6,11 @@ from . import base
 TASKS = defaultdict(list)
 
 
+def reset_tasks():
+    for topic in TASKS:
+        TASKS[topic].clear()
+
+
 class SimpleProducer(base.BaseProducer):
 
     def send(self, topic, value, key=None):

@@ -29,6 +29,9 @@ test-coverage: ## run unit tests and produce a code coverage report in html form
 	coverage run --include=./jepostule/* ./manage.py test --settings=config.settings.test --noinput
 	coverage html
 	@echo "Open the coverage report by running: xdg-open htmlcov/index.html"
+test-custom:
+	@echo "To run a specific test, adapt and run this example command:"
+	@echo "$ ./manage.py test --settings=config.settings.test --noinput jepostule.pipeline.tests.test_application.ApplicationTests"
 
 migrate: migrate-postgres migrate-kafka
 migrate-postgres: services ## run postgres migrations

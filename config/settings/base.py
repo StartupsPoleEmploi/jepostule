@@ -212,3 +212,12 @@ QUEUE_RUN_ASYNC = True
 KAFKA_BOOTSTRAP_SERVERS = [os.environ.get('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')]
 
 TEST_RUNNER = 'jepostule.tests.runner.JePostuleRunner'
+
+# Staging Memo API
+MEMO_API_URL = 'https://memo.beta.pole-emploi.fr/rest/api/v1'
+MEMO_API_SECRET = 'setme'
+MEMO_API_VERIFY_SSL = False
+# Production Memo API
+MEMO_API_URL = 'https://memo.pole-emploi.fr/rest/api/v1'
+MEMO_API_SECRET = 'setme'
+MEMO_API_VERIFY_SSL = True

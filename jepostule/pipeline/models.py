@@ -67,10 +67,12 @@ class JobApplicationEvent(models.Model):
     """
     SENT_TO_EMPLOYER = 'sent'
     CONFIRMED_TO_CANDIDATE = 'confirmed'
+    FORWARDED_TO_MEMO = 'forwarded-to-memo'
     ANSWERED = 'answered'
     NAMES = (
         (SENT_TO_EMPLOYER, "Envoyé à l'employeur"),
         (CONFIRMED_TO_CANDIDATE, "Confirmation envoyée au candidat"),
+        (FORWARDED_TO_MEMO, "Candidature transférée à Memo"),
         (ANSWERED, "Réponse envoyée au candidat"),
     )
 
@@ -85,6 +87,8 @@ class JobApplicationEvent(models.Model):
     def to_email(self):
         if self.name in [self.CONFIRMED_TO_CANDIDATE, self.ANSWERED]:
             return self.job_application.candidate_email
+        elif self.name == self.FORWARDED_TO_MEMO:
+            return None
         return self.job_application.employer_email
 
     class Meta:
