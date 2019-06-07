@@ -1,3 +1,4 @@
+# coding: utf8
 from django.core.management.base import BaseCommand
 from django.db.models import Count
 from django.utils.timezone import make_aware, datetime
@@ -29,33 +30,61 @@ class Command(BaseCommand):
 
         application_query = {}
         answer_query = {}
+
         if min_date:
             application_query['created_at__gte'] = min_date
             answer_query['job_application__created_at__gte'] = min_date
         if max_date:
             application_query['created_at__lt'] = max_date
             answer_query['job_application__created_at__lt'] = max_date
+        
         applications = models.JobApplication.objects.filter(**application_query)
-        applications_no_answer = models.JobApplication.objects.filter(**application_query, answer=None)
+        
         answers = models.Answer.objects.filter(**answer_query)
         answers_rejection = models.AnswerRejection.objects.filter(**answer_query)
         answers_interview = models.AnswerInterview.objects.filter(**answer_query)
         answers_request_info = models.AnswerRequestInfo.objects.filter(**answer_query)
 
+        candidates = applications.values('candidate_email').annotate(Count('candidate_email'))
+
         print("""{} candidatures
-{} candidats uniques
-{} entreprises
-{} candidatures sans réponse
-{} reponses
-{} reponses(refus)
-{} reponses(demande d'informations)
-{} reponses (interview)""".format(
+{} candidats
+{} candidatures par candidat
+{} entreprises ayant reçu au moins une candidature
+{} réponses (tous types)
+{}% taux de réponse employeur
+{} entreprises ayant répondu à au moins une candidature (tous types)
+{} candidats ayant reçu au moins une réponse à une candidature (tous types)
+{} réponses (type 1 - refus)
+{}% proportion des réponses de type 1 - refus
+{} entreprises ayant répondu à au moins une candidature (type 1 - refus)
+{} candidats ayant reçu au moins une réponse à une candidature (type 1 - refus)
+{} réponses (type 2 - demande d'informations)
+{}% proportion des réponses de type 2 - demande d'informations
+{} entreprises ayant répondu à au moins une candidature (type 2 - demande d'informations)
+{} candidats ayant reçu au moins une réponse à une candidature (type 2 - demande d'informations)
+{} réponses (type 3 - proposition d'entretien)
+{}% proportion des réponses de type 3 - proposition d'entretien
+{} entreprises ayant répondu à au moins une candidature (type 3 - proposition d'entretien)
+{} candidats ayant reçu au moins une réponse à une candidature (type 3 - proposition d'entretien)""".format(
             applications.count(),
-            applications.values('candidate_email').annotate(Count('candidate_email')).count(),
+            candidates.count(),
+            round(applications.count() / candidates.count(), 1),
             applications.values('siret').annotate(Count('siret')).count(),
-            applications_no_answer.count(),
             answers.count(),
+            round(100.0 * answers.count() / applications.count(), 1),
+            answers.values('job_application__siret').annotate(Count('job_application__siret')).count(),
+            answers.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_rejection.count(),
+            round(100.0 * answers_rejection.count() / applications.count(), 1),
+            answers_rejection.values('job_application__siret').annotate(Count('job_application__siret')).count(),
+            answers_rejection.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_request_info.count(),
+            round(100.0 * answers_request_info.count() / applications.count(), 1),
+            answers_request_info.values('job_application__siret').annotate(Count('job_application__siret')).count(),
+            answers_request_info.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_interview.count(),
+            round(100.0 * answers_interview.count() / applications.count(), 1),
+            answers_interview.values('job_application__siret').annotate(Count('job_application__siret')).count(),
+            answers_interview.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
         ))

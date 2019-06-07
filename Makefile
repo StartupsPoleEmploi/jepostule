@@ -23,6 +23,9 @@ run: ## run a local server
 debug: ## run a local server with debug settings
 	./manage.py runserver --settings=config.settings.debug
 
+dumpstats:
+	./manage.py dumpstats --min-date 20180101-00:00:00 --max-date 20190601-00:00:00
+
 test: ## run unit tests
 	./manage.py test --settings=config.settings.test --noinput
 test-coverage: ## run unit tests and produce a code coverage report in html format
