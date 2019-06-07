@@ -50,23 +50,23 @@ class Command(BaseCommand):
         print("""{} candidatures
 {} candidats
 {} candidatures par candidat
-{} entreprises ayant reçu au moins une candidature
+{} entreprises ont reçu au moins une candidature
 {} réponses (tous types)
 {}% taux de réponse employeur
-{} entreprises ayant répondu à au moins une candidature (tous types)
-{} candidats ayant reçu au moins une réponse à une candidature (tous types)
+{} entreprises ont répondu à au moins une candidature (tous types)
+{} candidats ont reçu au moins une réponse à une candidature (tous types)
 {} réponses (type 1 - refus)
 {}% proportion des réponses de type 1 - refus
-{} entreprises ayant répondu à au moins une candidature (type 1 - refus)
-{} candidats ayant reçu au moins une réponse à une candidature (type 1 - refus)
+{} entreprises ont répondu à au moins une candidature (type 1 - refus)
+{} candidats ont reçu au moins une réponse à une candidature (type 1 - refus)
 {} réponses (type 2 - demande d'informations)
 {}% proportion des réponses de type 2 - demande d'informations
-{} entreprises ayant répondu à au moins une candidature (type 2 - demande d'informations)
-{} candidats ayant reçu au moins une réponse à une candidature (type 2 - demande d'informations)
+{} entreprises ont répondu à au moins une candidature (type 2 - demande d'informations)
+{} candidats ont reçu au moins une réponse à une candidature (type 2 - demande d'informations)
 {} réponses (type 3 - proposition d'entretien)
 {}% proportion des réponses de type 3 - proposition d'entretien
-{} entreprises ayant répondu à au moins une candidature (type 3 - proposition d'entretien)
-{} candidats ayant reçu au moins une réponse à une candidature (type 3 - proposition d'entretien)""".format(
+{} entreprises ont répondu à au moins une candidature (type 3 - proposition d'entretien)
+{} candidats ont reçu au moins une réponse à une candidature (type 3 - proposition d'entretien)""".format(
             applications.count(),
             candidates.count(),
             round(applications.count() / candidates.count(), 1),
@@ -76,15 +76,15 @@ class Command(BaseCommand):
             answers.values('job_application__siret').annotate(Count('job_application__siret')).count(),
             answers.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_rejection.count(),
-            round(100.0 * answers_rejection.count() / applications.count(), 1),
+            round(100.0 * answers_rejection.count() / answers.count(), 1),
             answers_rejection.values('job_application__siret').annotate(Count('job_application__siret')).count(),
             answers_rejection.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_request_info.count(),
-            round(100.0 * answers_request_info.count() / applications.count(), 1),
+            round(100.0 * answers_request_info.count() / answers.count(), 1),
             answers_request_info.values('job_application__siret').annotate(Count('job_application__siret')).count(),
             answers_request_info.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_interview.count(),
-            round(100.0 * answers_interview.count() / applications.count(), 1),
+            round(100.0 * answers_interview.count() / answers.count(), 1),
             answers_interview.values('job_application__siret').annotate(Count('job_application__siret')).count(),
             answers_interview.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
         ))
