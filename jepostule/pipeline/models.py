@@ -33,6 +33,9 @@ class JobApplication(models.Model):
     class Meta:
         ordering = ['created_at']
 
+    def __str__(self):
+        return str(self.id)
+
     @property
     def candidate_name(self):
         return "{} {}".format(self.candidate_first_name, self.candidate_last_name)

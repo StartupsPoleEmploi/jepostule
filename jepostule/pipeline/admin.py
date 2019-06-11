@@ -70,6 +70,7 @@ class JobApplicationEventAdmin(admin.ModelAdmin, JobApplicationEventAdminMixin):
     search_fields = ('created_at', 'name',)
     sortable_by = ('created_at', 'job_application', 'name',)
     readonly_fields = ('visualize',)
+    raw_id_fields = ('job_application',)
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('job_application')
@@ -111,6 +112,9 @@ class AnswerAdmin(BaseAnswerAdmin):
         'id', 'job_application_link', 'detailed_answer_link', 'email_link',
         'answerrejection', 'answerrequestinfo', 'answerinterview',
     )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('job_application')
 
     def detailed_answer_link(self, obj):
         return detailed_answer_link(obj.get_details())
