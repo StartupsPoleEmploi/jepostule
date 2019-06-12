@@ -1,6 +1,7 @@
 django
 django-pipeline
 kafka-python
+mailjet_rest
 psycopg2-binary
 redis
 requests

@@ -43,9 +43,8 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     from_email = "{} {} <{}>".format(
         job_application.candidate_first_name,
         job_application.candidate_last_name,
-        job_application.platform_attribute('contact_email'),
+        job_application.platform_attribute('contact_email'),  # The sender email should be validated in Mailjet.
     )
-
     message_id = send_mail(
         subject, render_application_email(job_application),
         from_email, [job_application.employer_email],
