@@ -118,13 +118,15 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         'send_confirmation': SEND_CONFIRMATION_EMAIL_DEFAULT,
     }
 
-    class Meta:
+    class Meta(JobApplicationPartialForm.Meta):
         model = JobApplication
-        fields = tuple(list(JobApplicationPartialForm.Meta.fields) + [
-            'job', 'candidate_phone', 'candidate_address', 'send_confirmation',
-        ])
-        widgets = JobApplicationPartialForm.Meta.widgets.copy()
-        widgets.update({
+        fields = JobApplicationPartialForm.Meta.fields + (
+            'job',
+            'candidate_phone',
+            'candidate_address',
+            'send_confirmation',
+        )
+        JobApplicationPartialForm.Meta.widgets.update({
             'job': forms.TextInput(attrs={'readonly': True}),
             'candidate_phone': forms.TextInput(attrs={'readonly': True}),
             'candidate_address': forms.TextInput(attrs={'readonly': True}),
