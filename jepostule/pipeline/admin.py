@@ -39,7 +39,7 @@ class JobApplicationEventInlineAdmin(admin.TabularInline, JobApplicationEventAdm
 @admin.register(models.JobApplication)
 class JobApplicationAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
-    list_display = ('id', 'created_at', 'candidate_email', 'employer_email',)
+    list_display = ('id', 'created_at', 'candidate_email', 'employer_email', 'job')
     list_display_links = ('id', 'candidate_email', 'employer_email',)
     ordering = ('-created_at',)
     search_fields = ('id', 'created_at', 'candidate_email', 'employer_email', 'job',)
