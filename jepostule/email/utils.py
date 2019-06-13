@@ -6,7 +6,7 @@ from django.conf import settings
 
 # pylint: disable=too-many-arguments
 def send_mail(subject, html_content, from_email, recipient_list,
-              reply_to=None, attachments=None):
+              from_name=None, reply_to=None, attachments=None):
     """
     We don't rely on django.core.mail.send_mail function, because it does not
     let us override the 'reply-to' field.
@@ -30,5 +30,5 @@ def send_mail(subject, html_content, from_email, recipient_list,
 
     return importlib.import_module(settings.EMAIL_SENDING_MODULE).send(
         subject, html_content, from_email, recipient_list,
-        reply_to=reply_to, attachments=attachments
+        from_name=from_name, reply_to=reply_to, attachments=attachments
     )

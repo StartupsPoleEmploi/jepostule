@@ -1,6 +1,5 @@
 import base64
 import mimetypes
-import re
 
 from mailjet_rest import Client
 
@@ -10,47 +9,33 @@ from django.conf import settings
 mailjet = Client(auth=(settings.MAILJET_API_KEY, settings.MAILJET_API_SECRET), version='v3.1')
 
 
-def send(subject, html_content, from_email, recipients, reply_to=None, attachments=None):
-    from_name, from_email = parse_contact(from_email)
-    to_names_emails = [parse_contact(recipient) for recipient in recipients]
+def send(subject, html_content, from_email, recipients, from_name=None, reply_to=None, attachments=None):
     attachments = [{
         "ContentType": mimetype(attachment[0]),
         "Filename": attachment[0],
         "Base64Content": base64.encodebytes(attachment[1]).decode().strip(),
     } for attachment in attachments] if attachments else []
+
     data = {
         "Messages": [
             {
                 "From": {
-                    "Name": from_name,
                     "Email": from_email,
                 },
                 "To": [{
-                    "Name": recipient[0],
-                    "Email": recipient[1],
-                } for recipient in to_names_emails],
+                    "Email": recipient,
+                } for recipient in recipients],
                 "Subject": subject,
                 "HTMLPart": html_content,
                 "Attachments": attachments,
             },
         ],
     }
+    if from_name:
+        data['Messages'][0]['From']['Name'] = from_name
+
     response = post_api(data)
     return [message["MessageID"] for message in response["Messages"][0]["To"]]
-
-
-def parse_contact(contact):
-    """
-    Args:
-        contact (str): e.g "John Doe <john@doe.com>"
-    Return:
-        name (str): e.g "John Doe"
-        email address (str): e.g "john@doe.com"
-    """
-    match = re.match(r'^(?P<name>[^<@]+) <(?P<email>.+@.+)>$', contact)
-    if match:
-        return match['name'], match['email']
-    return "", contact
 
 
 def mimetype(url):

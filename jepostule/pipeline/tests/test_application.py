@@ -38,7 +38,7 @@ class ApplicationTests(PipelineCacheTestCase):
             send_mail.assert_called_once()
 
             args, kwargs = send_mail.call_args
-            self.assertEqual("Charles Sept <{}>".format(settings.JEPOSTULE_NO_REPLY), args[2])
+            self.assertEqual(settings.JEPOSTULE_NO_REPLY, args[2])
             self.assertEqual(['boss@big.co'], args[3])
             self.assertEqual(1, len(kwargs['attachments']))
             self.assertEqual('moncv.doc', kwargs['attachments'][0].name)
@@ -59,7 +59,7 @@ class ApplicationTests(PipelineCacheTestCase):
             send_mail.assert_called_once()
 
             args, kwargs = send_mail.call_args
-            self.assertEqual("La Bonne Boite <{}>".format(settings.JEPOSTULE_NO_REPLY), args[2])
+            self.assertEqual(settings.JEPOSTULE_NO_REPLY, args[2])
             self.assertEqual(['candidat@pe.fr'], args[3])
             self.assertIsNone(kwargs.get('attachments'))
             self.assertEqual(

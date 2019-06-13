@@ -1,5 +1,7 @@
-from django.test import TestCase
 from unittest import mock
+
+import requests
+from django.test import TestCase
 
 from jepostule.email.backends import mailjet
 
@@ -30,15 +32,11 @@ class MailjetTests(TestCase):
         self.assertEqual([456], message_id)
 
     def test_send_error(self):
-        with mock.patch.object(mailjet.requests, "post", return_value=mock.Mock(status_code=400)):
+        with mock.patch.object(requests, "post", return_value=mock.Mock(status_code=400)):
             self.assertRaises(
                 mailjet.MailjetAPIError,
                 mailjet.send, "hello from earth", "大家好！", "earthling@wudaokou.cn", ["angry@bird.com"]
             )
-
-    def test_parse_contact(self):
-        self.assertEqual(("La Bonne Boite", "lbb@pe.fr"), mailjet.parse_contact("La Bonne Boite <lbb@pe.fr>"))
-        self.assertEqual(("", "lbb@pe.fr"), mailjet.parse_contact("lbb@pe.fr"))
 
     def test_send_with_attachment(self):
         with mock.patch.object(mailjet, "post_api", return_value={
@@ -56,21 +54,23 @@ class MailjetTests(TestCase):
                 }
             ]
         }) as mock_post_api:
+            # mailjet.send(
+            #     "hello from earth", "大家好！", "Earthling <earthling@wudaokou.cn>", ["angry@bird.com"],
+            #     attachments=[('test.txt', b'This is your attached file!!!\n', None)]
+            # )
             mailjet.send(
-                "hello from earth", "大家好！", "Earthling <earthling@wudaokou.cn>", ["angry@bird.com"],
-                attachments=[('test.txt', b'This is your attached file!!!\n', None)]
+                "hello from earth", "大家好！", "earthling@wudaokou.cn", ["angry@bird.com"],
+                from_name="Earthling", attachments=[('test.txt', b'This is your attached file!!!\n', None)]
             )
             mock_post_api.assert_called_with(
-                "/send",
                 {
                     "Messages": [
                         {
                             "From": {
-                                "Name": "Earthling",
                                 "Email": "earthling@wudaokou.cn",
+                                "Name": "Earthling",
                             },
                             "To": [{
-                                "Name": "",
                                 "Email": "angry@bird.com",
                             }],
                             "Subject": "hello from earth",

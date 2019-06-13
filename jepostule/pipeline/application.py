@@ -40,14 +40,11 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     subject = "Candidature spontanée - {}".format(
         job_application.job,
     )
-    from_email = "{} {} <{}>".format(
-        job_application.candidate_first_name,
-        job_application.candidate_last_name,
-        job_application.platform_attribute('contact_email'),  # The sender email should be validated in Mailjet.
-    )
+    from_email = job_application.platform_attribute('contact_email')  # The sender email should be validated in Mailjet.
     message_id = send_mail(
         subject, render_application_email(job_application),
         from_email, [job_application.employer_email],
+        from_name=job_application.candidate_name,
         reply_to=[job_application.candidate_email],
         attachments=attachments
     )
@@ -88,15 +85,13 @@ def send_confirmation_to_candidate(job_application_id):
     """
     job_application = models.JobApplication.objects.get(id=job_application_id)
     subject = "Votre candidature a bien été envoyée"
-    from_email = "{} <{}>".format(
-        job_application.platform_attribute('name'),
-        job_application.platform_attribute('contact_email'),
-    )
+    from_email = job_application.platform_attribute('contact_email')
     message = get_template('jepostule/pipeline/emails/full.html').render({
         'message': render_confirmation_message(job_application),
     })
     message_id = send_mail(
-        subject, message, from_email, [job_application.candidate_email]
+        subject, message, from_email, [job_application.candidate_email],
+        from_name=job_application.platform_attribute('name')
     )
     event = job_application.events.create(
         name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE,
