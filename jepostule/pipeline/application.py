@@ -86,9 +86,7 @@ def send_confirmation_to_candidate(job_application_id):
     job_application = models.JobApplication.objects.get(id=job_application_id)
     subject = "Votre candidature a bien été envoyée"
     from_email = job_application.platform_attribute('contact_email')
-    message = get_template('jepostule/pipeline/emails/full.html').render({
-        'message': render_confirmation_message(job_application),
-    })
+    message = render_confirmation_email(job_application)
     message_id = send_mail(
         subject, message, from_email, [job_application.candidate_email],
         from_name=job_application.platform_attribute('name')
@@ -104,29 +102,16 @@ def send_confirmation_to_candidate(job_application_id):
 
 
 def render_application_email(job_application):
-    footer = get_template('jepostule/pipeline/emails/footer.html').render({
-        'jepostule_base_url': settings.JEPOSTULE_BASE_URL,
-    })
-    return get_template('jepostule/pipeline/emails/full.html').render({
-        'message': render_application_message(job_application),
-        'footer': footer,
-    })
-
-
-def render_application_message(job_application):
     return get_template('jepostule/pipeline/emails/application.html').render({
-        'job_application': job_application,
+        'display_footer': True,
         'jepostule_base_url': settings.JEPOSTULE_BASE_URL,
+        'job_application': job_application,
     })
 
 
 def render_confirmation_email(job_application):
-    return get_template('jepostule/pipeline/emails/full.html').render({
-        'message': render_confirmation_message(job_application),
-    })
-
-
-def render_confirmation_message(job_application):
-    return get_template('jepostule/pipeline/emails/confirmation.html').render({
-        'job_application': job_application
+    return get_template('jepostule/pipeline/emails/application_confirmation.html').render({
+        'display_footer': False,
+        'job_application': job_application,
+        'jepostule_base_url': settings.JEPOSTULE_BASE_URL,
     })

@@ -1,3 +1,5 @@
+{% extends "jepostule/pipeline/emails/_base_application.html" %}
+{% block message %}
 <p class="text-center">Candidature spontanée au poste de {{ job_application.job }}</p>
 <br>
 <br>
@@ -13,3 +15,4 @@
 <br>
 <br>
 <p><b>N'hésitez pas à relancer cette entreprise si vous n'avez pas de nouvelle dans 15 jours.</b></p>
+{% endblock %}

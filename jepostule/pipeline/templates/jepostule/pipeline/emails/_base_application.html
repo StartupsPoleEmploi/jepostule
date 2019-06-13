@@ -1,9 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="min-height: 100%; background-color: #f3f3f3 !important;">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width" />
-        <title>{{ subject }}</title>
         <style>{% include "jepostule/pipeline/emails/style-min.css" %}</style>
     </head>
 
@@ -17,14 +17,14 @@
                   <table class="spacer"><tbody><tr><td height="16px" style="font-size:16px;line-height:16px;">&#xA0;</td></tr></tbody></table> 
                   <table class="row"><tbody><tr>
                     <th class="small-12 large-12 columns first last"><table><tr><th>
-                      {{ message|safe }}
+                      {% block message %}{% endblock %}
                    </th><th class="expander"></th></tr></table></th>
                   </tr></tbody></table>
 
-                  {% if footer %}
+                  {% if display_footer %}
                   <table class="row"><tbody><tr>
                     <th class="small-12 large-12 columns first last"><table><tr><th>
-                      {{ footer|safe }}
+                      <img src="{{ jepostule_base_url }}{% static 'img/logo-pe.svg' %}" alt="Pôle emploi" style="height: 35px; vertical-align: middle; float: left; margin-right: 15px;"><p style="color: grey; font-size: 12px;"><i>Solution proposée par Pôle emploi. Si vous ne souhaitez plus recevoir d'emails de notre part, <a href="https://labonneboite.pole-emploi.fr/informations-entreprise">cliquez ici</a>.</i></p>
                    </th><th class="expander"></th></tr></table></th>
                   </tr></tbody></table>
                   {% endif %}

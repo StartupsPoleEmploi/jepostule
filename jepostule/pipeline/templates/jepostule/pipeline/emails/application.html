@@ -1,3 +1,5 @@
+{% extends "jepostule/pipeline/emails/_base_application.html" %}
+{% block message %}
 <p class="text-center">{{ job_application.candidate_name }} vous propose de découvrir sa candidature</p>
 <br>
 <br>
@@ -39,3 +41,4 @@
         </p>
     </th></tr></table></th>
 </table>
+{% endblock %}
