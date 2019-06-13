@@ -1,11 +1,11 @@
 {% extends "jepostule/pipeline/emails/_base_application.html" %}
 {% block message %}
-<p class="text-center">{{ job_application.candidate_name }} vous propose de découvrir sa candidature</p>
+<p class="text-center">{{ data.candidate_name }} vous propose de découvrir sa candidature</p>
 <br>
 <br>
-<p class="text-center"><b>Candidature spontanée - {{ job_application.job }}</b></p>
+<p class="text-center"><b>Candidature spontanée - {{ data.job }}</b></p>
 
-<p style="margin: 0 0 10px; padding: 0;">{{ job_application.message|linebreaksbr }}</p>
+<p style="margin: 0 0 10px; padding: 0;">{{ data.message }}</p>
 
 <br>
 <br>
@@ -14,17 +14,17 @@
 <table class="row"><tbody><tr>
     <th class="small-12 large-4 columns first"><table><tr><th style="padding: 0 8px 0 8px;">
         <p class="text-center" style="border: 2px solid #02BE72; border-radius: 3px;">
-            <a href="{{ jepostule_base_url }}{% url 'pipeline:send_answer' answer_uuid=job_application.answer_uuid status=job_application.answer_types.INTERVIEW %}" style="color: #02BE72;; text-decoration: none;" target="_blank">Planifier <br>un entretien</a>
+            <a href="{{ data.answer_interview_url }}" style="color: #02BE72;; text-decoration: none;" target="_blank">Planifier <br>un entretien</a>
         </p>
     </th></tr></table></th>
     <th class="small-12 large-4 columns first"><table><tr><th style="padding: 0 8px 0 8px;">
         <p class="text-center" style="border: 2px solid #F5A623; border-radius: 3px;">
-            <a href="{{ jepostule_base_url }}{% url 'pipeline:send_answer' answer_uuid=job_application.answer_uuid status=job_application.answer_types.REQUEST_INFO %}" style="color: #F5A623; text-decoration: none;" target="_blank">Demander plus <br>d'informations</a>
+            <a href="{{ data.answer_request_info_url }}" style="color: #F5A623; text-decoration: none;" target="_blank">Demander plus <br>d'informations</a>
         </p>
     </th></tr></table></th>
     <th class="small-12 large-4 columns first"><table><tr><th style="padding: 0 8px 0 8px;">
         <p class="text-center" style="border: 2px solid #D0021B; border-radius: 3px;">
-            <a href="{{ jepostule_base_url }}{% url 'pipeline:send_answer' answer_uuid=job_application.answer_uuid status=job_application.answer_types.REJECTION %}" style="color: #D0021B; text-decoration: none;" target="_blank">Refuser <br>la candidature</a></p>
+            <a href="{{ data.answer_rejection_url }}" style="color: #D0021B; text-decoration: none;" target="_blank">Refuser <br>la candidature</a></p>
     </th></tr></table></th>
 </tr></tbody></table>
 
@@ -34,10 +34,10 @@
     <th class="small-12 large-4 columns first"><table><tr><th style="padding: 0 8px 0 8px;">
         <p class="text-center"><b>Coordonnées complètes</b></p>
         <p class="text-center">
-            {{ job_application.candidate_name }}<br>
-            {{ job_application.candidate_address }}<br>
-            {{ job_application.candidate_phone }}<br>
-            {{ job_application.candidate_email }}<br>
+            {{ data.candidate_name }}<br>
+            {{ data.candidate_address }}<br>
+            {{ data.candidate_phone }}<br>
+            {{ data.candidate_email }}<br>
         </p>
     </th></tr></table></th>
 </table>

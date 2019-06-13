@@ -3,6 +3,8 @@ import uuid
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.template.defaultfilters import linebreaksbr
+from django.urls import reverse
 from django.utils import timezone
 
 from jepostule.auth.models import ClientPlatform
@@ -43,6 +45,33 @@ class JobApplication(models.Model):
     @property
     def answer_types(self):
         return Answer.Types
+
+    def get_answer_url(self, answer_type):
+        """
+        Returns the answer URL for recruiters depending on the given `answer_type`.
+        """
+        url = reverse('pipeline:send_answer', kwargs={'answer_uuid': self.answer_uuid, 'status': answer_type})
+        return f"{settings.JEPOSTULE_BASE_URL}{url}"
+
+    def get_email_template_data(self):
+        """
+        Returns the data used in email templates.
+        Email templates can be either those of Mailjet or those of Django
+        when using the development mode without Mailjet credentials.
+        """
+        return {
+            'candidate_name': self.candidate_name,
+            'candidate_address': self.candidate_address,
+            'candidate_phone': self.candidate_phone,
+            'candidate_email': self.candidate_email,
+            'employer_description': self.employer_description,
+            'employer_email': self.employer_email,
+            'job': self.job,
+            'message': linebreaksbr(self.message),
+            'answer_interview_url': self.get_answer_url(self.answer_types.INTERVIEW),
+            'answer_request_info_url': self.get_answer_url(self.answer_types.REQUEST_INFO),
+            'answer_rejection_url': self.get_answer_url(self.answer_types.REJECTION),
+        }
 
     DEFAULT_PLATFORM_ATTRIBUTES = {
         'contact_email': settings.JEPOSTULE_NO_REPLY,
