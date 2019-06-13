@@ -11,7 +11,7 @@ def send_mail(subject, html_content, from_email, recipient_list,
     We don't rely on django.core.mail.send_mail function, because it does not
     let us override the 'reply-to' field.
 
-    Note that `reply_to` must be a list or tuple.
+    Note that `reply_to` must be a list or a tuple.
 
     As long as the async tasks trigger only one email each, it is not necessary
     to run the send_mail function asynchronously.
@@ -25,7 +25,7 @@ def send_mail(subject, html_content, from_email, recipient_list,
         attachments = [
             (os.path.basename(f.name), f.content, None) for f in attachments
         ]
-    if reply_to is not None and not isinstance(reply_to, tuple) and not isinstance(reply_to, list):
+    if reply_to and not isinstance(reply_to, (tuple, list)):
         raise ValueError("'reply_to' is of invalid type {}".format(reply_to.__class__))
 
     return importlib.import_module(settings.EMAIL_SENDING_MODULE).send(
