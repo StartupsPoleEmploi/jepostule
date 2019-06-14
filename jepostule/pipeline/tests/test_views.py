@@ -64,28 +64,14 @@ class EmailViewsTests(BaseViewTests):
 class AnswerViewsTests(BaseViewTests):
 
     def test_answer_interview_get(self):
-        response = self.client.get(reverse(
-            'pipeline:send_answer',
-            kwargs={
-                'answer_uuid': self.job_application.answer_uuid,
-                'status': models.Answer.Types.INTERVIEW
-            }
-        ))
-
+        response = self.client.get(self.job_application.get_answer_url(models.Answer.Types.INTERVIEW))
         self.assertEqual(200, response.status_code)
 
     def test_answer_interview_post(self):
         response = self.client.post(
-            reverse(
-                'pipeline:send_answer',
-                kwargs={
-                    'answer_uuid': self.job_application.answer_uuid,
-                    'status': models.Answer.Types.INTERVIEW
-                }
-            ),
+            self.job_application.get_answer_url(models.Answer.Types.INTERVIEW),
             data=interview_form_data(),
         )
-
         self.assertEqual(200, response.status_code)
         self.assertIn(
             html_escape(forms.InterviewForm.success_message),
@@ -99,23 +85,11 @@ class AnswerViewsTests(BaseViewTests):
 
     def test_answer_twice(self):
         self.client.post(
-            reverse(
-                'pipeline:send_answer',
-                kwargs={
-                    'answer_uuid': self.job_application.answer_uuid,
-                    'status': models.Answer.Types.INTERVIEW
-                }
-            ),
+            self.job_application.get_answer_url(models.Answer.Types.INTERVIEW),
             data=interview_form_data(),
         )
         response = self.client.post(
-            reverse(
-                'pipeline:send_answer',
-                kwargs={
-                    'answer_uuid': self.job_application.answer_uuid,
-                    'status': models.Answer.Types.INTERVIEW
-                }
-            ),
+            self.job_application.get_answer_url(models.Answer.Types.INTERVIEW),
             data=interview_form_data(),
         )
         self.assertIn('Vous avez déjà répondu à cette candidature', response.content.decode())

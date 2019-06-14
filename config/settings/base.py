@@ -189,8 +189,12 @@ REDIS_PORT = os.environ.get('REDIS_PORT', '6379')
 REDIS_DB = os.environ.get('REDIS_DB', '0')
 
 JEPOSTULE_BASE_URL = os.environ.get('JEPOSTULE_BASE_URL', 'http://127.0.0.1:8000')
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_SENDING_MODULE = 'jepostule.email.backends.django'
+# Can be one of these types: ['mailjet', 'django']. Use 'django' in development mode
+# when you don't have Mailjet credentials.
+EMAIL_DELIVERY_SERVICE = 'django'
+
 JEPOSTULE_NO_REPLY = 'contact@jepostule.labonneboite.pole-emploi.fr'
 PLATFORM_ATTRIBUTES = {}
 ATTACHMENTS_MAX_SIZE_BYTES = 10 * 1024 * 1024  # 10 Mb
@@ -198,6 +202,10 @@ BLACKLIST_DURATION_SECONDS = 30 * 24 * 3600
 MAILJET_API_BASE_URL = "https://api.mailjet.com/v3.1"
 MAILJET_API_KEY = "setme"
 MAILJET_API_SECRET = "setme"
+MAILJET_TEMPLATES = {
+    # https://dev.mailjet.com/guides/#use-a-template
+    'SEND_APPLICATION_TO_EMPLOYER': 829924,
+}
 
 # Analytics
 GOOGLE_ANALYTICS_TRACKING_ID = None

@@ -55,9 +55,8 @@ class JobApplication(models.Model):
 
     def get_email_template_data(self):
         """
-        Returns the data used in email templates.
-        Email templates can be either those of Mailjet or those of Django
-        when using the development mode without Mailjet credentials.
+        Returns data ready to be consumed by Mailjet or Django templates (in development mode).
+        Be careful: changing this could break Mailjet templates.
         """
         return {
             'candidate_name': self.candidate_name,
@@ -67,7 +66,8 @@ class JobApplication(models.Model):
             'employer_description': self.employer_description,
             'employer_email': self.employer_email,
             'job': self.job,
-            'message': linebreaksbr(self.message),
+            'message_raw': self.message,
+            'message_html': linebreaksbr(self.message),
             'answer_interview_url': self.get_answer_url(self.answer_types.INTERVIEW),
             'answer_request_info_url': self.get_answer_url(self.answer_types.REQUEST_INFO),
             'answer_rejection_url': self.get_answer_url(self.answer_types.REJECTION),

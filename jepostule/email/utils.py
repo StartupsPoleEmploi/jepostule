@@ -1,17 +1,28 @@
-import importlib
 import os
 
 from django.conf import settings
 
+from jepostule.email.services import mailjet
+from jepostule.email.services import django as django_email
+
 
 # pylint: disable=too-many-arguments
-def send_mail(subject, html_content, from_email, recipient_list,
-              from_name=None, reply_to=None, attachments=None):
+def send_mail(
+        subject,
+        html_content,
+        from_email,
+        recipient_list,
+        from_name=None,
+        reply_to=None,
+        attachments=None,
+        mailjet_template_id=None,
+        mailjet_template_data=None):
     """
-    We don't rely on django.core.mail.send_mail function, because it does not
-    let us override the 'reply-to' field.
+    Entry point for sending emails. This function will activate the correct
+    email delivery service.
 
-    Note that `reply_to` must be a list or a tuple.
+    The email service depends on the arguments received and the value
+    of the `EMAIL_DELIVERY_SERVICE` setting.
 
     As long as the async tasks trigger only one email each, it is not necessary
     to run the send_mail function asynchronously.
@@ -21,14 +32,25 @@ def send_mail(subject, html_content, from_email, recipient_list,
         recipient. This list has the same size as the recipient list. When no
         message ID is available, it is None.
     """
-    if attachments:
-        attachments = [
-            (os.path.basename(f.name), f.content, None) for f in attachments
-        ]
+    attachments = [
+        (os.path.basename(f.name), f.content, None) for f in attachments
+    ] if attachments else []
+
+    email_args = (subject, html_content, from_email, recipient_list)
+    email_kwargs = {'from_name': from_name, 'attachments': attachments}
+
+    use_mailjet = settings.EMAIL_DELIVERY_SERVICE == 'mailjet'
+    use_mailjet_template = all([mailjet_template_id, mailjet_template_data, use_mailjet])
+
+    if use_mailjet_template:
+        email_args = (subject, mailjet_template_id, mailjet_template_data, from_email, recipient_list)
+        return mailjet.send_using_template(*email_args, **email_kwargs)
+
+    if use_mailjet:
+        return mailjet.send(*email_args, **email_kwargs)
+
+    # `reply_to` is used only by the django email service, don't know why...
     if reply_to and not isinstance(reply_to, (tuple, list)):
         raise ValueError("'reply_to' is of invalid type {}".format(reply_to.__class__))
-
-    return importlib.import_module(settings.EMAIL_SENDING_MODULE).send(
-        subject, html_content, from_email, recipient_list,
-        from_name=from_name, reply_to=reply_to, attachments=attachments
-    )
+    email_kwargs['reply_to'] = reply_to
+    return django_email.send(*email_args, **email_kwargs)
