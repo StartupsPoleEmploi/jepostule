@@ -110,6 +110,8 @@ class InterviewForm(BaseAnswerForm):
 
     datetime = forms.DateTimeField(
         label="Date et heure de l'entretien",
+        # Turn off browser's input autocomplete to avoid hiding the JS datepicker.
+        widget=forms.DateTimeInput(attrs={'autocomplete': 'off'}),
     )
 
     def clean_datetime(self):
