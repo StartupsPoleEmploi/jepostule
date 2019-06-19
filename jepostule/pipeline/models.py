@@ -228,7 +228,7 @@ class AnswerEmployerInfo(Answer):
     employer_email = models.EmailField(verbose_name="Email du recruteur", max_length=128, blank=True)
     employer_phone = models.CharField(verbose_name="Numéro de téléphone", max_length=32, blank=True)
     employer_address = models.CharField(verbose_name="Adresse de l'entreprise", max_length=256, blank=True)
-    message = models.TextField(blank=False)
+    message = models.TextField(blank=True)
 
     class Meta:
         abstract = True
