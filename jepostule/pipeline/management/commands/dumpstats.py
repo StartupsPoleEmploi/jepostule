@@ -69,22 +69,26 @@ class Command(BaseCommand):
 {} candidats ont reçu au moins une réponse à une candidature (type 3 - proposition d'entretien)""".format(
             applications.count(),
             candidates.count(),
-            round(applications.count() / candidates.count(), 1),
+            round(applications.count() / candidates.count(), 1) if candidates.count() else "N/A",
             applications.values('siret').annotate(Count('siret')).count(),
             answers.count(),
-            round(100.0 * answers.count() / applications.count(), 1),
+            round(100.0 * answers.count() / applications.count(), 1) if applications.count() else "N/A",
             answers.values('job_application__siret').annotate(Count('job_application__siret')).count(),
-            answers.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
+            answers.values(
+                'job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_rejection.count(),
-            round(100.0 * answers_rejection.count() / answers.count(), 1),
+            round(100.0 * answers_rejection.count() / answers.count(), 1) if answers.count() else "N/A",
             answers_rejection.values('job_application__siret').annotate(Count('job_application__siret')).count(),
-            answers_rejection.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
+            answers_rejection.values(
+                'job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_request_info.count(),
-            round(100.0 * answers_request_info.count() / answers.count(), 1),
+            round(100.0 * answers_request_info.count() / answers.count(), 1) if answers.count() else "N/A",
             answers_request_info.values('job_application__siret').annotate(Count('job_application__siret')).count(),
-            answers_request_info.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
+            answers_request_info.values(
+                'job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
             answers_interview.count(),
-            round(100.0 * answers_interview.count() / answers.count(), 1),
+            round(100.0 * answers_interview.count() / answers.count(), 1) if answers.count() else "N/A",
             answers_interview.values('job_application__siret').annotate(Count('job_application__siret')).count(),
-            answers_interview.values('job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
+            answers_interview.values(
+                'job_application__candidate_email').annotate(Count('job_application__candidate_email')).count(),
         ))
