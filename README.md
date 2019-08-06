@@ -1,4 +1,4 @@
-# Je Postule, par Pôle emploi 
+# Je Postule, par Pôle emploi
 
 ![Build status](https://img.shields.io/travis/StartupsPoleEmploi/jepostule.svg)
 ![GitHub](https://img.shields.io/github/license/StartupsPoleEmploi/jepostule.svg)
@@ -10,7 +10,7 @@
 
 ## How does it work?
 
-On partner websites, the user can click on "Je Postule" buttons for each displayed company. An application iframe is then inserted in the partner website, where users can fill their personal details and add attachments (resume, application letter, etc.). The application email is then sent directly to the company with links to quick answers: "Let's meet", "Application rejected", "You're hired", etc. Job seekers can follow each step of the process with personalised emails. 
+On partner websites, the user can click on "Je Postule" buttons for each displayed company. An application iframe is then inserted in the partner website, where users can fill their personal details and add attachments (resume, application letter, etc.). The application email is then sent directly to the company with links to quick answers: "Let's meet", "Application rejected", "You're hired", etc. Job seekers can follow each step of the process with personalised emails.
 
 ## Development
 
@@ -75,13 +75,30 @@ Some settings that are likely to vary between deploys can be configured through 
 
     export JEPOSTULE_PORT='8000'
 
+
+Find them in `config/settings` and choose your environment:
+- `base.py`: default file. Also used as a basis when activating another environment.
+- `debug.py`: use it to activate the debug mode locally and have access to the Django debug toolbar.
+- `test.py`: tests-specific configuration.
+- `local-sample.py`: ?. TODO: à quoi ça sert?
+
+There's a `make` command for each environment!
+- `base.py`: `make run` starts a server with the default configuration.
+- `debug.py`: `make debug` starts a server with debug mode activated.
+- `test.py`: `make test` runs tests.
+
+
 #### Database migrations
 
 Apply SQL migrations and create Kakfa topics:
 
     make migrate
 
+
+
 ### Testing
+
+#### Unit tests
 
 Run unit tests:
 
@@ -90,6 +107,30 @@ Run unit tests:
 Run unit tests with code coverage:
 
     make test-coverage
+
+
+#### Manually testing the user path
+
+##### Locally
+
+The home page should redirect you to the embed demo page (useful to test if your installation worked!).
+To make it work, you must:
+- create a client platform (see section [Create client platform](#create-client-platform))
+- add these parameters to the demo page URL: `client_id` and `client_secret`.
+
+Example: `/embed/demo/?client_id=<client_id>&client_secret=<client_secret>`
+
+
+##### In production
+
+You can't create a client platform in production! Just ask one of your colleagues for the following credentials:
+- client_id
+- client_secret
+
+This is useful to test if emails are sent, for example.
+
+Test url: `https://jepostule.labonneboite.pole-emploi.fr/embed/demo/?client_id=<client_id>&client_secret=<client_secret>&candidate_email=<your_email>&employer_email=<your_email>`.
+
 
 ### Running a local development server
 
@@ -134,7 +175,7 @@ positional arguments:
   topics                Topics to process. Specify 'all' to consume all
                         existing topics.
 ```
-    
+
 For instance, in parallel to `runserver`, you could run:
 
     ./manage.py consumetopics all
@@ -189,7 +230,7 @@ positional arguments:
 
 ## Running in production
 
-Copy the configuration file:
+Copy your local configuration file (if you have one):
 
     cp config/settings/local-sample.py config/settings/local.py
 
