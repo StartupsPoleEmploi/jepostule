@@ -8,6 +8,28 @@
 
 :gb: Je Postule ("I apply") allows job seekers to apply directly and quickly to companies, which in turn can provide quick answers to applications. Je Postule can be integrated to many applications, such as [La Bonne Boite](https://labonneboite.pole-emploi.fr) (companies likely to hire in the coming months), [La Bonne Alternance](https://labonnealternance.pole-emploi.fr) (companies that are apprenticeship-friendly) ou [Memo](https://memo.pole-emploi.fr) (your personal job application dashboard).
 
+- [How does it work?](#how-does-it-work)
+- [Development](#development)
+  - [Quickstart](#quickstart)
+  - [Install](#install)
+  - [Testing](#testing)
+  - [Running a local development server](#running-a-local-development-server)
+  - [Updating requirements](#updating-requirements)
+  - [Application attachments](#application-attachments)
+- [Administration](#administration)
+  - [Admin user creation](#admin-user-creation)
+  - [Client platform creation](#client-platform-creation)
+  - [Running asynchronous tasks](#running-asynchronous-tasks)
+  - [Re-processing delayed tasks](#re-processing-delayed-tasks)
+  - [Failed tasks](#failed-tasks)
+  - [Debugging attachments from job applications](#debugging-attachments-from-job-applications)
+  - [Dump job application answers to CSV](#dump-job-application-answers-to-csv)
+- [Django administration](#django-administration)
+- [Docker](#docker)
+- [License](#license)
+- [How to contribute](#how-to-contribute)
+
+
 ## How does it work?
 
 On partner websites, the user can click on "Je Postule" buttons for each displayed company. An application iframe is then inserted in the partner website, where users can fill their personal details and add attachments (resume, application letter, etc.). The application email is then sent directly to the company with links to quick answers: "Let's meet", "Application rejected", "You're hired", etc. Job seekers can follow each step of the process with personalised emails.
@@ -127,7 +149,7 @@ You can't create a client platform in production! Just ask one of your colleague
 - client_id
 - client_secret
 
-This is useful to test if emails are sent, for example.
+This is useful to test the emailing service as you will receive the emails sent both to the job seeker and to the recruiter.
 
 Test url: `https://jepostule.labonneboite.pole-emploi.fr/embed/demo/?client_id=<client_id>&client_secret=<client_secret>&candidate_email=<your_email>&employer_email=<your_email>`.
 
@@ -143,6 +165,13 @@ You can then view a demo of Je Postule at [http://127.0.0.1:8000/embed/demo](htt
 Python dependencies must be declared in `requirements/base.in`, `dev.in` or `prod.in`. After modifying these files, the requirements list must be recompiled:
 
     make compile-requirements
+
+
+### Application attachments
+
+A user can attach one or many files to his application (a resume, a cover letter, ...). They are stored in Kafka and deleted 30 days after their sending. For more details, see [`kafka/bin/create-topics.sh`](/kafka/bin/create-topics.sh).
+To know how to debug application attachments, [read this section](#debugging-attachments-from-job-applications).
+
 
 ## Administration
 
@@ -180,7 +209,7 @@ For instance, in parallel to `runserver`, you could run:
 
     ./manage.py consumetopics all
 
-Error handling in asynchronous tasks is **critical**: application emails must be guaranteed to be sent with minimal delay. Whenever a task failure occurs, an error log is produced and the failed task is stored in SQL. Those failed tasks can be viewed in the django admin interface: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin). Note that you will have to [create an admin user](#admin-user-creation) to access this interface.
+Error handling in asynchronous tasks is **critical**: application emails must be guaranteed to be sent with minimal delay. Whenever a task failure occurs, an error log is produced and the failed task is stored in SQL. Those failed tasks can be viewed in the [Django admin](#django-admin) interface: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin). Note that you will have to [create an admin user](#admin-user-creation) to access this interface.
 
 ### Re-processing delayed tasks
 
@@ -197,6 +226,12 @@ optional arguments:
                         In case a message fails be re-emitted, re-emit it with
                         this delay (in seconds). Defaults to 10 minutes.
 ```
+
+### Failed tasks
+
+Sometimes, tasks fail for several reasons. You can see a list of them in the [Django Admin](#django-admin) and choose different actions to apply. The most common one, and the one we advised SAVers to do in their daily routine, is to `delete and retry` them. This way, the task is deleted and a new one is created. If it continues to fail, you probably have a bug! ;-)
+
+
 
 ### Debugging attachments from job applications
 
@@ -228,25 +263,36 @@ positional arguments:
   dst                   Destination csv file path
 ```
 
-## Running in production
 
-Copy your local configuration file (if you have one):
 
-    cp config/settings/local-sample.py config/settings/local.py
+## Django administration
 
-Note that on a production platform **this file must imperatively be modified**. Changes to `local.py` will not be versioned.
+Je Postule has a content management system powered by Django at this address: `<domain-name>/admin`. It displays several informations about applications made with Je postule and is used daily by SAVers.
 
-Build docker images:
+![Django admin home page](/README_images/django-admin.png)
 
-    make build
+Je Postule Auth:
+- Client platforms: platforms able to use Je Postule services.
 
-Run migrations:
+Je Postule Pipeline:
+- Answer interviews: answers made by recruiters to applications and leading to interviews.
+- Answer rejection: refusals made by recruiters to applications.
+- Answer request infos: answers by recruiters asking for more information about applications.
+- Answers: all kind of answers.
+- Job application events: list of all status changes made to applications (application sent, refusal, ...)
+- Job applications: applications list. Very useful to see applications details (email content, status, job seeker information, ...)
 
-    make platform-migrate
+Queue:
+- Delayed messages: list of delayed tasks (see [Re-processing delayed tasks](#re-processing-delayed-tasks))
+- Failed messages: list of failed tasks (see [Failed tasks](#failed-tasks))
 
-Run the platform:
 
-    make platform
+## Docker
+
+This project is totally dockerized only for third-party services but not for the main Python application. To start services, run `make services`.
+
+An example of a Dockerfile you can use in production for the main Python application can be found here: [Dockerfile](/Dockerfile).
+
 
 ## License
 

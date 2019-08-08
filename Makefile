@@ -75,9 +75,6 @@ migrate-postgres: services ## run postgres migrations
 migrate-kafka: services ## create and configure required kafka topics
 	docker-compose run --rm kafka bash create-topics.sh
 
-platform-migrate: migrate-kafka
-	docker-compose run --rm jepostule ./manage.py migrate
-
 
 ##########################
 ####### UTILITIES ########
@@ -95,6 +92,3 @@ dumpstats:
 
 help: ## generate this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
-platform: ## Run a simple but complete platform with docker-compose
-	docker-compose up
