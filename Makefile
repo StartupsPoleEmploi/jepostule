@@ -23,8 +23,10 @@ run: ## run a local server
 debug: ## run a local server with debug settings
 	./manage.py runserver --settings=config.settings.debug
 
+DUMPSTATS_BEGIN_DATETIME = 20190701-00:00:00
+DUMPSTATS_END_DATETIME = 20190731-23:59:59
 dumpstats:
-	./manage.py dumpstats --min-date 20180101-00:00:00 --max-date 20190601-00:00:00
+	./manage.py dumpstats --min-date $(DUMPSTATS_BEGIN_DATETIME) --max-date $(DUMPSTATS_END_DATETIME)
 
 test: ## run unit tests
 	./manage.py test --settings=config.settings.test --noinput
