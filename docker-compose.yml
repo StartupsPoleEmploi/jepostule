@@ -48,7 +48,7 @@ services:
   ###### Je Postule-specific services
   jepostule:
     image: jepostule:latest
-    # restart: unless-stopped
+    restart: unless-stopped
     ports:
       - "${JEPOSTULE_PORT:-8000}:8000"
     depends_on:
@@ -57,7 +57,7 @@ services:
 
   jepostule_consume_topics:
     image: jepostule:latest
-    # restart: unless-stopped
+    restart: unless-stopped
     depends_on:
       - kafka
       - postgres
@@ -65,7 +65,7 @@ services:
 
   jepostule_dequeue_delayed:
     image: jepostule:latest
-    # restart: unless-stopped
+    restart: unless-stopped
     depends_on:
       - kafka
       - postgres

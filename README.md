@@ -25,6 +25,7 @@
   - [Debugging attachments from job applications](#debugging-attachments-from-job-applications)
   - [Dump job application answers to CSV](#dump-job-application-answers-to-csv)
 - [Django administration](#django-administration)
+- [Email delivery services](#email-delivery-services)
 - [Docker](#docker)
 - [License](#license)
 - [How to contribute](#how-to-contribute)
@@ -99,10 +100,11 @@ Some settings that are likely to vary between deploys can be configured through 
 
 
 Find them in `config/settings` and choose your environment:
-- `base.py`: default file. Also used as a basis when activating another environment.
+- `base.py`: default file when running `manage.py runserver`. Also used as a basis when activating another environment.
 - `debug.py`: use it to activate the debug mode locally and have access to the Django debug toolbar.
 - `test.py`: tests-specific configuration.
-- `local-sample.py`: ?. TODO: à quoi ça sert?
+- `local-sample.py`: an example of a settings file to be used in production.
+- `local.py`: used in production and when using `Dockerfile` to build Docker images. Ignored by git.
 
 There's a `make` command for each environment!
 - `base.py`: `make run` starts a server with the default configuration.
@@ -287,11 +289,67 @@ Queue:
 - Failed messages: list of failed tasks (see [Failed tasks](#failed-tasks))
 
 
+## Email delivery services
+
+Emails are a very important part of Je Postule. Here is when they are sent:
+- If a job seeker checks "I want to receive a copy of my application".
+- After an application, a mail is sent to the recruiter.
+- If an answer is made by the recruiter (interview proposal, refusal or further information needed), a mail is sent to the job seeker.
+
+Two services are available: Django and Mailjet (see [Services](/jepostule/email/services) list). The default one is Django.
+
+
+### Sending emails in production
+
+In production, we use [Mailjet](https://www.mailjet.com/) to manage emails. Ask one of your coworkers for the credentials and then change the settings:
+
+```
+EMAIL_DELIVERY_SERVICE = 'mailjet'
+MAILJET_API_KEY = "setme"
+MAILJET_API_SECRET = "setme"
+```
+
+:point_right: To receive emails in your inbox and see what they look like, you can to use [this trick](#manually-testing-the-user-path).
+
+:art: The email sent to a recruiter (after an application is made) is based on a Mailjet template editable in their platform (click on "Transactional" > "My transactional models" in the main menu). Its ID is a global variable editable in [the settings](/config/settings).
+
+
+### If Mailjet limits your account
+
+Mailjet can decide to restrict the number of emails your account can send if it thinks you don't follow their guidelines ([French guidelines](https://app.mailjet.com/support/pourquoi-une-limite-d-envoi-a-t-elle-ete-appliquee-a-mon-compte,479.htm) - [English guidelines](https://app.mailjet.com/support/why-do-i-have-a-sending-limit-imposed-on-my-account,481.htm)).
+
+You need to contact their support team to cancel this limit.
+
+Here is an email example (in French):
+
+```
+Bonjour,
+
+Je vous contacte en tant que développeur du service JePostule de Pole-emploi.fr. Ce service permet aux demandeurs d'emploi de candidater spontanément via le service https://labonneboite.pole-emploi.fr/ à des entreprises qui les intéressent. JePostule permet un échange par email entre le demandeur d'emploi et l'entreprise à laquelle il candidate spontanément.
+
+Nous utilisons votre service Mailjet pour envoyer ces emails entre le demandeur d'emploi et les recruteurs, entre lesquels nous jouons le rôle d'intermédiaire facilitateur.
+
+J'insiste sur le fait que nous n'envoyons aucune campagne d'emailing ou autre newsletter. Tous les emails envoyés via votre service sont des échanges en temps réel entre un candidat et un recruteur qui aboutissent régulièrement à des entretiens et des embauches.
+
+99% des jours de l'année notre taux de mise en spam reste très en dessous du seuil de 0.08%. Mais exceptionnellement et en dehors de notre contrôle il peut arriver qu'un utilisateur nous marque comme spam suite à une mauvaise compréhension de notre service. C'est probablement ce qui est arrivé le <date> de <heure> à <heure> avec les <nombre> mises en spam que vous mentionnez dans votre interface.
+
+<détails du souci>
+
+J'insiste sur le fait que notre service est resté identique autour de cette date et n'a subi aucune modification ou autre mise en production. Cette mise en spam ponctuelle a donc tout d'un évènement improbable et exceptionnel.
+
+Pourriez-vous svp débloquer nos envois ?
+
+```
+
+:information_source: Mailjet may ask you for further information on the user path before they restore the service. Here is [a demo](https://www.evernote.com/l/ABLEL6O-zB5HI4ctsHSTYedWhoeRx5Bc9nM) sent to convince them that we're not aggressive towards our users.
+
+:point_up: This process may last some days. In the meanwhile, we strongly recommend you to deactivate Je Postule on your websites using it.
+
 ## Docker
 
-This project is totally dockerized only for third-party services but not for the main Python application. To start services, run `make services`.
+This project is totally dockerized. Have a look at the `Makefile` to see a list of available commands using Docker.
 
-An example of a Dockerfile you can use in production for the main Python application can be found here: [Dockerfile](/Dockerfile).
+:information_source: While developing, you may want to use only third-party services and not all the containers. To do so, run `make build` and then `make services`. Perfect! You're ready to start the server with `make run`!
 
 
 ## License
