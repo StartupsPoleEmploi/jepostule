@@ -136,7 +136,11 @@ Dans l'attente de votre retour, je reste à votre écoute pour tout complément 
         super().__init__(*args, label_suffix='', **kwargs)
 
     send_confirmation = forms.BooleanField(
-        label="Je souhaite recevoir une copie de ma candidature sur ma boite mail",
+        label=
+            "Je souhaite recevoir une copie de confirmation de ma candidature "
+            "sur ma boite mail. J'ai conscience que je recevrais ainsi un email de "
+            "confirmation par candidature et je m'engage à ne pas signaler ces emails de "
+            "confirmation comme du spam.",
         initial=SEND_CONFIRMATION_EMAIL_DEFAULT,
         required=False,
     )
