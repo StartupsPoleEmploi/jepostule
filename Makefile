@@ -92,8 +92,8 @@ dumpstats:
 help: ## generate this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-# Make sure to do a `make build` before!!
-platform: ## Run a simple but complete platform with docker-compose
+platform: build ## Run a simple but complete platform with docker-compose
+	# /!\ Broken for the moment. TODO: fix it.
 	docker-compose up
 
 platform-migrate: migrate-kafka
