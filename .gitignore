@@ -14,3 +14,5 @@ node_modules/
 
 jepostule/static/vendor/**/*.js
 jepostule/static/vendor/**/*.css
+
+venv/*
