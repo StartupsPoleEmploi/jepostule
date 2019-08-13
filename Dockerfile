@@ -5,13 +5,14 @@ ENV NODE_VERSION 8.10.0
 ENV NPM_VERSION 3.5.2
 ENV NVM_DIR /usr/local/nvm
 ENV NVM_VERSION 0.34.0
+ENV PYTHON_VERSION 3.6.7-1~18.04
 ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 ENV LANG C.UTF-8
 
 RUN apt update -y && \
     apt install -y  \
-        python3 \
+        python3=$PYTHON_VERSION \
         python3-pip \
         postgresql-client-common \
         curl \
