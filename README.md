@@ -49,7 +49,7 @@ On partner websites, the user can click on "Je Postule" buttons for each display
     ./manage.py consumetopics all
     ./manage.py dequeuedelayed
 
-NodeJS version: `8.10.0` (see [`Dockerfile`](/Dockerfile) and [`package.json`](/package.json)).
+NodeJS version: `12.8.0` (see [`Dockerfile`](/Dockerfile) and [`package.json`](/package.json)).
 Python requirements: see the [requirements](/requirements) folder. This project uses Python `3.6`.
 
 ### Install
@@ -142,7 +142,7 @@ Run unit tests with code coverage:
 
 The home page should redirect you to the embed demo page (useful to test if your installation worked!).
 To make it work, you must:
-- create a client platform (see section [Create client platform](#create-client-platform))
+- create a client platform (see section [Client platform creation](#client-platform-creation))
 - add these parameters to the demo page URL: `client_id` and `client_secret`.
 
 Example: `/embed/demo/?client_id=<client_id>&client_secret=<client_secret>`
