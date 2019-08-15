@@ -1,6 +1,11 @@
 {
   "name": "jepostule",
   "version": "0.0.1",
+  "engineStrict": true,
+  "engines": {
+    "node": "8.10.0"
+  },
+  "private": true,
   "dependencies": {
     "jquery-datetimepicker": "^2.5.21",
     "yuglify": "^2.0.0",

@@ -49,6 +49,9 @@ On partner websites, the user can click on "Je Postule" buttons for each display
     ./manage.py consumetopics all
     ./manage.py dequeuedelayed
 
+NodeJS version: `8.10.0` (see [`Dockerfile`](/Dockerfile) and [`package.json`](/package.json)).
+Python requirements: see the [requirements](/requirements) folder. This project uses Python `3.6`.
+
 ### Install
 
 #### System dependencies
