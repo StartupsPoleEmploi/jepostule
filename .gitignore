@@ -16,3 +16,7 @@ jepostule/static/vendor/**/*.js
 jepostule/static/vendor/**/*.css
 
 venv/*
+
+# End-to-end tests
+geckodriver.log
+nohup.out

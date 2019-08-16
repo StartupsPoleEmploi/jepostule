@@ -18,7 +18,7 @@ class ThreadedConsumer:
     If a specific thread fails, it will *not* be restarted. For instance, this
     may happen when trying to process an unknown topic.
     When all threads have finished processing (which should normally never
-    happend), this consumer returns. So, for safe, production-ready topic
+    happen), this consumer returns. So, for safe, production-ready topic
     consumption, you should process one thread at a time, and under
     supervision.
     """
@@ -27,9 +27,10 @@ class ThreadedConsumer:
         self.terminate = False
         self.stdout = stdout
         self.threads = [
-            threading.Thread(target=self.run, args=(topic,))
+            threading.Thread(name=topic, target=self.run, args=(topic,))
             for topic in topics
         ]
+
         for thread in self.threads:
             thread.start()
 
@@ -59,6 +60,9 @@ class ThreadedConsumer:
                 self.stdout.write("Gracefully stopping running consumer... (you can press Ctrl+C again to force but please don't do that)\n")
                 self.terminate = True
                 for thread in self.threads:
+                    # Join the main thread and
+                    # wait for all child threads to finish.
+                    # Also, kill the thread.
                     thread.join()
                 return
 

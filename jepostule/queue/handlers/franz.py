@@ -47,6 +47,7 @@ class KafkaConsumer(base.BaseConsumer):
 
     def __init__(self, topic):
         super().__init__(topic)
+
         while True:
             try:
                 # Make sure Kafka is reachable before we create a new consumer.
@@ -61,15 +62,20 @@ class KafkaConsumer(base.BaseConsumer):
             self.topic,
             bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
             group_id=self.GROUP_ID,
-            enable_auto_commit=False,
+            enable_auto_commit=True,
             consumer_timeout_ms=self.TIMEOUT_MS,
+            auto_offset_reset='earliest',
         )
+        logger.info(f'Kafka consumer created for topic {self.topic}')
 
 
     def __iter__(self):
+        logger.info(f"{[message.value for message in self.kafka_consumer]}")
         while True:
             for message in self.kafka_consumer:
+                # Envoie l'offset actuel à Kafka pour marquer le message comme lu.
                 self.kafka_consumer.commit()
+                # exécute la fonction qui est stockée dans le message.
                 yield message.value
             yield None
 

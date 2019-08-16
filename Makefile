@@ -33,6 +33,16 @@ services: build-kafka ## start 3rd party services, such as kafka
 stop: ## stop all services
 	docker-compose rm --stop --force
 
+clean: ## remove containers, volumes and networks.
+	docker-compose down -v
+
+delete-kafka-group: ## delete Kafka 'jepostule' group in its Docker container
+	until docker-compose exec kafka bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group jepostule | grep "Deletion of requested consumer groups ('jepostule') was successful.";\
+	do \
+		echo "Waiting for Kafka to delete 'jepostule' group...";\
+		sleep 5; \
+	done
+
 
 ##########################
 ####### SERVER RUN #######
@@ -60,6 +70,13 @@ test-coverage: ## run unit tests and produce a code coverage report in html form
 test-custom:
 	@echo "To run a specific test, adapt and run this example command:"
 	@echo "$ ./manage.py test --settings=config.settings.test --noinput jepostule.pipeline.tests.test_application.ApplicationTests"
+
+test-e2e-local:  ## End to end tests using Selenium
+	@# First run? Have a cup of coffee and read this Bash script:
+	bash jepostule/tests/end_to_end/scripts/run_e2e_local.sh
+
+test-e2e-travis: ## end to end tests executed in Travis CI.
+	bash jepostule/tests/end_to_end/scripts/run_e2e_travis.sh
 
 
 ##########################
