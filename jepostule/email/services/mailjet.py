@@ -9,7 +9,14 @@ from django.conf import settings
 MAILJET_CLIENT = Client(auth=(settings.MAILJET_API_KEY, settings.MAILJET_API_SECRET), version='v3.1')
 
 
-def send(subject, html_content, from_email, recipients, from_name=None, attachments=None):
+def send(
+        subject,
+        html_content,
+        from_email,
+        recipients,
+        from_name=None,
+        attachments=None,
+        monitoring_category=None):
     data = {
         "Messages": [
             {
@@ -23,6 +30,8 @@ def send(subject, html_content, from_email, recipients, from_name=None, attachme
     }
     if from_name:
         data['Messages'][0]['From']['Name'] = from_name
+    if monitoring_category:
+        data['Messages'][0]['MonitoringCategory'] = monitoring_category
     json_response = post_api(data)
     return extract_ids(json_response)
 
@@ -34,7 +43,8 @@ def send_using_template(
         from_email,
         recipients,
         from_name=None,
-        attachments=None):
+        attachments=None,
+        monitoring_category=None):
     data = {
         "Messages": [
             {
@@ -50,6 +60,8 @@ def send_using_template(
     }
     if from_name:
         data['Messages'][0]['From']['Name'] = from_name
+    if monitoring_category:
+        data['Messages'][0]['MonitoringCategory'] = monitoring_category
     json_response = post_api(data)
     return extract_ids(json_response)
 

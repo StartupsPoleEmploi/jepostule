@@ -48,6 +48,7 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
         attachments=attachments,
         mailjet_template_id=settings.MAILJET_TEMPLATES['SEND_APPLICATION_TO_EMPLOYER'],
         mailjet_template_data=job_application.get_email_template_data(),
+        monitoring_category=topics.SEND_APPLICATION,
     )
     event = job_application.events.create(
         name=models.JobApplicationEvent.SENT_TO_EMPLOYER,
@@ -91,7 +92,8 @@ def send_confirmation_to_candidate(job_application_id):
         render_confirmation_email(job_application),
         from_email,
         [job_application.candidate_email],
-        from_name=job_application.platform_attribute('name')
+        from_name=job_application.platform_attribute('name'),
+        monitoring_category=topics.SEND_CONFIRMATION,
     )
     event = job_application.events.create(
         name=models.JobApplicationEvent.CONFIRMED_TO_CANDIDATE,
