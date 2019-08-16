@@ -31,7 +31,8 @@ def send_answer_to_candidate(job_application_id):
     message_id = send_mail(
         subject, message, job_application.platform_attribute('contact_email'),
         [job_application.candidate_email],
-        reply_to=reply_to
+        reply_to=reply_to,
+        monitoring_category=topics.SEND_ANSWER,
     )
     event = job_application.events.create(
         name=models.JobApplicationEvent.ANSWERED,

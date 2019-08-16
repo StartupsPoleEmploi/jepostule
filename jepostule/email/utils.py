@@ -16,7 +16,8 @@ def send_mail(
         reply_to=None,
         attachments=None,
         mailjet_template_id=None,
-        mailjet_template_data=None):
+        mailjet_template_data=None,
+        monitoring_category=None):
     """
     Entry point for sending emails. This function will activate the correct
     email delivery service.
@@ -41,6 +42,9 @@ def send_mail(
 
     use_mailjet = settings.EMAIL_DELIVERY_SERVICE == 'mailjet'
     use_mailjet_template = all([mailjet_template_id, mailjet_template_data, use_mailjet])
+
+    if use_mailjet or use_mailjet_template:
+        email_kwargs['monitoring_category'] = monitoring_category
 
     if use_mailjet_template:
         email_args = (subject, mailjet_template_id, mailjet_template_data, from_email, recipient_list)
