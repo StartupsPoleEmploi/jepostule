@@ -6,7 +6,7 @@ RUN apt update && \
 ARG KAFKA_VERSION=2.2.0
 RUN mkdir /kafka
 WORKDIR /kafka
-RUN wget http://apache.mediamirrors.org/kafka/$KAFKA_VERSION/kafka_2.11-$KAFKA_VERSION.tgz
+RUN wget http://miroir.univ-lorraine.fr/apache/kafka/$KAFKA_VERSION/kafka_2.11-$KAFKA_VERSION.tgz
 RUN tar xzf kafka_2.11-$KAFKA_VERSION.tgz --strip-components=1 
 
 VOLUME /tmp/kafka-logs
