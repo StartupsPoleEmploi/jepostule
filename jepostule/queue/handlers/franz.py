@@ -1,7 +1,10 @@
 import logging
+import time
 
 from django.conf import settings
 import kafka
+from kafka.errors import GroupLoadInProgressError
+from kafka.admin.client import KafkaAdminClient
 
 from . import base
 from . import exceptions
@@ -44,6 +47,15 @@ class KafkaConsumer(base.BaseConsumer):
 
     def __init__(self, topic):
         super().__init__(topic)
+        try:
+            # Make sure Kafka is reachable before we create a new consumer.
+            client = KafkaAdminClient(bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS)
+            client.list_consumer_groups()
+        except (ValueError, TypeError, GroupLoadInProgressError, ):
+            logger.info('Waiting for Kafka to be up...')
+            time.sleep(2)
+            self.__init__(topic)
+
         self.kafka_consumer = kafka.KafkaConsumer(
             self.topic,
             bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
@@ -52,9 +64,11 @@ class KafkaConsumer(base.BaseConsumer):
             consumer_timeout_ms=self.TIMEOUT_MS,
         )
 
+
     def __iter__(self):
         while True:
             for message in self.kafka_consumer:
                 self.kafka_consumer.commit()
                 yield message.value
             yield None
+
