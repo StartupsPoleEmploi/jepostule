@@ -40,7 +40,7 @@ class KafkaConsumer(base.BaseConsumer):
     """
 
     GROUP_ID = 'jepostule'
-    TIMEOUT_MS = 3000
+    TIMEOUT_MS = 60000
 
     def __init__(self, topic):
         super().__init__(topic)
