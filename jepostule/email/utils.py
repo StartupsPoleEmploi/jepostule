@@ -38,7 +38,11 @@ def send_mail(
     ] if attachments else []
 
     email_args = (subject, html_content, from_email, recipient_list)
-    email_kwargs = {'from_name': from_name, 'attachments': attachments}
+    email_kwargs = {
+        'from_name': from_name,
+        'reply_to': reply_to,
+        'attachments': attachments,
+    }
 
     use_mailjet = settings.EMAIL_DELIVERY_SERVICE == 'mailjet'
     use_mailjet_template = all([mailjet_template_id, mailjet_template_data, use_mailjet])
@@ -53,8 +57,4 @@ def send_mail(
     if use_mailjet:
         return mailjet.send(*email_args, **email_kwargs)
 
-    # `reply_to` is used only by the django email service, don't know why...
-    if reply_to and not isinstance(reply_to, (tuple, list)):
-        raise ValueError("'reply_to' is of invalid type {}".format(reply_to.__class__))
-    email_kwargs['reply_to'] = reply_to
     return django_email.send(*email_args, **email_kwargs)
