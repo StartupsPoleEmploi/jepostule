@@ -44,7 +44,7 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
         from_email,
         [job_application.employer_email],
         from_name=job_application.candidate_name,
-        reply_to=[job_application.candidate_email],
+        reply_to=job_application.candidate_email,
         attachments=attachments,
         mailjet_template_id=settings.MAILJET_TEMPLATES['SEND_APPLICATION_TO_EMPLOYER'],
         mailjet_template_data=job_application.get_email_template_data(),

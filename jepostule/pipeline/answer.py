@@ -24,9 +24,9 @@ def send_answer_to_candidate(job_application_id):
     template, context = get_answer_message_template(job_application.answer)
     message = get_template(template).render(context)
 
-    reply_to = []
+    reply_to = None
     if hasattr(context['answer_details'], 'employer_email'):
-        reply_to.append(context['answer_details'].employer_email)
+        reply_to = context['answer_details'].employer_email
 
     message_id = send_mail(
         subject, message, job_application.platform_attribute('contact_email'),

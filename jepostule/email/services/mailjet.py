@@ -15,6 +15,7 @@ def send(
         from_email,
         recipients,
         from_name=None,
+        reply_to=None,
         attachments=None,
         monitoring_category=None):
     data = {
@@ -30,6 +31,8 @@ def send(
     }
     if from_name:
         data['Messages'][0]['From']['Name'] = from_name
+    if reply_to:
+        data['Messages'][0]['ReplyTo'] = {"Email": reply_to}
     if monitoring_category:
         data['Messages'][0]['MonitoringCategory'] = monitoring_category
     json_response = post_api(data)
@@ -43,6 +46,7 @@ def send_using_template(
         from_email,
         recipients,
         from_name=None,
+        reply_to=None,
         attachments=None,
         monitoring_category=None):
     data = {
@@ -60,6 +64,8 @@ def send_using_template(
     }
     if from_name:
         data['Messages'][0]['From']['Name'] = from_name
+    if reply_to:
+        data['Messages'][0]['ReplyTo'] = {"Email": reply_to}
     if monitoring_category:
         data['Messages'][0]['MonitoringCategory'] = monitoring_category
     json_response = post_api(data)
