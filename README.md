@@ -106,13 +106,15 @@ Find them in `config/settings` and choose your environment:
 - `base.py`: default file when running `manage.py runserver`. Also used as a basis when activating another environment.
 - `debug.py`: use it to activate the debug mode locally and have access to the Django debug toolbar.
 - `test.py`: tests-specific configuration.
+- `test_e2e.py`: end-to-end tests-specific configuration.
 - `local-sample.py`: an example of a settings file to be used in production.
 - `local.py`: used in production and when using `Dockerfile` to build Docker images. Ignored by git.
 
 There's a `make` command for each environment!
 - `base.py`: `make run` starts a server with the default configuration.
 - `debug.py`: `make debug` starts a server with debug mode activated.
-- `test.py`: `make test` runs tests.
+- `test.py`: `make test` runs unit tests.
+- `test_e2e.py`: `make test-e2e-local` runs end-to-end tests (Selenium tests).
 
 
 #### Database migrations
@@ -134,6 +136,65 @@ Run unit tests:
 Run unit tests with code coverage:
 
     make test-coverage
+
+
+#### End-to-end tests with Selenium
+
+They simulate user behavior on Je Postule. More precisely, here are the tested scenarios:
+- **A job seeker applies for a job.** He fills out the form, attaches a resume and clicks on the final button. A mail is sent both to the recruiter and to the job seeker.
+- **A recruiter proposes an interview to a candidate.** A recruiter fills out the form. Then an email is sent to the job seeker.
+- **A recruiter needs further information about an application.** A recruiter fills out the form. Then an email is sent to the job seeker.
+- **A recruiter rejects an application.** A recruiter fills out the form. Then an email is sent to the job seeker.
+
+They are located in [this folder](jepostule/tests/end_to_end). To run them, just type `make test-e2e-local`.
+
+Before you run end-to-end tests for the first time, make sure you changed the following settings in `config/settings/test_e2e.py`:
+
+```
+MAILJET_API_KEY = os.environ.get('MAILJET_API_KEY', "set_me")
+MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET', "set_me")
+
+# Inbox to send emails to.
+BACKDOOR_CANDIDATE_EMAIL = os.environ.get('BACKDOOR_CANDIDATE_EMAIL', 'set_me')
+BACKDOOR_EMPLOYER_EMAIL = os.environ.get('BACKDOOR_EMPLOYER_EMAIL', 'set_me')
+
+MEMO_API_SECRET = os.environ.get('MEMO_API_SECRET', 'set_me')
+```
+
+:incoming_envelope: Mails are **really sent** to the inbox specified in the settings. After running those tests, you should have received 5 emails.
+
+:information_source: If you'd like Selenium to open the browser and show different steps of user interaction, just set `RUN_HEADLESS` to `'False'`.
+
+:point_right: To know more about the process of sending emails, [read the bash script](jepostule/tests/end_to_end/scripts/run_e2e_local.sh) starting and stopping required services that make this feature work.
+
+##### Troubleshooting
+
+:warning: If you don't receive any email, it means that either you have a problem with your email address or Kafka is having troubles unstacking the queue. Here is what you can do:
+- read `nohup.out`, the file logging Kafka consumers. If there's a bug in a task performed by Kafka, it should be written down there.
+- read the console output carefully. You should see a table like this one:
+
+```
+# TOPIC               PARTITION  CURRENT-OFFSET  LOG-END-OFFSET  LAG   CONSUMER-ID     HOST            CLIENT-ID
+# send-answer         0          3               3               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+# send-confirmation   0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+# send-application    0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+# forward-to-memo     0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+# process-email-event 0          -               0               -     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+```
+
+Make sure `CURRENT-OFFSET` and `LOG-END-OFFSET` match. If they don't, it means messages were not consumed.
+
+Topics by tests:
+- `test_candidate_can_apply.py` produces 3 different messages sent to 3 different topics (1 per topic): `send-application` (sends an email to the recruiter), `send-confirmation` (sends an email to the job seeker) and `forward-to-memo`.
+- `test_recruiter_needs_further_information.py` produces 1 message sent to `send-answer` (sends an answer to the job seeker).
+- `test_recruiter_proposes_an_interview.py` produces 1 message sent to `send-answer` (sends an answer to the job seeker).
+- `test_recruiter_rejects_an_application.py` produces 1 message sent to `send-answer` (sends an answer to the job seeker).
+
+
+##### Kafka GUI
+You can download a GUI to dive into Kafka and have a better view of its operating. Locally, we recommend [Conduktor](https://www.conduktor.io), a very simple to use GUI. Note that, in our project, it does not work to investigate Kafka troubles in production. Read the private repo for a workaround.
+
+:penguin: _For Linux users_: You'll need to install Java before running Conduktor. When it's done, type this command: `java -jar path-to-archive/Conduktor-1.0.jar` (replace by the archive name you downloaded on Conduktor's website).
 
 
 #### Manually testing the user path
