@@ -13,7 +13,7 @@ coverage==4.5.1
 decorator==4.3.0          # via ipython, traitlets
 django-debug-toolbar==1.11
 django-pipeline==1.6.14
-django==2.2.2
+django==2.2.4
 idna==2.8
 ipdb==0.11
 ipython-genutils==0.2.0   # via traitlets
@@ -41,10 +41,9 @@ simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via astroid, pip-tools, prompt-toolkit, traitlets
 sqlparse==0.3.0
 traitlets==4.3.2          # via ipython
-typed-ast==1.1.0          # via astroid
 urllib3==1.24.2
 wcwidth==0.1.7            # via prompt-toolkit
 wrapt==1.10.11            # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.1.0        # via ipdb, ipython
+# setuptools==41.2.0        # via ipdb, ipython
