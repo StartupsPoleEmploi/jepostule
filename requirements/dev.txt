@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file=requirements/dev.txt requirements/dev.in
 #
-appnope==0.1.0            # via ipython
 astroid==2.0.4            # via pylint
 backcall==0.1.0           # via ipython
 certifi==2019.3.9
@@ -28,7 +27,7 @@ mccabe==0.6.1             # via pylint
 parso==0.3.1              # via jedi
 pexpect==4.6.0            # via ipython
 pickleshare==0.7.5        # via ipython
-pip-tools==3.8.0
+pip-tools==4.0.0
 prompt-toolkit==2.0.5     # via ipython
 psycopg2-binary==2.8.2
 ptyprocess==0.6.0         # via pexpect
@@ -37,6 +36,7 @@ pylint==2.1.1
 pytz==2019.1
 redis==3.2.1
 requests==2.21.0
+selenium==3.141.0
 simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via astroid, pip-tools, prompt-toolkit, traitlets
 sqlparse==0.3.0
@@ -47,4 +47,4 @@ wcwidth==0.1.7            # via prompt-toolkit
 wrapt==1.10.11            # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.0.1        # via ipdb, ipython
+# setuptools==41.1.0        # via ipdb, ipython

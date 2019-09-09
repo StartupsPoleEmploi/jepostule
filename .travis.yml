@@ -7,17 +7,43 @@ addons:
     packages:
       - make
       - postgresql-client-common
+      # chrome is required for end-to-end tests
+      - chromium-chromedriver
+  chrome: stable
+
 cache: pip
+
 env:
-  - POSTGRES_USER=postgres POSTGRES_PASSWORD=""
+  - POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=""
+    POSTGRES_DB=test_jepostule
+    KAFKA_LISTENERS=localhost
+
 services:
   - docker
   - postgresql
-  - redis
+  - redis-server
+
+jobs:
+  include:
+    - stage: tests
+      name: "Unit Tests"
+      script: make test
+    - stage: tests
+      name: 'End-to-end tests'
+      script: make test-e2e-travis
+    - stage: build
+      name: "Build"
+      script: make build
+
 before_script:
-  - psql -c 'create database jepostule;' -U postgres
+  - psql -c 'create database test_jepostule;' -U postgres
+  - export BACKDOOR_CANDIDATE_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty='%cE')"
+  - export BACKDOOR_EMPLOYER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty='%cE')"
+
+after_script:
+  - psql -c 'drop database if exists test_jepostule;' -U postgres
+
 install:
   - pip install -r requirements/dev.txt
-script:
-  - make test
-  - make build
+  - npm install
