@@ -14,15 +14,14 @@ logger = logging.getLogger(__name__)
 
 
 class KafkaProducer(base.BaseProducer):
-
     def send(self, topic, value, key=None):
         producer = kafka.KafkaProducer(
             bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
             max_request_size=11534336,
         )
-        result = producer.send(
-            topic, value=value, key=key,
-        ).add_errback(self.on_send_error)
+        result = producer.send(topic, value=value, key=key).add_errback(
+            self.on_send_error
+        )
         producer.flush()
         if result.failed():
             raise exceptions.ProduceError(topic, value, key)
@@ -42,22 +41,11 @@ class KafkaConsumer(base.BaseConsumer):
     Consume messages from a Kafka topic.
     """
 
-    GROUP_ID = 'jepostule'
+    GROUP_ID = "jepostule"
     TIMEOUT_MS = 3000
 
     def __init__(self, topic):
         super().__init__(topic)
-
-        while True:
-            try:
-                # Make sure Kafka is reachable before we create a new consumer.
-                client = KafkaAdminClient(bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS)
-                client.list_consumer_groups()
-                break
-            except (ValueError, TypeError, GroupLoadInProgressError, ):
-                logger.info('Waiting for Kafka to be up...')
-                time.sleep(2)
-
         self.kafka_consumer = kafka.KafkaConsumer(
             self.topic,
             bootstrap_servers=settings.KAFKA_BOOTSTRAP_SERVERS,
@@ -66,11 +54,9 @@ class KafkaConsumer(base.BaseConsumer):
             consumer_timeout_ms=self.TIMEOUT_MS,
         )
 
-
     def __iter__(self):
         while True:
             for message in self.kafka_consumer:
                 self.kafka_consumer.commit()
                 yield message.value
             yield None
-

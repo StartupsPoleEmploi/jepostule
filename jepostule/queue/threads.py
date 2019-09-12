@@ -53,7 +53,7 @@ class ThreadedConsumer:
     def wait(self):
         while True:
             try:
-                if not any([thread.is_alive for thread in self.threads]):
+                if not any([thread.is_alive() for thread in self.threads]):
                     return
                 sleep(1)
             except KeyboardInterrupt:
