@@ -21,6 +21,7 @@ class JobApplication(models.Model):
     candidate_address = models.CharField(max_length=256)
     candidate_peid = models.CharField(max_length=64, db_index=True)
     candidate_rome_code = models.CharField(max_length=5, blank=True, default='')
+    candidate_peam_access_token = models.CharField(max_length=256, blank=True, default='')
     employer_email = models.CharField(max_length=64, db_index=True)
     employer_description = models.CharField(max_length=256)
     message = models.TextField(max_length=4000)
@@ -100,11 +101,13 @@ class JobApplicationEvent(models.Model):
     SENT_TO_EMPLOYER = 'sent'
     CONFIRMED_TO_CANDIDATE = 'confirmed'
     FORWARDED_TO_MEMO = 'forwarded-to-memo'
+    FORWARDED_TO_AMI = 'forwarded-to-ami'
     ANSWERED = 'answered'
     NAMES = (
         (SENT_TO_EMPLOYER, "Envoyé à l'employeur"),
         (CONFIRMED_TO_CANDIDATE, "Confirmation envoyée au candidat"),
         (FORWARDED_TO_MEMO, "Candidature transférée à Memo"),
+        (FORWARDED_TO_AMI, "Candidature transférée à l'AMI"),
         (ANSWERED, "Réponse envoyée au candidat"),
     )
 
@@ -119,7 +122,7 @@ class JobApplicationEvent(models.Model):
     def to_email(self):
         if self.name in [self.CONFIRMED_TO_CANDIDATE, self.ANSWERED]:
             return self.job_application.candidate_email
-        elif self.name == self.FORWARDED_TO_MEMO:
+        elif self.name in [self.FORWARDED_TO_MEMO, self.FORWARDED_TO_AMI]:
             return None
         return self.job_application.employer_email
 

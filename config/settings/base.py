@@ -229,3 +229,8 @@ MEMO_API_VERIFY_SSL = False
 MEMO_API_URL = 'https://memo.pole-emploi.fr/rest/api/v1'
 MEMO_API_SECRET = 'setme'
 MEMO_API_VERIFY_SSL = True
+
+# Encryption of user PEAM-U token between LBB and JePostule.
+# Dummy key used everywhere but in production.
+CRYPTOGRAPHY_SECRET_KEY = b'gj6ouKvodK6PCAz4mt5tdTMUnVPHFFYWjh_P-O-IMqU='
+

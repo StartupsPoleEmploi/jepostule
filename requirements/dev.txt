@@ -4,12 +4,15 @@
 #
 #    pip-compile --output-file=requirements/dev.txt requirements/dev.in
 #
+appnope==0.1.0            # via ipython
 astroid==2.2.5            # via pylint
 backcall==0.1.0           # via ipython
 certifi==2019.6.16
+cffi==1.13.1
 chardet==3.0.4
 click==7.0                # via pip-tools
 coverage==4.5.4
+cryptography==2.8
 decorator==4.4.0          # via ipython, traitlets
 django-debug-toolbar==2.0
 django-pipeline==1.6.14
@@ -31,13 +34,14 @@ pip-tools==4.1.0
 prompt-toolkit==2.0.9     # via ipython
 psycopg2-binary==2.8.3
 ptyprocess==0.6.0         # via pexpect
+pycparser==2.19
 pygments==2.4.2           # via ipython
 pylint==2.3.1
 pytz==2019.2
 redis==3.3.8
 requests==2.22.0
 selenium==3.141.0
-six==1.12.0               # via astroid, pip-tools, prompt-toolkit, traitlets
+six==1.12.0
 sqlparse==0.3.0
 traitlets==4.3.2          # via ipython
 typed-ast==1.4.0          # via astroid
@@ -46,4 +50,4 @@ wcwidth==0.1.7            # via prompt-toolkit
 wrapt==1.11.2             # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.2.0        # via ipdb, ipython
+# setuptools==41.5.0        # via ipdb, ipython

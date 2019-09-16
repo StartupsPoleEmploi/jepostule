@@ -6,7 +6,7 @@ from django.template.loader import get_template
 from jepostule.email.utils import send_mail
 from jepostule.queue import topics
 from jepostule.security import ratelimits
-from . import models, memo
+from . import models, memo, ami
 
 
 Attachment = namedtuple('Attachment', ['name', 'content'])
@@ -61,6 +61,12 @@ def send_application_to_employer(job_application_id, attachments=None, send_conf
     ratelimits.Sender.add(job_application.candidate_email)
 
     forward_application_to_memo.run_async(job_application_id)
+    
+    # Some applications (e.g. demo applications) should
+    # not be forwarded to AMI.
+    if job_application.candidate_peam_access_token:
+        forward_application_to_ami.run_async(job_application_id)
+    
     if send_confirmation:
         send_confirmation_to_candidate.run_async(job_application_id)
 
@@ -75,6 +81,19 @@ def forward_application_to_memo(job_application_id):
     memo.forward_job_application(job_application_id)
     event = job_application.events.create(
         name=models.JobApplicationEvent.FORWARDED_TO_MEMO,
+    )
+
+
+@topics.subscribe(topics.FORWARD_TO_AMI)
+def forward_application_to_ami(job_application_id):
+    """
+    Args:
+        job_application_id (int): id of a JobApplication entry
+    """
+    job_application = models.JobApplication.objects.get(id=job_application_id)
+    ami.forward_job_application(job_application_id)
+    event = job_application.events.create(
+        name=models.JobApplicationEvent.FORWARDED_TO_AMI,
     )
 
 

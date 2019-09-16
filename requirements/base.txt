@@ -5,15 +5,19 @@
 #    pip-compile --output-file=requirements/base.txt requirements/base.in
 #
 certifi==2019.6.16        # via requests
+cffi==1.13.1              # via cryptography
 chardet==3.0.4            # via requests
+cryptography==2.8
 django-pipeline==1.6.14
 django==2.2.5
 idna==2.8                 # via requests
 kafka-python==1.4.6
 mailjet-rest==1.3.3
 psycopg2-binary==2.8.3
+pycparser==2.19           # via cffi
 pytz==2019.2              # via django
 redis==3.3.8
 requests==2.22.0
+six==1.12.0               # via cryptography
 sqlparse==0.3.0           # via django
 urllib3==1.25.3           # via requests

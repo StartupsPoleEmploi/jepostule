@@ -15,6 +15,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from jepostule.crypto import encrypt
 from jepostule.pipeline.models import JobApplication, Answer
 from .base import EndToEndTestBase
 
@@ -33,6 +34,7 @@ class TestRecruiterNeedsFurtherInformation(EndToEndTestBase):
             'employer_email': settings.BACKDOOR_EMPLOYER_EMAIL,
             'job': 'Acteur',
             'candidate_rome_code': 'L1203',
+            'candidate_peam_access_token': encrypt("01234567890abcdef01234567890abcdef"),
             'siret': '34326262220717',
         }
 

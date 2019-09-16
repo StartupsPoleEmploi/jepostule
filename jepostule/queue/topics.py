@@ -12,6 +12,7 @@ from . import serialize
 SEND_APPLICATION = 'send-application'
 SEND_CONFIRMATION = 'send-confirmation'
 FORWARD_TO_MEMO = 'forward-to-memo'
+FORWARD_TO_AMI = 'forward-to-ami'
 SEND_ANSWER = 'send-answer'
 PROCESS_EMAIL_EVENT = 'process-email-event'
 

@@ -35,6 +35,7 @@ $INSPECT_KAFKA_CONSUMERS
 # send-confirmation   0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # send-application    0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # forward-to-memo     0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+# forward-to-ami      0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # process-email-event 0          -               0               -     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 
 
