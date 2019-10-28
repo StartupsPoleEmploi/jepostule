@@ -25,10 +25,13 @@ def forward_job_application(job_application_id):
 
     url = AMI_API_JOB_APPLICATION_ENDPOINT_URL
     params = None
+    # AMI API breaks when this field is too long.
+    # E.g. it breaks for 200 characters, but not for 150.
+    texte_motivation = job_application.message[:150]
     data = {
         "idCompetRecherchees": job_application.candidate_rome_code,
         "siret": job_application.siret,
-        "texteMotivation": job_application.message,  # FIXME apply maximum field value expected by AMI API
+        "texteMotivation": texte_motivation,
         "coordonneesCandidat": {
             "prenomNom": job_application.candidate_name,
             "adresse": job_application.candidate_address,
