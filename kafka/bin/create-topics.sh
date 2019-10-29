@@ -18,6 +18,12 @@
 /kafka/bin/kafka-configs.sh --zookeeper=$ZOOKEEPER_CONNECT --alter --entity-type=topics \
     --entity-name=forward-to-memo --add-config 'cleanup.policy=delete,retention.ms=2592000000,max.message.bytes=1048576'
 
+# forward-to-ami: 30 days retention, 1 Mb messages
+/kafka/bin/kafka-topics.sh --zookeeper=$ZOOKEEPER_CONNECT --create --if-not-exists \
+        --partitions=1 --replication-factor=1 --topic=forward-to-ami
+/kafka/bin/kafka-configs.sh --zookeeper=$ZOOKEEPER_CONNECT --alter --entity-type=topics \
+    --entity-name=forward-to-ami --add-config 'cleanup.policy=delete,retention.ms=2592000000,max.message.bytes=1048576'
+
 # send-answer: 5 days retention, 1 Mb messages
 /kafka/bin/kafka-topics.sh --zookeeper=$ZOOKEEPER_CONNECT --create --if-not-exists \
     --partitions=1 --replication-factor=1 --topic=send-answer

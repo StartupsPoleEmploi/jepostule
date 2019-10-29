@@ -179,13 +179,14 @@ MEMO_API_SECRET = os.environ.get('MEMO_API_SECRET', 'set_me')
 # send-confirmation   0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # send-application    0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # forward-to-memo     0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
+# forward-to-ami      0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # process-email-event 0          -               0               -     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 ```
 
 Make sure `CURRENT-OFFSET` and `LOG-END-OFFSET` match. If they don't, it means messages were not consumed.
 
 Topics by tests:
-- `test_candidate_can_apply.py` produces 3 different messages sent to 3 different topics (1 per topic): `send-application` (sends an email to the recruiter), `send-confirmation` (sends an email to the job seeker) and `forward-to-memo`.
+- `test_candidate_can_apply.py` produces 4 different messages sent to 4 different topics (1 per topic): `send-application` (sends an email to the recruiter), `send-confirmation` (sends an email to the job seeker), `forward-to-memo` and `forward-to-ami`.
 - `test_recruiter_needs_further_information.py` produces 1 message sent to `send-answer` (sends an answer to the job seeker).
 - `test_recruiter_proposes_an_interview.py` produces 1 message sent to `send-answer` (sends an answer to the job seeker).
 - `test_recruiter_rejects_an_application.py` produces 1 message sent to `send-answer` (sends an answer to the job seeker).

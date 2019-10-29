@@ -12,7 +12,6 @@ build-jepostule:
 build-kafka:
 	docker build -t kafka:latest ./kafka
 
-
 ##########################
 ######### ASSETS #########
 ##########################
@@ -21,7 +20,6 @@ assets: ## copy vendor assets
 	cp node_modules/jquery/dist/jquery.min.js jepostule/static/vendor/
 	cd node_modules/jquery-datetimepicker/build/ && cp jquery.datetimepicker.full.js jquery.datetimepicker.min.css ../../../jepostule/static/vendor/
 	mkdir -p jepostule/static/vendor/tarteaucitron && cd node_modules/tarteaucitronjs/ && cp -r tarteaucitron.js tarteaucitron.services.js lang css ../../jepostule/static/vendor/tarteaucitron
-
 
 ##########################
 ######## SERVICES ########
@@ -43,7 +41,6 @@ delete-kafka-group: ## delete Kafka 'jepostule' group in its Docker container
 		sleep 5; \
 	done
 
-
 ##########################
 ####### SERVER RUN #######
 ##########################
@@ -51,9 +48,11 @@ delete-kafka-group: ## delete Kafka 'jepostule' group in its Docker container
 run: ## run a local server
 	./manage.py runserver
 
+run-with-local-settings: ## run a local server with local settings
+	./manage.py runserver --settings=config.settings.local
+
 debug: ## run a local server with debug settings
 	./manage.py runserver --settings=config.settings.debug
-
 
 ##########################
 ######### TESTS ##########
@@ -78,7 +77,6 @@ test-e2e-local:  ## End to end tests using Selenium
 test-e2e-travis: ## end to end tests executed in Travis CI.
 	bash jepostule/tests/end_to_end/scripts/run_e2e_travis.sh
 
-
 ##########################
 ####### MIGRATIONS #######
 ##########################
@@ -90,7 +88,6 @@ migrate-postgres: services ## run postgres migrations
 
 migrate-kafka: services ## create and configure required kafka topics
 	docker-compose run --rm kafka bash create-topics.sh
-
 
 ##########################
 ####### UTILITIES ########

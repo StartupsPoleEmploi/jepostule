@@ -5,3 +5,4 @@ mailjet_rest
 psycopg2-binary
 redis
 requests
+cryptography==2.8

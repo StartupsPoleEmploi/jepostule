@@ -91,6 +91,7 @@ def demo(request):
     """
     client_id = request.GET.get('client_id')
     client_secret = request.GET.get('client_secret')
+    
     if client_id and client_secret:
         try:
             auth_utils.verify_client_secret(client_id, client_secret)
@@ -98,6 +99,7 @@ def demo(request):
             raise Http404
     else:
         client_id = get_object_or_404(ClientPlatform, client_id=ClientPlatform.DEMO_CLIENT_ID).client_id
+    
     params = {
         'client_id': client_id,
         'candidate_first_name': 'John',
@@ -105,6 +107,7 @@ def demo(request):
         'candidate_email': 'candidat@example.com',
         'candidate_peid': '123456789',
         'candidate_rome_code': 'A1101',
+        'candidate_peam_access_token': None,  # demo applications should not be forwarded to AMI.
         'employer_email': 'employeur@example.com',
         'employer_description': """Uniqlo Europe LTD - 75009 Paris""",
         'siret': '34326262220717',
@@ -112,11 +115,13 @@ def demo(request):
         'next_url': 'https://example.com?plonk=pfiuut',
     }
     params.update(request.GET.items())
+    
     token, timestamp = auth_utils.make_new_application_token(**params)
     params.update({
         'token': token,
         'timestamp': timestamp,
     })
+    
     iframe_url = reverse('embed:candidater') + '?' + urlencode(params)
     return render(request, 'jepostule/embed/demo.html', {
         'iframe_url': iframe_url,

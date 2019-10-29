@@ -2,10 +2,11 @@ from unittest import mock
 
 from django.conf import settings
 
+from jepostule.crypto import encrypt
 from jepostule.auth.models import ClientPlatform
 from jepostule.queue.exceptions import DelayProcessing
 from jepostule.pipeline import application
-from jepostule.pipeline import memo
+from jepostule.pipeline import memo, ami
 from jepostule.pipeline import models
 from jepostule.tests.base import PipelineCacheTestCase
 
@@ -23,6 +24,7 @@ class ApplicationTests(PipelineCacheTestCase):
             candidate_address="3 rue du four 75018 Paris",
             candidate_peid="jfljfdkgjfdkgjfdkgjdflkgjkldfgj",
             candidate_rome_code="A1101",
+            candidate_peam_access_token=encrypt("01234567890abcdef01234567890abcdef"),
             employer_email="boss@big.co",
             client_platform=ClientPlatform.objects.create(client_id="id"),
         )
@@ -53,6 +55,13 @@ class ApplicationTests(PipelineCacheTestCase):
             application.forward_application_to_memo.consume()
             get_response.assert_called_once()
         self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.FORWARDED_TO_MEMO).count())
+
+        self.assertEqual(0, job_application.events.filter(name=models.JobApplicationEvent.FORWARDED_TO_AMI).count())
+        mocked_response = {}  # Empty HTTP 204 response anyway.
+        with mock.patch.object(ami, 'get_response', return_value=mocked_response) as get_response:
+            application.forward_application_to_ami.consume()
+            get_response.assert_called_once()
+        self.assertEqual(1, job_application.events.filter(name=models.JobApplicationEvent.FORWARDED_TO_AMI).count())
 
         with mock.patch.object(application, 'send_mail', return_value=[667]) as send_mail:
             application.send_confirmation_to_candidate.consume()
