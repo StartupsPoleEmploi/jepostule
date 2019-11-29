@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 # Environment variables
-ENV NODE_VERSION 8.10.0
+ENV NODE_VERSION 12.8.0
 ENV NPM_VERSION 3.5.2
 ENV NVM_DIR /usr/local/nvm
 ENV NVM_VERSION 0.34.0
@@ -41,7 +41,6 @@ COPY . /jepostule
 RUN npm install --unsafe-perm
 
 EXPOSE 8000
-
 
 RUN mkdir -p /var/log/uwsgi
 CMD uwsgi --module=config.wsgi:application \
