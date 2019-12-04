@@ -9,7 +9,7 @@ cffi==1.13.1
 chardet==3.0.4
 cryptography==2.8
 django-pipeline==1.6.14
-django==2.2.5
+django==2.2.8
 idna==2.8
 kafka-python==1.4.6
 mailjet-rest==1.3.3
