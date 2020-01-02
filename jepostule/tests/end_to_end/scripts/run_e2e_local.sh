@@ -25,6 +25,7 @@ done
 { nohup ./manage.py consumetopics all --settings=config.settings.test_e2e & echo $! > e2e_server_pid.txt; }
 
 # Run Django end to end tests without creating a database.
+# FIXME This freezes without any output :-(
 ./manage.py test jepostule.tests.end_to_end --settings=config.settings.test_e2e
 
 # Inspect Kafka topics
