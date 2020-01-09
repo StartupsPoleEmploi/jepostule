@@ -20,13 +20,27 @@ do \
   sleep 5; \
   echo "Waiting for Kafka to be up...";\
 done
+echo "Kafka is up, let's continue..."
 
+exit
 # Consume topics to send mails. Then store its process id in a temporary file.
-{ nohup ./manage.py consumetopics all --settings=config.settings.test_e2e & echo $! > e2e_server_pid.txt; }
+./manage.py consumetopics all --settings=config.settings.test_e2e &
+CONSUMETOPIC_PID=$!
+echo $CONSUMETOPIC_PID > e2e_server_pid.txt
+echo "Background consumetopic process started with PID $CONSUMETOPIC_PID..."
 
 # Run Django end to end tests without creating a database.
 # FIXME This freezes without any output :-(
-./manage.py test jepostule.tests.end_to_end --settings=config.settings.test_e2e
+# ./manage.py test jepostule.tests.end_to_end --settings=config.settings.test_e2e
+./manage.py test -v 2 jepostule.tests.end_to_end --settings=config.settings.test_e2e
+
+# ./manage.py test -v 2 jepostule.tests.end_to_end --settings=config.settings.test_e2e
+# Skipping setup of unused database(s): TEST.
+# System check identified no issues (0 silenced).
+# test_candidate_can_apply (jepostule.tests.end_to_end.test_candidate_can_apply.TestCandidateCanApply) ...
+# urllib3.exceptions.MaxRetryError: HTTPConnectionPool(host='127.0.0.1', port=49850): Max retries exceeded with url: /session/17e2861eb6a9f735da6198aeecbe7c85/element (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x104dc9940>: Failed to establish a new connection: [Errno 61] Connection refused',))
+# File "/Users/vermeer/docs/autonomo/lbb/jepostule/jepostule/tests/end_to_end/test_candidate_can_apply.py", line 69, in test_candidate_can_apply
+# EC.visibility_of_element_located((By.LINK_TEXT, "C'est parti !"))
 
 # Inspect Kafka topics
 $INSPECT_KAFKA_CONSUMERS
@@ -39,16 +53,14 @@ $INSPECT_KAFKA_CONSUMERS
 # forward-to-ami      0          1               1               0     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 # process-email-event 0          -               0               -     kafka-python-id /172.21.0.1     kafka-python-1.4.6
 
-
-# Kill `consumetopics` process. Only works with -9.
-# Theoretically we should use -2 (equals to ctrl +C)
-# but theory is for fairy tales, and we live in the real world.
-kill -9 `cat e2e_server_pid.txt`
-
 # Wait for the process to end.
-while kill -0 `cat e2e_server_pid.txt` 2> /dev/null; do \
-    sleep 1; \
-    echo 'Waiting for Consumers to quit...'; \
+while kill -0 $CONSUMETOPIC_PID 2> /dev/null; do \
+    echo 'Waiting for consumetopic background process to quit...'; \
+    kill $CONSUMETOPIC_PID
+    sleep 2
+    # Hard kill if regular kill was not enough, it happens.
+    kill -9 $CONSUMETOPIC_PID
+    sleep 2; \
 done
 
 rm e2e_server_pid.txt
