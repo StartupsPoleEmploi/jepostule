@@ -64,6 +64,8 @@ class TestCandidateCanApply(EndToEndTestBase):
         attached_file_path = str(Path(__file__).resolve().parent / resume_filename)
 
         # Click on "C'est parti !"
+        # FIXME 4000s o_O
+        # FIXME try this test alone
         go = WebDriverWait(driver, 4000)\
             .until(
                 EC.visibility_of_element_located((By.LINK_TEXT, "C'est parti !"))
