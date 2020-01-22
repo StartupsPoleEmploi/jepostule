@@ -53,20 +53,20 @@
 
         <h3>Vous recherchez un poste de</h3>
         <ul data-errors="job"></ul>
-        <input type="text" name="job" value="{{ form.cleaned_data.job }}" placeholder="Chauffeur, Menuisier..." data-localstorage data-watchchanges>
+        <input type="text" name="job" value="{{ form.cleaned_data.job }}" placeholder="Chauffeur, Menuisier..." autocomplete="off" data-watchchanges>
 
         <h3>Remplissez vos coordonnées complémentaires</h3>
         <label for="candidate_phone">Votre numéro de téléphone</label>
         <ul data-errors="candidate_phone"></ul>
-        <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" data-localstorage data-watchchanges>
+        <input type="tel" name="candidate_phone" placeholder="06 12 34 56 78" autocomplete="off" data-watchchanges>
 
         <label for="candidate_address">Votre adresse</label>
         <ul data-errors="candidate_address"></ul>
-        <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont" data-localstorage data-watchchanges>
+        <input type="text" name="candidate_address" placeholder="7 rue du temple 95130 Ermont" autocomplete="off" data-watchchanges>
 
         <h3>Vous pouvez personnaliser cet email</h3>
         <ul data-errors="message"></ul>
-        <textarea name="message" data-localstorage data-watchchanges>{{ form.cleaned_data.message }}</textarea>
+        <textarea name="message" autocomplete="off" data-watchchanges>{{ form.cleaned_data.message }}</textarea>
 
         <div class="center"><a href="#documents" class="button validate-application">Je continue</a></div>
     </div>
@@ -81,7 +81,7 @@
     <div class="step-content">
         <a href="#infos" class="back">retour</a>
         <h3>N'hésitez pas à télécharger des documents pour appuyer votre candidature (CV, lettre de recommandation ou de motivation, book, dossier...)</h3>
-        <input type="file" name="attachments" class="invisible" 
+        <input type="file" name="attachments" class="invisible"
             multiple accept="video/*,image/*,application/pdf,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         >
         <ul data-errors="attachments"></ul>
