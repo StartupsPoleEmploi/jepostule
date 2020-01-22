@@ -204,7 +204,7 @@ You can download a GUI to dive into Kafka and have a better view of its operatin
 
 The home page should redirect you to the embed demo page (useful to test if your installation worked!).
 To make it work, you must:
-- create a client platform (see section [Create client platform](#create-client-platform))
+- create a client platform (see section [Create client platform](#client-platform-creation))
 - add these parameters to the demo page URL: `client_id` and `client_secret`.
 
 Example: `/embed/demo/?client_id=<client_id>&client_secret=<client_secret>`
