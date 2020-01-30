@@ -39,6 +39,20 @@ On partner websites, the user can click on "Je Postule" buttons for each display
 
 ### Quickstart
 
+Requirements:
+
+* NodeJS version: `8.10.0` (see [`Dockerfile`](/Dockerfile) and [`package.json`](/package.json)).
+* Python `3.6` and virtual env (venv) package.
+* Docker
+
+Python dependencies should be installed in a virtual environment:
+
+    virtualenv --python=python3.6 ./venv
+    source venv/bin/activate
+
+Setup the local environment
+
+    pip install -r requirements/base.txt
     pip install -r requirements/dev.txt
     npm install
     make services
@@ -49,8 +63,14 @@ On partner websites, the user can click on "Je Postule" buttons for each display
     ./manage.py consumetopics all
     ./manage.py dequeuedelayed
 
-NodeJS version: `8.10.0` (see [`Dockerfile`](/Dockerfile) and [`package.json`](/package.json)).
-Python requirements: see the [requirements](/requirements) folder. This project uses Python `3.6`.
+You will find details about these steps and useful config in the [Install section below](#install).
+
+Check that the local install works by running the tests 
+
+    make test
+    make test-e2e-local
+
+Finally follow the steps if the section [Manually testing the user path](#manually-testing-the-user-path) to see the project work locally.
 
 ### Install
 
@@ -59,14 +79,6 @@ Python requirements: see the [requirements](/requirements) folder. This project 
 On Ubuntu:
 
     sudo apt install make postgresql-client-common python3 python3-virtualenv python3-pip
-
-#### Python dependencies
-
-Python dependencies should be installed in a virtual environment:
-
-    virtualenv --python=python3.6 ./venv
-    source venv/bin/activate
-    pip install -r requirements/dev.txt
 
 #### Running 3rd-party services
 
@@ -238,7 +250,6 @@ Python dependencies must be declared in `requirements/base.in`, `dev.in` or `pro
 
 A user can attach one or many files to his application (a resume, a cover letter, ...). They are stored in Kafka and deleted 30 days after their sending. For more details, see [`kafka/bin/create-topics.sh`](/kafka/bin/create-topics.sh).
 To know how to debug application attachments, [read this section](#debugging-attachments-from-job-applications).
-
 
 ## Administration
 
@@ -423,4 +434,6 @@ This project is licensed under the [GNU Affero General Public License](./LICENSE
 
 ## How to contribute
 
-We are open to comments, questions and contributions! Feel free to [open an issue](github.com/StartupsPoleEmploi/jepostule/issues/new), fork the code, make changes and [open a pull request](https://github.com/StartupsPoleEmploi/labonneboite/pulls).
+For devs in the core team, this repo follows the [Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow). 
+
+We are also open to comments, questions and contributions from devs outside the core dev team! Feel free to [open an issue](github.com/StartupsPoleEmploi/jepostule/issues/new), fork the code, make changes and [open a pull request](https://github.com/StartupsPoleEmploi/labonneboite/pulls).
