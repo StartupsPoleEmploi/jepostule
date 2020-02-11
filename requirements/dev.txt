@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file=requirements/dev.txt requirements/dev.in
 #
-appnope==0.1.0            # via ipython
 astroid==2.2.5            # via pylint
 backcall==0.1.0           # via ipython
 certifi==2019.6.16
@@ -16,7 +15,7 @@ cryptography==2.8
 decorator==4.4.0          # via ipython, traitlets
 django-debug-toolbar==2.0
 django-pipeline==1.6.14
-django==2.2.5
+django==2.2.10
 idna==2.8
 ipdb==0.12.2
 ipython-genutils==0.2.0   # via traitlets
@@ -50,4 +49,4 @@ wcwidth==0.1.7            # via prompt-toolkit
 wrapt==1.11.2             # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.5.0        # via ipdb, ipython
+# setuptools
