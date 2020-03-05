@@ -4,8 +4,7 @@ from django.conf import settings
 from django.core import mail
 from django.test import TestCase, override_settings
 
-from jepostule.email.services import mailjet
-from jepostule.email.utils import send_mail
+from jepostule.email.utils import send_mail, MAILJET_CLIENT
 
 
 class UtilsTests(TestCase):
@@ -19,7 +18,7 @@ class UtilsTests(TestCase):
         email_args = ('subject', 'html_content', 'from@from.com', ['to@to.com'])
         email_kwargs = {'from_name': None, 'attachments': None}
         # Patch `requests.post` since it's used by mailjet_rest's Client.
-        with mock.patch.object(mailjet, "post_api") as mock_post_api:
+        with mock.patch.object(MAILJET_CLIENT, "post_api") as mock_post_api:
             send_mail(*email_args, **email_kwargs)
             mock_post_api.assert_called_with(
                 {
@@ -51,7 +50,7 @@ class UtilsTests(TestCase):
             'mailjet_template_data': {'template_data': 'foo'},
         }
         # Patch `requests.post` since it's used by mailjet_rest's Client.
-        with mock.patch.object(mailjet, "post_api") as mock_post_api:
+        with mock.patch.object(MAILJET_CLIENT, "post_api") as mock_post_api:
             send_mail(*email_args, **email_kwargs)
             mock_post_api.assert_called_with(
                 {
