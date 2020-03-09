@@ -12,7 +12,6 @@ from .test import * # pylint: disable=unused-wildcard-import
 EMAIL_DELIVERY_SERVICE = 'mailjet'
 MAILJET_API_KEY = os.environ.get('MAILJET_API_KEY', "set_me")
 MAILJET_API_SECRET = os.environ.get('MAILJET_API_SECRET', "set_me")
-MAILJET_API_BASE_URL = "https://api.mailjet.com/v3.1"
 QUEUE_PRODUCER = 'jepostule.queue.handlers.franz.KafkaProducer'
 QUEUE_CONSUMER = 'jepostule.queue.handlers.franz.KafkaConsumer'
 KAFKA_BOOTSTRAP_SERVERS = [os.environ.get('KAFKA_BOOTSTRAP_SERVERS', 'localhost:9092')]

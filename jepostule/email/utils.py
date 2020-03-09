@@ -2,9 +2,10 @@ import os
 
 from django.conf import settings
 
-from jepostule.email.services import mailjet
+from jepostule.email.services.mailjet import MailJetClient
 from jepostule.email.services import django as django_email
 
+MAILJET_CLIENT = MailJetClient(settings.MAILJET_API_KEY, settings.MAILJET_API_SECRET)
 
 # pylint: disable=too-many-arguments
 def send_mail(
@@ -52,9 +53,9 @@ def send_mail(
 
     if use_mailjet_template:
         email_args = (subject, mailjet_template_id, mailjet_template_data, from_email, recipient_list)
-        return mailjet.send_using_template(*email_args, **email_kwargs)
+        return MAILJET_CLIENT.send_using_template(*email_args, **email_kwargs)
 
     if use_mailjet:
-        return mailjet.send(*email_args, **email_kwargs)
+        return MAILJET_CLIENT.send(*email_args, **email_kwargs)
 
     return django_email.send(*email_args, **email_kwargs)

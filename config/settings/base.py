@@ -199,7 +199,6 @@ JEPOSTULE_NO_REPLY = 'contact@jepostule.labonneboite.pole-emploi.fr'
 PLATFORM_ATTRIBUTES = {}
 ATTACHMENTS_MAX_SIZE_BYTES = 10 * 1024 * 1024  # 10 Mb
 BLACKLIST_DURATION_SECONDS = 30 * 24 * 3600
-MAILJET_API_BASE_URL = "https://api.mailjet.com/v3.1"
 MAILJET_API_KEY = "setme"
 MAILJET_API_SECRET = "setme"
 MAILJET_TEMPLATES = {
