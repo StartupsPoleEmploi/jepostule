@@ -2,11 +2,14 @@ import json
 import logging
 import requests
 from requests.exceptions import ConnectionError, ReadTimeout
+from django.conf import settings
 from . import models
 from jepostule.crypto import decrypt
 
+
 AMI_API_TIMEOUT_SECONDS = 10
-AMI_API_JOB_APPLICATION_ENDPOINT_URL = 'https://api-r.es-qvr.fr/partenaire/candidaturespontanee/v1/candidaturespontanee'
+AMI_API_STAGING_URL = 'https://api-r.es-qvr.fr/partenaire/candidaturespontanee/v1/candidaturespontanee'
+AMI_API_PRODUCTION_URL = 'https://api.emploi-store.fr/partenaire/candidaturespontanee/v1/candidaturespontanee'
 
 
 logger = logging.getLogger(__name__)
@@ -23,7 +26,20 @@ class RequestFailed(Exception):
 def forward_job_application(job_application_id):
     job_application = models.JobApplication.objects.get(id=job_application_id)
 
-    url = AMI_API_JOB_APPLICATION_ENDPOINT_URL
+    # The condition
+    # job_application.client_platform.client_id == 'lbb'
+    # is met in 2 cases:
+    # - in production JP for applications coming from production LBB.
+    # - in local dev JP for regular applications (not via the backdoor link).
+    # Thus we have to additionally test for
+    # settings.ALLOW_SENDING_APPLICATIONS_TO_PRODUCTION_AMI
+    # to be sure we are in the case of production JP.
+    if (settings.ALLOW_SENDING_APPLICATIONS_TO_PRODUCTION_AMI 
+        and job_application.client_platform.client_id == 'lbb'):
+        url = AMI_API_PRODUCTION_URL
+    else:
+        url = AMI_API_STAGING_URL
+
     params = None
     # AMI API specification mentions a maximum of 1500 characters for this field.
     texte_motivation = job_application.message[:1500]
@@ -50,7 +66,8 @@ def forward_job_application(job_application_id):
     response = get_response(url, params, data, headers)
     # Nothing to check if no exception was raised,
     # as the expected normal return is a 204 HTTP code
-    # without any actual content.
+    # without any actual content. The fact that it was
+    # actually a 204 HTTP code was already tested in get_response.
     return
 
 

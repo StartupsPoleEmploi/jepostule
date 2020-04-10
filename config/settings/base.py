@@ -233,3 +233,4 @@ MEMO_API_VERIFY_SSL = True
 # Dummy key used everywhere but in production.
 CRYPTOGRAPHY_SECRET_KEY = b'gj6ouKvodK6PCAz4mt5tdTMUnVPHFFYWjh_P-O-IMqU='
 
+ALLOW_SENDING_APPLICATIONS_TO_PRODUCTION_AMI = False
