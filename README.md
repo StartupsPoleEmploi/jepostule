@@ -26,6 +26,8 @@
   - [Dump job application answers to CSV](#dump-job-application-answers-to-csv)
 - [Django administration](#django-administration)
 - [Email delivery services](#email-delivery-services)
+- [About forwarding job applications to Memo](#forward-to-memo)
+- [About forwarding job applications to AMI (API CSP)](#forward-to-ami-api-csp)
 - [Docker](#docker)
 - [License](#license)
 - [How to contribute](#how-to-contribute)
@@ -427,6 +429,21 @@ This project is totally dockerized. Have a look at the `Makefile` to see a list 
 
 :information_source: While developing, you may want to use only third-party services and not all the containers. To do so, run `make build` and then `make services`. Perfect! You're ready to start the server with `make run`!
 
+## Forward to Memo
+
+This feature is quite outdated though still alive. At some point it made sense to forward all JP job applications to Memo so that users also using Memo would see their JP job applications as cards in their Memo dashboard.
+
+There is a dedicated kafka topic `forward-to-memo` dedicated to processing these tasks.
+
+Relevant code can be seen [here](https://github.com/StartupsPoleEmploi/jepostule/blob/master/jepostule/pipeline/memo.py).
+
+## Forward to AMI API CSP
+
+The main documentation about what the AMI and it API CSP are, why and how we use them is available on the [official LBB README](https://github.com/StartupsPoleEmploi/labonneboite)
+
+There is a dedicated kafka topic `forward-to-ami` dedicated to processing these tasks.
+
+Relevant code can be seen [here](https://github.com/StartupsPoleEmploi/jepostule/blob/master/jepostule/pipeline/ami.py) and [here](https://github.com/StartupsPoleEmploi/jepostule/blob/master/jepostule/pipeline/application.py#L78-L90).
 
 ## License
 
@@ -437,3 +454,4 @@ This project is licensed under the [GNU Affero General Public License](./LICENSE
 For devs in the core team, this repo follows the [Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow). 
 
 We are also open to comments, questions and contributions from devs outside the core dev team! Feel free to [open an issue](github.com/StartupsPoleEmploi/jepostule/issues/new), fork the code, make changes and [open a pull request](https://github.com/StartupsPoleEmploi/labonneboite/pulls).
+
