@@ -391,6 +391,13 @@ MAILJET_API_SECRET = "setme"
 
 :art: The email sent to a recruiter (after an application is made) is based on a Mailjet template editable in their platform (click on "Transactional" > "My transactional models" in the main menu). Its ID is a global variable editable in [the settings](/config/settings).
 
+### Raw emails vs emails based on Mailjet templates
+
+Historically all emails where prepared by the application and sent to Mailjet to be sent as is, not using any Mailjet template at all.
+
+For some reason (AB testing of different email versions IIRC) we implemented using Mailjet template for one of our emails, the one sent to a recruiter after an application is made.
+
+This is the only email to date using a Mailjet template.
 
 ### If Mailjet limits your account
 
@@ -421,7 +428,15 @@ Pourriez-vous svp débloquer nos envois ?
 
 :information_source: Mailjet may ask you for further information on the user path before they restore the service. Here is [a demo](https://www.evernote.com/l/ABLEL6O-zB5HI4ctsHSTYedWhoeRx5Bc9nM) sent to convince them that we're not aggressive towards our users.
 
-:point_up: This process may last some days. In the meanwhile, we strongly recommend you to deactivate Je Postule on your websites using it.
+:point_up: This process may last some days. In the meanwhile, we strongly recommend you to disable Je Postule on your websites using it. See relevant section of this README for instructions about how to do this for LBB frontend.
+
+## How to disable JePostule on LBB frontend
+
+When JePostule has serious issues (Mailjet issue and/or the whole service is unavailable) you want to hide the JePostule button on the LBB frontend to avoid frustrating your users.
+
+To do that you simply need to set `JEPOSTULE_QUOTA = 0` in the LBB settings.
+
+One easy way to do that is to rebase and deploy [this MR](https://git.beta.pole-emploi.fr/lbb/lbb-private/-/merge_requests/148).
 
 ## Docker
 
