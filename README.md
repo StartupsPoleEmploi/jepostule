@@ -26,6 +26,8 @@
   - [Dump job application answers to CSV](#dump-job-application-answers-to-csv)
 - [Django administration](#django-administration)
 - [Email delivery services](#email-delivery-services)
+- [About forwarding job applications to Memo](#forward-to-memo)
+- [About forwarding job applications to AMI (API CSP)](#forward-to-ami-api-csp)
 - [Docker](#docker)
 - [License](#license)
 - [How to contribute](#how-to-contribute)
@@ -389,6 +391,13 @@ MAILJET_API_SECRET = "setme"
 
 :art: The email sent to a recruiter (after an application is made) is based on a Mailjet template editable in their platform (click on "Transactional" > "My transactional models" in the main menu). Its ID is a global variable editable in [the settings](/config/settings).
 
+### Raw emails vs emails based on Mailjet templates
+
+Historically all emails where prepared by the application and sent to Mailjet to be sent as is, not using any Mailjet template at all.
+
+For some reason (AB testing of different email versions IIRC) we implemented using Mailjet template for one of our emails, the one sent to a recruiter after an application is made.
+
+This is the only email to date using a Mailjet template.
 
 ### If Mailjet limits your account
 
@@ -419,7 +428,15 @@ Pourriez-vous svp débloquer nos envois ?
 
 :information_source: Mailjet may ask you for further information on the user path before they restore the service. Here is [a demo](https://www.evernote.com/l/ABLEL6O-zB5HI4ctsHSTYedWhoeRx5Bc9nM) sent to convince them that we're not aggressive towards our users.
 
-:point_up: This process may last some days. In the meanwhile, we strongly recommend you to deactivate Je Postule on your websites using it.
+:point_up: This process may last some days. In the meanwhile, we strongly recommend you to disable Je Postule on your websites using it. See relevant section of this README for instructions about how to do this for LBB frontend.
+
+## How to disable JePostule on LBB frontend
+
+When JePostule has serious issues (Mailjet issue and/or the whole service is unavailable) you want to hide the JePostule button on the LBB frontend to avoid frustrating your users.
+
+To do that you simply need to set `JEPOSTULE_QUOTA = 0` in the LBB settings.
+
+One easy way to do that is to rebase and deploy [this MR](https://git.beta.pole-emploi.fr/lbb/lbb-private/-/merge_requests/148).
 
 ## Docker
 
@@ -427,6 +444,21 @@ This project is totally dockerized. Have a look at the `Makefile` to see a list 
 
 :information_source: While developing, you may want to use only third-party services and not all the containers. To do so, run `make build` and then `make services`. Perfect! You're ready to start the server with `make run`!
 
+## Forward to Memo
+
+This feature is quite outdated though still alive. At some point it made sense to forward all JP job applications to Memo so that users also using Memo would see their JP job applications as cards in their Memo dashboard.
+
+There is a dedicated kafka topic `forward-to-memo` dedicated to processing these tasks.
+
+Relevant code can be seen [here](https://github.com/StartupsPoleEmploi/jepostule/blob/master/jepostule/pipeline/memo.py).
+
+## Forward to AMI API CSP
+
+The main documentation about what the AMI and it API CSP are, why and how we use them is available on the [official LBB README](https://github.com/StartupsPoleEmploi/labonneboite)
+
+There is a dedicated kafka topic `forward-to-ami` dedicated to processing these tasks.
+
+Relevant code can be seen [here](https://github.com/StartupsPoleEmploi/jepostule/blob/master/jepostule/pipeline/ami.py) and [here](https://github.com/StartupsPoleEmploi/jepostule/blob/master/jepostule/pipeline/application.py#L78-L90).
 
 ## License
 
@@ -437,3 +469,4 @@ This project is licensed under the [GNU Affero General Public License](./LICENSE
 For devs in the core team, this repo follows the [Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow). 
 
 We are also open to comments, questions and contributions from devs outside the core dev team! Feel free to [open an issue](github.com/StartupsPoleEmploi/jepostule/issues/new), fork the code, make changes and [open a pull request](https://github.com/StartupsPoleEmploi/labonneboite/pulls).
+
