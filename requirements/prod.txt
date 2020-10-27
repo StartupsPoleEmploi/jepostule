@@ -7,7 +7,7 @@
 certifi==2019.6.16
 cffi==1.13.1
 chardet==3.0.4
-cryptography==2.8
+cryptography==3.2
 django-pipeline==1.6.14
 django==2.2.5
 idna==2.8
