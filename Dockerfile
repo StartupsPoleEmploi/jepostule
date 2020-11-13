@@ -10,8 +10,8 @@ ENV PATH /jepostule/node_modules/.bin/:${PATH}
 ENV DJANGO_SETTINGS_MODULE config.settings.local
 ENV LANG C.UTF-8
 
-RUN apt update -y && \
-    apt install -y  \
+RUN apt-get update -y && \
+    apt-get install -y  \
         python3=$PYTHON_VERSION \
         python3-pip \
         postgresql-client-common \

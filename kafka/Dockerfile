@@ -1,7 +1,7 @@
 FROM openjdk:11-jre-slim
 
-RUN apt update && \
-    apt install -y wget
+RUN apt-get update && \
+    apt-get install -y wget
 
 ARG KAFKA_VERSION=2.3.0
 RUN mkdir /kafka
