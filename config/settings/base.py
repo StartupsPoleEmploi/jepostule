@@ -196,6 +196,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_DELIVERY_SERVICE = 'django'
 
 JEPOSTULE_NO_REPLY = 'contact@jepostule.labonneboite.pole-emploi.fr'
+EMAIL_CANDIDATE_REPLY_TO = True
 PLATFORM_ATTRIBUTES = {}
 ATTACHMENTS_MAX_SIZE_BYTES = 10 * 1024 * 1024  # 10 Mb
 BLACKLIST_DURATION_SECONDS = 30 * 24 * 3600

@@ -1,4 +1,5 @@
 from django.template.loader import get_template
+from django.conf import settings
 
 from jepostule.queue import topics
 from jepostule.email.utils import send_mail
@@ -25,7 +26,7 @@ def send_answer_to_candidate(job_application_id):
     message = get_template(template).render(context)
 
     reply_to = None
-    if hasattr(context['answer_details'], 'employer_email'):
+    if settings.EMAIL_CANDIDATE_REPLY_TO and hasattr(context['answer_details'], 'employer_email'):
         reply_to = context['answer_details'].employer_email
 
     message_id = send_mail(
