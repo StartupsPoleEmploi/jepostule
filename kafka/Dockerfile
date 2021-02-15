@@ -1,13 +1,15 @@
 FROM openjdk:11-jre-slim
 
 RUN apt update && \
-    apt install -y wget
+    apt install -y wget curl jq
 
-ARG KAFKA_VERSION=2.3.0
 RUN mkdir /kafka
 WORKDIR /kafka
-RUN wget http://miroir.univ-lorraine.fr/apache/kafka/$KAFKA_VERSION/kafka_2.11-$KAFKA_VERSION.tgz
-RUN tar xzf kafka_2.11-$KAFKA_VERSION.tgz --strip-components=1 
+
+# download kafka
+COPY download.sh /kafka
+RUN /kafka/download.sh "/kafka/kafka.tgz"
+RUN tar xzf /kafka/kafka.tgz --strip-components=1
 
 VOLUME /tmp/kafka-logs
 
