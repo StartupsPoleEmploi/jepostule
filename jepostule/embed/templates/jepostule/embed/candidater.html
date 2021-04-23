@@ -27,18 +27,6 @@
         <p><b>Postulez en quelques clics<br>
             avec {{ platform_name }}</b></p>
         <div class="center"><a href="#infos" class="button">C'est parti !</a></div>
-
-        {% if show_employer_email %}
-            <br>
-            <h2 class="line-behind-text">ou</h2>
-            <p>Vous souhaitez directement postuler par mail :</p>
-            <address>
-                <b>{{ form.cleaned_data.employer_description }}</b>
-                <br>
-                <b><a href="mailto:{{ form.cleaned_data.employer_email }}">{{ form.cleaned_data.employer_email }}</a></b>
-            </address>
-        {% endif %}
-
     </div>
 </div>
 
