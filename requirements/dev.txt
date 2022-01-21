@@ -4,50 +4,122 @@
 #
 #    pip-compile --output-file=requirements/dev.txt requirements/dev.in
 #
-appnope==0.1.0            # via ipython
-astroid==2.2.5            # via pylint
-backcall==0.1.0           # via ipython
+astroid==2.2.5
+    # via pylint
+backcall==0.1.0
+    # via ipython
 certifi==2019.6.16
+    # via
+    #   -r base.txt
+    #   requests
 cffi==1.13.1
+    # via
+    #   -r base.txt
+    #   cryptography
 chardet==3.0.4
-click==7.0                # via pip-tools
+    # via
+    #   -r base.txt
+    #   requests
+click==7.0
+    # via pip-tools
 coverage==4.5.4
+    # via -r dev.in
 cryptography==2.8
-decorator==4.4.0          # via ipython, traitlets
-django-debug-toolbar==2.0
-django-pipeline==1.6.14
+    # via -r base.txt
+decorator==4.4.0
+    # via
+    #   ipython
+    #   traitlets
 django==2.2.5
+    # via
+    #   -r base.txt
+    #   django-debug-toolbar
+django-debug-toolbar==2.0
+    # via -r dev.in
+django-pipeline==1.6.14
+    # via -r base.txt
 idna==2.8
+    # via
+    #   -r base.txt
+    #   requests
 ipdb==0.12.2
-ipython-genutils==0.2.0   # via traitlets
-ipython==7.8.0            # via ipdb
-isort==4.3.21             # via pylint
-jedi==0.15.1              # via ipython
+    # via -r dev.in
+ipython==7.16.3
+    # via ipdb
+ipython-genutils==0.2.0
+    # via traitlets
+isort==4.3.21
+    # via pylint
+jedi==0.15.1
+    # via ipython
 kafka-python==1.4.6
-lazy-object-proxy==1.4.2  # via astroid
+    # via -r base.txt
+lazy-object-proxy==1.4.2
+    # via astroid
 mailjet-rest==1.3.3
-mccabe==0.6.1             # via pylint
-parso==0.5.1              # via jedi
-pexpect==4.7.0            # via ipython
-pickleshare==0.7.5        # via ipython
+    # via -r base.txt
+mccabe==0.6.1
+    # via pylint
+parso==0.5.1
+    # via jedi
+pexpect==4.7.0
+    # via ipython
+pickleshare==0.7.5
+    # via ipython
 pip-tools==4.1.0
-prompt-toolkit==2.0.9     # via ipython
+    # via -r dev.in
+prompt-toolkit==2.0.9
+    # via ipython
 psycopg2-binary==2.8.3
-ptyprocess==0.6.0         # via pexpect
+    # via -r base.txt
+ptyprocess==0.6.0
+    # via pexpect
 pycparser==2.19
-pygments==2.4.2           # via ipython
+    # via
+    #   -r base.txt
+    #   cffi
+pygments==2.4.2
+    # via ipython
 pylint==2.3.1
+    # via -r dev.in
 pytz==2019.2
+    # via
+    #   -r base.txt
+    #   django
 redis==3.3.8
+    # via -r base.txt
 requests==2.22.0
+    # via
+    #   -r base.txt
+    #   mailjet-rest
 selenium==3.141.0
+    # via -r dev.in
 six==1.12.0
+    # via
+    #   -r base.txt
+    #   astroid
+    #   cryptography
+    #   pip-tools
+    #   prompt-toolkit
+    #   traitlets
 sqlparse==0.3.0
-traitlets==4.3.2          # via ipython
-typed-ast==1.4.0          # via astroid
+    # via
+    #   -r base.txt
+    #   django
+    #   django-debug-toolbar
+traitlets==4.3.2
+    # via ipython
+typed-ast==1.4.0
+    # via astroid
 urllib3==1.25.3
-wcwidth==0.1.7            # via prompt-toolkit
-wrapt==1.11.2             # via astroid
+    # via
+    #   -r base.txt
+    #   requests
+    #   selenium
+wcwidth==0.1.7
+    # via prompt-toolkit
+wrapt==1.11.2
+    # via astroid
 
 # The following packages are considered to be unsafe in a requirements file:
-# setuptools==41.5.0        # via ipdb, ipython
+# setuptools
